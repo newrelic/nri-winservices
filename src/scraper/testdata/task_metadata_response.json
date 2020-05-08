@@ -1,0 +1,109 @@
+{
+  "Cluster": "arn:aws:ecs:us-east-1:350830678660:cluster/fsi-ecs-test-cluster",
+  "TaskARN": "arn:aws:ecs:us-east-1:350830678660:task/fsi-ecs-test-cluster/f05a5672397746638bc201a252c5bb75",
+  "Family": "newrelic-infrastructure-fargate-sshd",
+  "Revision": "13",
+  "DesiredStatus": "RUNNING",
+  "KnownStatus": "RUNNING",
+  "Containers": [
+    {
+      "DockerId": "2bd0cbf916a2745ef9377277c33fd7e6582455d73feb0d22a15f421496d5f916",
+      "Name": "nri-ecs-fargate",
+      "DockerName": "ecs-newrelic-infrastructure-fargate-sshd-13-nri-ecs-fargate-86eb8bc58ab59dfcc501",
+      "Image": "350830678660.dkr.ecr.us-east-1.amazonaws.com/ecs/integration-dev:dcamata-refactor",
+      "ImageID": "sha256:8dd440725b8df55a27e6c079559f70d21bce6637cfdf04d082c65585dc8e9f94",
+      "Labels": {
+        "com.amazonaws.ecs.cluster": "arn:aws:ecs:us-east-1:350830678660:cluster/fsi-ecs-test-cluster",
+        "com.amazonaws.ecs.container-name": "nri-ecs-fargate",
+        "com.amazonaws.ecs.task-arn": "arn:aws:ecs:us-east-1:350830678660:task/fsi-ecs-test-cluster/f05a5672397746638bc201a252c5bb75",
+        "com.amazonaws.ecs.task-definition-family": "newrelic-infrastructure-fargate-sshd",
+        "com.amazonaws.ecs.task-definition-version": "13"
+      },
+      "DesiredStatus": "RUNNING",
+      "KnownStatus": "RUNNING",
+      "Limits": {
+        "CPU": 250,
+        "Memory": 256
+      },
+      "CreatedAt": "2020-03-26T14:51:19.708198309Z",
+      "StartedAt": "2020-03-26T14:51:25.596685827Z",
+      "Type": "NORMAL",
+      "Networks": [
+        {
+          "NetworkMode": "awsvpc",
+          "IPv4Addresses": [
+            "10.11.55.62"
+          ]
+        }
+      ]
+    },
+    {
+      "DockerId": "1a9bf0af4d22fa1f42feb7056e225e68cad31cad647adff7f1b69c180d1f19ed",
+      "Name": "ssh-sidecar",
+      "DockerName": "ecs-newrelic-infrastructure-fargate-sshd-13-ssh-sidecar-eafbe5c5f5aa81f12d00",
+      "Image": "350830678660.dkr.ecr.us-east-1.amazonaws.com/ecs/ssh-sidecar",
+      "ImageID": "sha256:b0af19360877cb994e449c1a7e8103b424cb07489894305ec1d07a1d8a543d0a",
+      "Labels": {
+        "com.amazonaws.ecs.cluster": "arn:aws:ecs:us-east-1:350830678660:cluster/fsi-ecs-test-cluster",
+        "com.amazonaws.ecs.container-name": "ssh-sidecar",
+        "com.amazonaws.ecs.task-arn": "arn:aws:ecs:us-east-1:350830678660:task/fsi-ecs-test-cluster/f05a5672397746638bc201a252c5bb75",
+        "com.amazonaws.ecs.task-definition-family": "newrelic-infrastructure-fargate-sshd",
+        "com.amazonaws.ecs.task-definition-version": "13"
+      },
+      "DesiredStatus": "RUNNING",
+      "KnownStatus": "RUNNING",
+      "Limits": {
+        "CPU": 250,
+        "Memory": 256
+      },
+      "CreatedAt": "2020-03-26T14:51:24.605710582Z",
+      "StartedAt": "2020-03-26T14:51:25.623535069Z",
+      "Type": "NORMAL",
+      "Networks": [
+        {
+          "NetworkMode": "awsvpc",
+          "IPv4Addresses": [
+            "10.11.55.62"
+          ]
+        }
+      ]
+    },
+    {
+      "DockerId": "9f0103a2af8e17c433b0a02c7af58f1a162e06c2c002e727f56cfa971898870a",
+      "Name": "~internal~ecs~pause",
+      "DockerName": "ecs-newrelic-infrastructure-fargate-sshd-13-internalecspause-92edbd9ad28ac5866200",
+      "Image": "fg-proxy:tinyproxy",
+      "ImageID": "",
+      "Labels": {
+        "com.amazonaws.ecs.cluster": "arn:aws:ecs:us-east-1:350830678660:cluster/fsi-ecs-test-cluster",
+        "com.amazonaws.ecs.container-name": "~internal~ecs~pause",
+        "com.amazonaws.ecs.task-arn": "arn:aws:ecs:us-east-1:350830678660:task/fsi-ecs-test-cluster/f05a5672397746638bc201a252c5bb75",
+        "com.amazonaws.ecs.task-definition-family": "newrelic-infrastructure-fargate-sshd",
+        "com.amazonaws.ecs.task-definition-version": "13"
+      },
+      "DesiredStatus": "RESOURCES_PROVISIONED",
+      "KnownStatus": "RESOURCES_PROVISIONED",
+      "Limits": {
+        "CPU": 0,
+        "Memory": 0
+      },
+      "CreatedAt": "2020-03-26T14:51:06.154725521Z",
+      "StartedAt": "2020-03-26T14:51:06.972096201Z",
+      "Type": "CNI_PAUSE",
+      "Networks": [
+        {
+          "NetworkMode": "awsvpc",
+          "IPv4Addresses": [
+            "10.11.55.62"
+          ]
+        }
+      ]
+    }
+  ],
+  "Limits": {
+    "CPU": 0.5,
+    "Memory": 1024
+  },
+  "PullStartedAt": "2020-03-26T14:51:07.104677997Z",
+  "PullStoppedAt": "2020-03-26T14:51:24.596832352Z"
+}

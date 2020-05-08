@@ -1,0 +1,492 @@
+{
+  "1a9bf0af4d22fa1f42feb7056e225e68cad31cad647adff7f1b69c180d1f19ed": {
+    "read": "2020-03-26T15:13:25.36521565Z",
+    "preread": "2020-03-26T15:13:24.360380417Z",
+    "pids_stats": {
+      "current": 2
+    },
+    "blkio_stats": {
+      "io_service_bytes_recursive": [],
+      "io_serviced_recursive": [],
+      "io_queue_recursive": [],
+      "io_service_time_recursive": [],
+      "io_wait_time_recursive": [],
+      "io_merged_recursive": [],
+      "io_time_recursive": [],
+      "sectors_recursive": []
+    },
+    "num_procs": 0,
+    "storage_stats": {},
+    "cpu_stats": {
+      "cpu_usage": {
+        "total_usage": 197069547,
+        "percpu_usage": [
+          166552854,
+          30516693,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "usage_in_kernelmode": 20000000,
+        "usage_in_usermode": 170000000
+      },
+      "system_cpu_usage": 3005720000000,
+      "online_cpus": 2,
+      "throttling_data": {
+        "periods": 0,
+        "throttled_periods": 0,
+        "throttled_time": 0
+      }
+    },
+    "precpu_stats": {
+      "cpu_usage": {
+        "total_usage": 197069547,
+        "percpu_usage": [
+          166552854,
+          30516693,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "usage_in_kernelmode": 20000000,
+        "usage_in_usermode": 170000000
+      },
+      "system_cpu_usage": 3003730000000,
+      "online_cpus": 2,
+      "throttling_data": {
+        "periods": 0,
+        "throttled_periods": 0,
+        "throttled_time": 0
+      }
+    },
+    "memory_stats": {
+      "usage": 1945600,
+      "max_usage": 12898304,
+      "stats": {
+        "active_anon": 860160,
+        "active_file": 8192,
+        "cache": 16384,
+        "dirty": 0,
+        "hierarchical_memory_limit": 268435456,
+        "hierarchical_memsw_limit": 536870912,
+        "inactive_anon": 0,
+        "inactive_file": 8192,
+        "mapped_file": 0,
+        "pgfault": 1980,
+        "pgmajfault": 0,
+        "pgpgin": 3356,
+        "pgpgout": 3142,
+        "rss": 860160,
+        "rss_huge": 0,
+        "total_active_anon": 860160,
+        "total_active_file": 8192,
+        "total_cache": 16384,
+        "total_dirty": 0,
+        "total_inactive_anon": 0,
+        "total_inactive_file": 8192,
+        "total_mapped_file": 0,
+        "total_pgfault": 1980,
+        "total_pgmajfault": 0,
+        "total_pgpgin": 3356,
+        "total_pgpgout": 3142,
+        "total_rss": 860160,
+        "total_rss_huge": 0,
+        "total_unevictable": 0,
+        "total_writeback": 0,
+        "unevictable": 0,
+        "writeback": 0
+      },
+      "limit": 268435456
+    },
+    "name": "/ecs-newrelic-infrastructure-fargate-sshd-13-ssh-sidecar-eafbe5c5f5aa81f12d00",
+    "id": "1a9bf0af4d22fa1f42feb7056e225e68cad31cad647adff7f1b69c180d1f19ed"
+  },
+  "2bd0cbf916a2745ef9377277c33fd7e6582455d73feb0d22a15f421496d5f916": {
+    "read": "2020-03-26T15:13:25.363662844Z",
+    "preread": "2020-03-26T15:13:24.358899455Z",
+    "pids_stats": {
+      "current": 11
+    },
+    "blkio_stats": {
+      "io_service_bytes_recursive": [
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Read",
+          "value": 0
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Write",
+          "value": 7839744
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Sync",
+          "value": 0
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Async",
+          "value": 7839744
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Total",
+          "value": 7839744
+        }
+      ],
+      "io_serviced_recursive": [
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Read",
+          "value": 0
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Write",
+          "value": 957
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Sync",
+          "value": 0
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Async",
+          "value": 957
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Total",
+          "value": 957
+        }
+      ],
+      "io_queue_recursive": [],
+      "io_service_time_recursive": [],
+      "io_wait_time_recursive": [],
+      "io_merged_recursive": [],
+      "io_time_recursive": [],
+      "sectors_recursive": []
+    },
+    "num_procs": 0,
+    "storage_stats": {},
+    "cpu_stats": {
+      "cpu_usage": {
+        "total_usage": 2625201831,
+        "percpu_usage": [
+          1185803572,
+          1439398259,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "usage_in_kernelmode": 660000000,
+        "usage_in_usermode": 1530000000
+      },
+      "system_cpu_usage": 3005720000000,
+      "online_cpus": 2,
+      "throttling_data": {
+        "periods": 0,
+        "throttled_periods": 0,
+        "throttled_time": 0
+      }
+    },
+    "precpu_stats": {
+      "cpu_usage": {
+        "total_usage": 2625055069,
+        "percpu_usage": [
+          1185748022,
+          1439307047,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "usage_in_kernelmode": 660000000,
+        "usage_in_usermode": 1530000000
+      },
+      "system_cpu_usage": 3003730000000,
+      "online_cpus": 2,
+      "throttling_data": {
+        "periods": 0,
+        "throttled_periods": 0,
+        "throttled_time": 0
+      }
+    },
+    "memory_stats": {
+      "usage": 13803520,
+      "max_usage": 17981440,
+      "stats": {
+        "active_anon": 11292672,
+        "active_file": 114688,
+        "cache": 200704,
+        "dirty": 8192,
+        "hierarchical_memory_limit": 268435456,
+        "hierarchical_memsw_limit": 536870912,
+        "inactive_anon": 0,
+        "inactive_file": 86016,
+        "mapped_file": 0,
+        "pgfault": 120702,
+        "pgmajfault": 0,
+        "pgpgin": 97315,
+        "pgpgout": 94509,
+        "rss": 11292672,
+        "rss_huge": 0,
+        "total_active_anon": 11292672,
+        "total_active_file": 114688,
+        "total_cache": 200704,
+        "total_dirty": 8192,
+        "total_inactive_anon": 0,
+        "total_inactive_file": 86016,
+        "total_mapped_file": 0,
+        "total_pgfault": 120702,
+        "total_pgmajfault": 0,
+        "total_pgpgin": 97315,
+        "total_pgpgout": 94509,
+        "total_rss": 11292672,
+        "total_rss_huge": 0,
+        "total_unevictable": 0,
+        "total_writeback": 0,
+        "unevictable": 0,
+        "writeback": 0
+      },
+      "limit": 268435456
+    },
+    "name": "/ecs-newrelic-infrastructure-fargate-sshd-13-nri-ecs-fargate-86eb8bc58ab59dfcc501",
+    "id": "2bd0cbf916a2745ef9377277c33fd7e6582455d73feb0d22a15f421496d5f916"
+  },
+  "9f0103a2af8e17c433b0a02c7af58f1a162e06c2c002e727f56cfa971898870a": {
+    "read": "2020-03-26T15:13:25.362410355Z",
+    "preread": "2020-03-26T15:13:24.357611661Z",
+    "pids_stats": {
+      "current": 8
+    },
+    "blkio_stats": {
+      "io_service_bytes_recursive": [
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Read",
+          "value": 5885952
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Write",
+          "value": 45056
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Sync",
+          "value": 5931008
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Async",
+          "value": 0
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Total",
+          "value": 5931008
+        }
+      ],
+      "io_serviced_recursive": [
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Read",
+          "value": 341
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Write",
+          "value": 11
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Sync",
+          "value": 352
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Async",
+          "value": 0
+        },
+        {
+          "major": 202,
+          "minor": 26368,
+          "op": "Total",
+          "value": 352
+        }
+      ],
+      "io_queue_recursive": [],
+      "io_service_time_recursive": [],
+      "io_wait_time_recursive": [],
+      "io_merged_recursive": [],
+      "io_time_recursive": [],
+      "sectors_recursive": []
+    },
+    "num_procs": 0,
+    "storage_stats": {},
+    "cpu_stats": {
+      "cpu_usage": {
+        "total_usage": 2079185315,
+        "percpu_usage": [
+          1139074379,
+          940110936,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "usage_in_kernelmode": 1270000000,
+        "usage_in_usermode": 470000000
+      },
+      "system_cpu_usage": 3005720000000,
+      "online_cpus": 2,
+      "throttling_data": {
+        "periods": 0,
+        "throttled_periods": 0,
+        "throttled_time": 0
+      }
+    },
+    "precpu_stats": {
+      "cpu_usage": {
+        "total_usage": 2079137182,
+        "percpu_usage": [
+          1139074379,
+          940062803,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "usage_in_kernelmode": 1270000000,
+        "usage_in_usermode": 470000000
+      },
+      "system_cpu_usage": 3003720000000,
+      "online_cpus": 2,
+      "throttling_data": {
+        "periods": 0,
+        "throttled_periods": 0,
+        "throttled_time": 0
+      }
+    },
+    "memory_stats": {
+      "usage": 12247040,
+      "max_usage": 14860288,
+      "stats": {
+        "active_anon": 4194304,
+        "active_file": 4378624,
+        "cache": 5955584,
+        "dirty": 16384,
+        "hierarchical_memory_limit": 1073741824,
+        "hierarchical_memsw_limit": 9223372036854771712,
+        "inactive_anon": 0,
+        "inactive_file": 1576960,
+        "mapped_file": 2183168,
+        "pgfault": 6475,
+        "pgmajfault": 51,
+        "pgpgin": 7601,
+        "pgpgout": 5123,
+        "rss": 4194304,
+        "rss_huge": 0,
+        "total_active_anon": 4194304,
+        "total_active_file": 4378624,
+        "total_cache": 5955584,
+        "total_dirty": 16384,
+        "total_inactive_anon": 0,
+        "total_inactive_file": 1576960,
+        "total_mapped_file": 2183168,
+        "total_pgfault": 6475,
+        "total_pgmajfault": 51,
+        "total_pgpgin": 7601,
+        "total_pgpgout": 5123,
+        "total_rss": 4194304,
+        "total_rss_huge": 0,
+        "total_unevictable": 0,
+        "total_writeback": 0,
+        "unevictable": 0,
+        "writeback": 0
+      },
+      "limit": 8362672128
+    },
+    "name": "/ecs-newrelic-infrastructure-fargate-sshd-13-internalecspause-92edbd9ad28ac5866200",
+    "id": "9f0103a2af8e17c433b0a02c7af58f1a162e06c2c002e727f56cfa971898870a"
+  }
+}
