@@ -14,7 +14,7 @@ type entitiesByName map[string]*integration.Entity
 
 // Process creates entities and add metrics from the MetricFamiliesByName according to rules
 func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName) error {
-	rules := loadRules("rules.yml")
+	rules := loadRules()
 	//todo believe the rule was no needed as a pointer, but maybe you used it for some reason
 	entityRules := rules.EntityRules[0] //TODO we should check the length og the arrray
 

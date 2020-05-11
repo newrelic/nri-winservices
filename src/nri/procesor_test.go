@@ -48,7 +48,7 @@ var metricFamlily = dto.MetricFamily{
 
 func TestCreateEntities(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
-	rules := loadRules("testdata/rulesTest.yml").EntityRules[0]
+	rules := loadRules().EntityRules[0]
 	entityMap := createEntities(i, metricFamlily, rules)
 	_, ok := entityMap["rpcss"]
 	assert.True(t, ok) //todo improve the assert
@@ -56,7 +56,7 @@ func TestCreateEntities(t *testing.T) {
 func TestProccessMetricGauge(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
 
-	rules := loadRules("testdata/rulesTest.yml").EntityRules[0]
+	rules := loadRules().EntityRules[0]
 	entityMap := createEntities(i, metricFamlily, rules)
 
 	err := processMetricGauge(metricFamlily, rules, entityMap)
