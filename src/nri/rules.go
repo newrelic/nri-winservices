@@ -2,9 +2,6 @@ package nri
 
 import (
 	"fmt"
-	"io/ioutil"
-
-	"gopkg.in/yaml.v2"
 )
 
 type Rules struct {
@@ -23,14 +20,39 @@ type MetricRules struct {
 	Attributes   []string `yaml:"attributes"`
 }
 
-func loadRules(file string) *Rules {
-	rulesFile, err := ioutil.ReadFile(file)
-	fatalOnErr(err)
+func loadRules() *Rules {
 
-	var rules Rules
-	err = yaml.Unmarshal(rulesFile, &rules)
-	fatalOnErr(err)
-
+	rules := Rules{
+		EntityRules: []EntityRules{
+			{
+				EntityType: "WindowsService",
+				Name:       "name",
+				Metrics: []MetricRules{
+					{
+						ProviderName: "wmi_service_start_mode",
+						MetricType:   "gauge",
+						NrdbName:     "startMode",
+						SkipValue:    0,
+						Attributes:   []string{"start_mode"},
+					},
+					{
+						ProviderName: "wmi_service_state",
+						MetricType:   "gauge",
+						NrdbName:     "state",
+						SkipValue:    0,
+						Attributes:   []string{"state"},
+					},
+					{
+						ProviderName: "wmi_service_status",
+						MetricType:   "gauge",
+						NrdbName:     "status",
+						SkipValue:    0,
+						Attributes:   []string{"status"},
+					},
+				},
+			},
+		},
+	}
 	return &rules
 }
 

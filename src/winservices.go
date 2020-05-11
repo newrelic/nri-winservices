@@ -44,8 +44,8 @@ func main() {
 
 	if err := nri.Process(integrationInstance, metricsByFamily); err != nil {
 		log.Error(err.Error())
-	}
 
+	}
 	err = integrationInstance.Publish()
 	if err != nil {
 		log.Error(err.Error())
