@@ -4,13 +4,16 @@ import (
 	"fmt"
 )
 
-type Rules struct {
-	EntityRules []EntityRules `yaml:"entities"`
-}
 type EntityRules struct {
 	EntityType string        `yaml:"type"`
-	Name       string        `yaml:"name"`
+	EntityName EntityName    `yaml:"name"`
 	Metrics    []MetricRules `yaml:"metrics"`
+}
+type EntityName struct {
+	Metric              string `yaml:"from_metric"`
+	MetricLabel         string `yaml:"use_label"`
+	HostNameMetric      string
+	HostNameMetricLabel string
 }
 type MetricRules struct {
 	ProviderName string   `yaml:"provider_name"`
@@ -20,40 +23,43 @@ type MetricRules struct {
 	Attributes   []string `yaml:"attributes"`
 }
 
-func loadRules() *Rules {
+func loadRules() EntityRules {
 
-	rules := Rules{
-		EntityRules: []EntityRules{
+	rules := EntityRules{
+
+		EntityType: "WindowsService",
+		EntityName: EntityName{
+			Metric:              "wmi_service_start_mode",
+			MetricLabel:         "name",
+			HostNameMetric:      "wmi_cs_hostname",
+			HostNameMetricLabel: "hostname",
+		},
+		Metrics: []MetricRules{
 			{
-				EntityType: "WindowsService",
-				Name:       "name",
-				Metrics: []MetricRules{
-					{
-						ProviderName: "wmi_service_start_mode",
-						MetricType:   "gauge",
-						NrdbName:     "startMode",
-						SkipValue:    0,
-						Attributes:   []string{"start_mode"},
-					},
-					{
-						ProviderName: "wmi_service_state",
-						MetricType:   "gauge",
-						NrdbName:     "state",
-						SkipValue:    0,
-						Attributes:   []string{"state"},
-					},
-					{
-						ProviderName: "wmi_service_status",
-						MetricType:   "gauge",
-						NrdbName:     "status",
-						SkipValue:    0,
-						Attributes:   []string{"status"},
-					},
-				},
+				ProviderName: "wmi_service_start_mode",
+				MetricType:   "gauge",
+				NrdbName:     "startMode",
+				SkipValue:    0,
+				Attributes:   []string{"start_mode"},
+			},
+			{
+				ProviderName: "wmi_service_state",
+				MetricType:   "gauge",
+				NrdbName:     "state",
+				SkipValue:    0,
+				Attributes:   []string{"state"},
+			},
+			{
+				ProviderName: "wmi_service_status",
+				MetricType:   "gauge",
+				NrdbName:     "status",
+				SkipValue:    0,
+				Attributes:   []string{"status"},
 			},
 		},
 	}
-	return &rules
+
+	return rules
 }
 
 func (r *EntityRules) getMetricRules(providerName string) (*MetricRules, error) {
