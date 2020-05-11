@@ -29,7 +29,7 @@ var (
 func main() {
 	log.SetupLogging(args.Verbose)
 
-	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
+	integrationInstance, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
 	if err != nil {
 		log.Error(err.Error())
 		os.Exit(1)
@@ -40,19 +40,15 @@ func main() {
 	}))
 	defer ts.Close()
 
-	mfn, err := scraper.Get(http.DefaultClient, ts.URL)
+	metricsByFamily, err := scraper.Get(http.DefaultClient, ts.URL)
 
-	if err := nri.Process(i, mfn); err != nil {
+	if err := nri.Process(integrationInstance, metricsByFamily); err != nil {
 		log.Error(err.Error())
 	}
 
-	i.Publish()
-
-}
-
-func exitOnErr(err error) {
+	err = integrationInstance.Publish()
 	if err != nil {
 		log.Error(err.Error())
-		os.Exit(-1)
+		os.Exit(1)
 	}
 }
