@@ -14,16 +14,11 @@ type entitiesByName map[string]*integration.Entity
 
 // Process creates entities and add metrics from the MetricFamiliesByName according to rules
 func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName) error {
-	rules := loadRules()
-	//todo believe the rule was no needed as a pointer, but maybe you used it for some reason
-	entityRules := rules.EntityRules[0] //TODO we should check the length og the arrray
+	entityRules := loadRules()
 
-	var entityMap entitiesByName
-	//TODO we should check the length og the arrray
-	metricEntityBasedName := entityRules.Metrics[0].ProviderName //todo take this from config
-
-	if metricFamily, ok := metricFamilyMap[metricEntityBasedName]; ok {
-		entityMap = createEntities(i, metricFamily, entityRules)
+	entityMap, err := createEntities(i, metricFamilyMap, entityRules)
+	if err != nil {
+		return err
 	}
 
 	for _, metricsRules := range entityRules.Metrics {
@@ -36,23 +31,38 @@ func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesB
 	return nil
 }
 
-func createEntities(integrationInstance *integration.Integration, metricFamily dto.MetricFamily, entityRules EntityRules) entitiesByName {
+func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules) (entitiesByName, error) {
 	entityMap := make(map[string]*integration.Entity)
-	for _, metric := range metricFamily.GetMetric() {
-		// todo attach host entity to name to uniqueness
-		serviceName := getLabelValue(metric.GetLabel(), entityRules.Name)
 
+	mf, ok := metricFamilyMap[entityRules.EntityName.HostNameMetric]
+	if !ok {
+		return nil, fmt.Errorf("HostName Metric not found")
+	}
+
+	var hostName string
+	for _, m := range mf.GetMetric() {
+		hostName = getLabelValue(m.GetLabel(), entityRules.EntityName.HostNameMetricLabel)
+	}
+
+	mf, ok = metricFamilyMap[entityRules.EntityName.Metric]
+	if !ok {
+		return nil, fmt.Errorf("EntityName Metric not found")
+	}
+	for _, metric := range mf.GetMetric() {
+
+		serviceName := getLabelValue(metric.GetLabel(), entityRules.EntityName.MetricLabel)
 		if _, ok := entityMap[serviceName]; ok {
 			continue
 		}
+		entityName := hostName + ":" + serviceName
 
-		entity, err := integrationInstance.NewEntity(serviceName, entityRules.EntityType, serviceName)
+		entity, err := integrationInstance.NewEntity(entityName, entityRules.EntityType, serviceName)
 		fatalOnErr(err)
 		integrationInstance.AddEntity(entity)
 		//todo add metadata
 		entityMap[serviceName] = entity
 	}
-	return entityMap
+	return entityMap, nil
 }
 
 func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName) error {
@@ -69,7 +79,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			continue
 		}
 
-		serviceName := getLabelValue(metric.GetLabel(), entityRules.Name)
+		serviceName := getLabelValue(metric.GetLabel(), entityRules.EntityName.MetricLabel)
 		e, ok := ebn[serviceName]
 		if !ok {
 			log.Error("Entity not found for service: %v", serviceName)
