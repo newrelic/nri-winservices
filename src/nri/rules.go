@@ -23,8 +23,9 @@ type MetricRules struct {
 	Attributes   []Attribute `yaml:"attributes"`
 }
 type Attribute struct {
-	Label         string `yaml:"provider_name"`
-	NrdbLabelName string `yaml:"nrdb_name"`
+	Label           string `yaml:"provider_name"`
+	NrdbLabelName   string `yaml:"nrdb_name"`
+	EntityAttribute bool   `yaml:"entity_attribute"`
 }
 
 func loadRules() EntityRules {
@@ -46,8 +47,9 @@ func loadRules() EntityRules {
 				SkipValue:    0,
 				Attributes: []Attribute{
 					{
-						Label:         "start_mode",
-						NrdbLabelName: "startMode",
+						Label:           "start_mode",
+						NrdbLabelName:   "startMode",
+						EntityAttribute: true,
 					},
 				},
 			},
