@@ -15,7 +15,7 @@ func TestGet(t *testing.T) {
 	defer ts.Close()
 	expected := []string{"go_goroutines", "go_memstats_heap_idle_bytes", "go_gc_duration_seconds", "http_requests_total"}
 	mfs, err := Get(http.DefaultClient, ts.URL)
-	actual := []string{}
+	var actual []string
 	for k := range mfs {
 		actual = append(actual, k)
 	}
@@ -29,7 +29,7 @@ func TestGetReal(t *testing.T) {
 	}))
 	defer ts.Close()
 	mfs, err := Get(http.DefaultClient, ts.URL)
-	actual := []string{}
+	var actual []string
 	for k := range mfs {
 		actual = append(actual, k)
 	}

@@ -36,7 +36,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 
 	mf, ok := metricFamilyMap[entityRules.EntityName.HostNameMetric]
 	if !ok {
-		return nil, fmt.Errorf("HostName Metric not found")
+		return nil, fmt.Errorf("hostName Metric not found")
 	}
 
 	var hostName string
@@ -50,7 +50,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 
 	mf, ok = metricFamilyMap[entityRules.EntityName.Metric]
 	if !ok {
-		return nil, fmt.Errorf("EntityName Metric not found")
+		return nil, fmt.Errorf("entityName Metric not found")
 	}
 	for _, metric := range mf.GetMetric() {
 
@@ -75,10 +75,10 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName) error {
 	metricRules, err := entityRules.getMetricRules(metricFamily.GetName())
 	if err != nil {
-		return fmt.Errorf("Metric rule not found")
+		return fmt.Errorf("metric rule not found")
 	}
 	if metricFamily.GetType() != dto.MetricType_GAUGE {
-		return fmt.Errorf("Metric type not Gauge")
+		return fmt.Errorf("metric type not Gauge")
 	}
 	for _, metric := range metricFamily.GetMetric() {
 		metricValue := metric.GetGauge().GetValue()
@@ -108,10 +108,10 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			if err != nil {
 				return err
 			}
-			gauge.AddDimension(label, value)
+			_ = gauge.AddDimension(label, value)
 			e.AddMetric(gauge)
 			if attribute.EntityAttribute {
-				e.AddMetadata(label, value)
+				_ = e.AddMetadata(label, value)
 			}
 		}
 

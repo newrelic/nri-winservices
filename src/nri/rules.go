@@ -89,5 +89,5 @@ func (r *EntityRules) getMetricRules(providerName string) (*MetricRules, error) 
 			return &m, nil //todo check if copy
 		}
 	}
-	return nil, fmt.Errorf("No rules find for providerName: %s", providerName)
+	return nil, fmt.Errorf("no rules find for providerName: %s", providerName)
 }
