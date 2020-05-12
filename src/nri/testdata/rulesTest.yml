@@ -1,19 +1,29 @@
 entities:
   - type: WindowsService
-    name: name
+    name:
+      from_metric: wmi_service_start_mode
+      use_label: name
+      hostname_metric: wmi_cs_hostname
+      hostname_label: hostname
     metrics:
         - provider_name: wmi_service_start_mode
           type: gauge
           nrdb_name: startMode
           skip_value: 0
-          attributes: [start_mode]
+          attributes:
+            - provider_name: start_mode
+              nrdb_name: startMode
         - provider_name: wmi_service_state
           type: gauge
           nrdb_name: state
           skip_value: 0
-          attributes: [state]
+          attributes:
+            - provider_name: state
+              nrdb_name: state
         - provider_name: wmi_service_status
           type: gauge
           nrdb_name: status
           skip_value: 0
-          attributes: [status]
+          attributes:
+            - provider_name: status
+              nrdb_name: status
