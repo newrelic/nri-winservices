@@ -92,10 +92,13 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			return err
 		}
 
-		metricDimension := metricRules.Attributes[0] //todo 1 attribute
-		metricDimensionValue := getLabelValue(metric.GetLabel(), metricDimension)
-		gauge.AddDimension(metricDimension, metricDimensionValue)
-		e.AddMetric(gauge)
+		for _, attribute := range metricRules.Attributes {
+			label := attribute.NrdbLabelName
+			value := getLabelValue(metric.GetLabel(), attribute.Label)
+			gauge.AddDimension(label, value)
+			e.AddMetric(gauge)
+		}
+
 	}
 	return nil
 }

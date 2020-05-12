@@ -12,15 +12,19 @@ type EntityRules struct {
 type EntityName struct {
 	Metric              string `yaml:"from_metric"`
 	MetricLabel         string `yaml:"use_label"`
-	HostNameMetric      string
-	HostNameMetricLabel string
+	HostNameMetric      string `yaml:"hostname_metric"`
+	HostNameMetricLabel string `yaml:"hostname_label"`
 }
 type MetricRules struct {
-	ProviderName string   `yaml:"provider_name"`
-	MetricType   string   `yaml:"type"`
-	NrdbName     string   `yaml:"nrdb_name"`
-	SkipValue    float64  `yaml:"skip_value"`
-	Attributes   []string `yaml:"attributes"`
+	ProviderName string      `yaml:"provider_name"`
+	MetricType   string      `yaml:"type"`
+	NrdbName     string      `yaml:"nrdb_name"`
+	SkipValue    float64     `yaml:"skip_value"`
+	Attributes   []Attribute `yaml:"attributes"`
+}
+type Attribute struct {
+	Label         string `yaml:"provider_name"`
+	NrdbLabelName string `yaml:"nrdb_name"`
 }
 
 func loadRules() EntityRules {
@@ -38,23 +42,38 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "wmi_service_start_mode",
 				MetricType:   "gauge",
-				NrdbName:     "startMode",
+				NrdbName:     "windowsService.startMode",
 				SkipValue:    0,
-				Attributes:   []string{"start_mode"},
+				Attributes: []Attribute{
+					{
+						Label:         "start_mode",
+						NrdbLabelName: "startMode",
+					},
+				},
 			},
 			{
 				ProviderName: "wmi_service_state",
 				MetricType:   "gauge",
-				NrdbName:     "state",
+				NrdbName:     "windowsService.state",
 				SkipValue:    0,
-				Attributes:   []string{"state"},
+				Attributes: []Attribute{
+					{
+						Label:         "state",
+						NrdbLabelName: "state",
+					},
+				},
 			},
 			{
 				ProviderName: "wmi_service_status",
 				MetricType:   "gauge",
-				NrdbName:     "status",
+				NrdbName:     "windowsService.status",
 				SkipValue:    0,
-				Attributes:   []string{"status"},
+				Attributes: []Attribute{
+					{
+						Label:         "status",
+						NrdbLabelName: "status",
+					},
+				},
 			},
 		},
 	}
