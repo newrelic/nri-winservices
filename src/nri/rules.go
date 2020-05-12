@@ -23,9 +23,9 @@ type MetricRules struct {
 	Attributes   []Attribute `yaml:"attributes"`
 }
 type Attribute struct {
-	Label           string `yaml:"provider_name"`
-	NrdbLabelName   string `yaml:"nrdb_name"`
-	EntityAttribute bool   `yaml:"entity_attribute"`
+	Label            string `yaml:"provider_name"`
+	NrdbLabelName    string `yaml:"nrdb_name"`
+	IsEntityMetadata bool   `yaml:"entity_attribute"`
 }
 
 func loadRules() EntityRules {
@@ -47,9 +47,14 @@ func loadRules() EntityRules {
 				SkipValue:    0,
 				Attributes: []Attribute{
 					{
-						Label:           "start_mode",
-						NrdbLabelName:   "startMode",
-						EntityAttribute: true,
+						Label:            "start_mode",
+						NrdbLabelName:    "windowsService.startModeLabel",
+						IsEntityMetadata: true,
+					},
+					{
+						Label:            "name",
+						NrdbLabelName:    "windowsService.name",
+						IsEntityMetadata: true,
 					},
 				},
 			},
@@ -61,7 +66,12 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:         "state",
-						NrdbLabelName: "state",
+						NrdbLabelName: "windowsService.stateLabel",
+					},
+					{
+						Label:            "name",
+						NrdbLabelName:    "windowsService.name",
+						IsEntityMetadata: true,
 					},
 				},
 			},
@@ -73,7 +83,12 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:         "status",
-						NrdbLabelName: "status",
+						NrdbLabelName: "windowsService.statusLabel",
+					},
+					{
+						Label:            "name",
+						NrdbLabelName:    "windowsService.name",
+						IsEntityMetadata: true,
 					},
 				},
 			},
