@@ -66,7 +66,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 		entity, err := integrationInstance.NewEntity(entityName, entityRules.EntityType, serviceName)
 		fatalOnErr(err)
 		integrationInstance.AddEntity(entity)
-		//todo add metadata
+
 		entityMap[serviceName] = entity
 	}
 	return entityMap, nil
@@ -101,7 +101,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		if err != nil {
 			return err
 		}
-
+		// Add Metrics attributes
 		for _, attribute := range metricRules.Attributes {
 			label := attribute.NrdbLabelName
 			value, err := getLabelValue(metric.GetLabel(), attribute.Label)
@@ -109,12 +109,16 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 				return err
 			}
 			_ = gauge.AddDimension(label, value)
-			e.AddMetric(gauge)
-			if attribute.EntityAttribute {
+			// Add entity metadata for attributes
+			if attribute.IsEntityMetadata {
 				_ = e.AddMetadata(label, value)
 			}
 		}
-
+		// TODO Remove this when metadata decoration is available for DM.
+		for k, v := range e.GetMetadata() {
+			_ = gauge.AddDimension(k, v.(string))
+		}
+		e.AddMetric(gauge)
 	}
 	return nil
 }
