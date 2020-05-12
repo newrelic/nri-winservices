@@ -13,6 +13,7 @@ entities:
           attributes:
             - provider_name: start_mode
               nrdb_name: startMode
+              entity_attribute: true
         - provider_name: wmi_service_state
           type: gauge
           nrdb_name: state

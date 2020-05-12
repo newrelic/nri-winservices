@@ -40,8 +40,12 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 	}
 
 	var hostName string
+	var err error
 	for _, m := range mf.GetMetric() {
-		hostName = getLabelValue(m.GetLabel(), entityRules.EntityName.HostNameMetricLabel)
+		hostName, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostNameMetricLabel)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	mf, ok = metricFamilyMap[entityRules.EntityName.Metric]
@@ -50,7 +54,10 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 	}
 	for _, metric := range mf.GetMetric() {
 
-		serviceName := getLabelValue(metric.GetLabel(), entityRules.EntityName.MetricLabel)
+		serviceName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.MetricLabel)
+		if err != nil {
+			return nil, err
+		}
 		if _, ok := entityMap[serviceName]; ok {
 			continue
 		}
@@ -79,7 +86,10 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			continue
 		}
 
-		serviceName := getLabelValue(metric.GetLabel(), entityRules.EntityName.MetricLabel)
+		serviceName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.MetricLabel)
+		if err != nil {
+			return err
+		}
 		e, ok := ebn[serviceName]
 		if !ok {
 			log.Error("Entity not found for service: %v", serviceName)
@@ -94,9 +104,15 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 
 		for _, attribute := range metricRules.Attributes {
 			label := attribute.NrdbLabelName
-			value := getLabelValue(metric.GetLabel(), attribute.Label)
+			value, err := getLabelValue(metric.GetLabel(), attribute.Label)
+			if err != nil {
+				return err
+			}
 			gauge.AddDimension(label, value)
 			e.AddMetric(gauge)
+			if attribute.EntityAttribute {
+				e.AddMetadata(label, value)
+			}
 		}
 
 	}
@@ -104,13 +120,13 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 }
 
 // todo return err and check nil
-func getLabelValue(label []*dto.LabelPair, key string) string {
+func getLabelValue(label []*dto.LabelPair, key string) (string, error) {
 	for _, l := range label {
 		if l.GetName() == key {
-			return l.GetValue()
+			return l.GetValue(), nil
 		}
 	}
-	return ""
+	return "", fmt.Errorf("label %v not found", key)
 }
 
 func fatalOnErr(err error) {
