@@ -34,13 +34,14 @@ func main() {
 		log.Error(err.Error())
 		os.Exit(1)
 	}
-	// todo run exporter
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "scraper/testdata/actualOutput")
 	}))
 	defer ts.Close()
 
 	metricsByFamily, err := scraper.Get(http.DefaultClient, ts.URL)
+
+	// metricsByFamily, err := scraper.Get(http.DefaultClient, "http://localhost:9182/metrics")
 
 	if err := nri.Process(integrationInstance, metricsByFamily); err != nil {
 		log.Error(err.Error())
