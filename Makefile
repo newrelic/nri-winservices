@@ -1,4 +1,4 @@
-INTEGRATION     := winservice
+INTEGRATION     := winservices
 BINARY_NAME      = nri-$(INTEGRATION)
 SRC_DIR          = ./src/
 VALIDATE_DEPS    = golang.org/x/lint/golint
