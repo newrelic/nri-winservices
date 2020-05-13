@@ -43,12 +43,12 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "wmi_service_start_mode",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.startMode",
+				NrdbName:     "windowsService.service.startMode",
 				SkipValue:    0,
 				Attributes: []Attribute{
 					{
 						Label:            "start_mode",
-						NrdbLabelName:    "windowsService.startModeLabel",
+						NrdbLabelName:    "windowsService.startMode",
 						IsEntityMetadata: true,
 					},
 					{
@@ -61,12 +61,12 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "wmi_service_state",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.state",
+				NrdbName:     "windowsService.service.state",
 				SkipValue:    0,
 				Attributes: []Attribute{
 					{
 						Label:         "state",
-						NrdbLabelName: "windowsService.stateLabel",
+						NrdbLabelName: "windowsService.state",
 					},
 					{
 						Label:            "name",
@@ -78,12 +78,12 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "wmi_service_status",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.status",
+				NrdbName:     "windowsService.service.status",
 				SkipValue:    0,
 				Attributes: []Attribute{
 					{
 						Label:         "status",
-						NrdbLabelName: "windowsService.statusLabel",
+						NrdbLabelName: "windowsService.status",
 					},
 					{
 						Label:            "name",

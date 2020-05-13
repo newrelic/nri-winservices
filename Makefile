@@ -9,7 +9,7 @@ GO_FILES        := ./src/
 WORKDIR         := $(shell pwd)
 TARGET          := target
 TARGET_DIR       = $(WORKDIR)/$(TARGET)
-GOOS             = GOOS=linux
+GOOS             = GOOS=windows
 GO               = $(GOOS) go
 GOCOV            = $(GOOS) gocov
 
@@ -65,7 +65,7 @@ compile-deps:
 
 bin/$(BINARY_NAME):
 	@echo "=== $(INTEGRATION) === [ compile ]: building $(BINARY_NAME)..."
-	@$(GO) build -v -o bin/$(BINARY_NAME) $(GO_FILES)
+	@$(GO) build -v -o bin/$(BINARY_NAME).exe $(GO_FILES)
 
 compile: compile-deps bin/$(BINARY_NAME)
 
@@ -85,8 +85,5 @@ install: bin/$(BINARY_NAME)
 	@sudo install -D --mode=755 --owner=root --strip $(ROOT)bin/$(BINARY_NAME) $(INTEGRATIONS_DIR)/bin/$(BINARY_NAME)
 	@sudo install -D --mode=644 --owner=root $(ROOT)$(INTEGRATION)-definition.yml $(INTEGRATIONS_DIR)/$(INTEGRATION)-definition.yml
 	@sudo install -D --mode=644 --owner=root $(ROOT)$(INTEGRATION)-config.yml.sample $(CONFIG_DIR)/$(INTEGRATION)-config.yml.sample
-
-# Include thematic Makefiles
-include Makefile-*.mk
 
 .PHONY: all build clean validate-deps validate-only validate compile-deps compile test-deps test-only test  install
