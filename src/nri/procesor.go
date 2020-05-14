@@ -37,12 +37,12 @@ func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesB
 func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules) (entitiesByName, error) {
 	entityMap := make(map[string]*integration.Entity)
 
-	mfHostname, ok := metricFamilyMap[entityRules.EntityName.HostNameMetric]
+	mfHostname, ok := metricFamilyMap[entityRules.EntityName.HostnameMetric]
 	if !ok {
-		return nil, fmt.Errorf("hostName Metric not found")
+		return nil, fmt.Errorf("hostname Metric not found")
 	}
 
-	hostName, err := getHostname(mfHostname, entityRules)
+	hostname, err := getHostname(mfHostname, entityRules)
 	if err != nil {
 		return nil, err
 	}
@@ -60,12 +60,16 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 		if _, ok := entityMap[serviceName]; ok {
 			continue
 		}
-		entityName := hostName + ":" + serviceName
+		entityName := hostname + ":" + serviceName
 
 		entity, err := integrationInstance.NewEntity(entityName, entityRules.EntityType, serviceName)
 		fatalOnErr(err)
 		integrationInstance.AddEntity(entity)
 		err = entity.AddInventoryItem(entityTypeInventory, "name", entityName)
+		if err != nil {
+			log.Warn(err.Error())
+		}
+		err = entity.AddInventoryItem(entityTypeInventory, entityRules.EntityName.HostnameNrdbLabelName, hostname)
 		if err != nil {
 			log.Warn(err.Error())
 		}
@@ -106,15 +110,25 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		}
 		// Add Metrics attributes
 		for _, attribute := range metricRules.Attributes {
-			label := attribute.NrdbLabelName
 			value, err := getLabelValue(metric.GetLabel(), attribute.Label)
 			if err != nil {
 				return err
 			}
-			_ = gauge.AddDimension(label, value)
+			nrdbLabelName := attribute.NrdbLabelName
+			err = gauge.AddDimension(nrdbLabelName, value)
+			if err != nil {
+				log.Warn(err.Error())
+			}
 			// Add entity metadata for attributes
 			if attribute.IsEntityMetadata {
-				_ = e.AddMetadata(label, value)
+				err = e.AddMetadata(nrdbLabelName, value)
+				if err != nil {
+					log.Warn(err.Error())
+				}
+				err = e.AddInventoryItem(entityTypeInventory, nrdbLabelName, value)
+				if err != nil {
+					log.Warn(err.Error())
+				}
 			}
 		}
 		// TODO Remove this when metadata decoration is available for DM.
@@ -126,7 +140,6 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 	return nil
 }
 
-// todo return err and check nil
 func getLabelValue(label []*dto.LabelPair, key string) (string, error) {
 	for _, l := range label {
 		if l.GetName() == key {
@@ -137,15 +150,15 @@ func getLabelValue(label []*dto.LabelPair, key string) (string, error) {
 }
 
 func getHostname(mf dto.MetricFamily, entityRules EntityRules) (string, error) {
-	var hostName string
+	var hostname string
 	var err error
 	for _, m := range mf.GetMetric() {
-		hostName, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostNameMetricLabel)
+		hostname, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostnameMetricLabel)
 		if err != nil {
 			return "", err
 		}
 	}
-	return hostName, nil
+	return hostname, nil
 }
 
 func fatalOnErr(err error) {
