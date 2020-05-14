@@ -18,7 +18,7 @@ type argumentList struct {
 }
 
 const (
-	integrationName    = "com.newrelic.winservice"
+	integrationName    = "com.newrelic.winservices"
 	integrationVersion = "0.0.2"
 )
 

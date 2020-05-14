@@ -1,6 +1,6 @@
 integrations:
   - name: com.newrelic.winservices
     exec:
-      - /var/db/newrelic-infra/newrelic-integrations/bin/nri-winservices
+      - C:\Program Files\New Relic\newrelic-infra\newrelic-integrations\bin\nri-winservices.exe
     env:
     interval: 60s

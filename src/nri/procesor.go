@@ -10,6 +10,9 @@ import (
 	dto "github.com/prometheus/client_model/go"
 )
 
+//This constant is needed only till the workaround to register entity is in place
+const entityTypeInventory = "windowsService"
+
 type entitiesByName map[string]*integration.Entity
 
 // Process creates entities and add metrics from the MetricFamiliesByName according to rules
@@ -34,21 +37,17 @@ func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesB
 func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules) (entitiesByName, error) {
 	entityMap := make(map[string]*integration.Entity)
 
-	mf, ok := metricFamilyMap[entityRules.EntityName.HostNameMetric]
+	mfHostname, ok := metricFamilyMap[entityRules.EntityName.HostNameMetric]
 	if !ok {
 		return nil, fmt.Errorf("hostName Metric not found")
 	}
 
-	var hostName string
-	var err error
-	for _, m := range mf.GetMetric() {
-		hostName, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostNameMetricLabel)
-		if err != nil {
-			return nil, err
-		}
+	hostName, err := getHostname(mfHostname, entityRules)
+	if err != nil {
+		return nil, err
 	}
 
-	mf, ok = metricFamilyMap[entityRules.EntityName.Metric]
+	mf, ok := metricFamilyMap[entityRules.EntityName.Metric]
 	if !ok {
 		return nil, fmt.Errorf("entityName Metric not found")
 	}
@@ -66,6 +65,10 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 		entity, err := integrationInstance.NewEntity(entityName, entityRules.EntityType, serviceName)
 		fatalOnErr(err)
 		integrationInstance.AddEntity(entity)
+		err = entity.AddInventoryItem(entityTypeInventory, "name", entityName)
+		if err != nil {
+			log.Warn(err.Error())
+		}
 
 		entityMap[serviceName] = entity
 	}
@@ -131,6 +134,18 @@ func getLabelValue(label []*dto.LabelPair, key string) (string, error) {
 		}
 	}
 	return "", fmt.Errorf("label %v not found", key)
+}
+
+func getHostname(mf dto.MetricFamily, entityRules EntityRules) (string, error) {
+	var hostName string
+	var err error
+	for _, m := range mf.GetMetric() {
+		hostName, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostNameMetricLabel)
+		if err != nil {
+			return "", err
+		}
+	}
+	return hostName, nil
 }
 
 func fatalOnErr(err error) {
