@@ -10,10 +10,11 @@ type EntityRules struct {
 	Metrics    []MetricRules `yaml:"metrics"`
 }
 type EntityName struct {
-	Metric              string `yaml:"from_metric"`
-	MetricLabel         string `yaml:"use_label"`
-	HostNameMetric      string `yaml:"hostname_metric"`
-	HostNameMetricLabel string `yaml:"hostname_label"`
+	Metric                string `yaml:"from_metric"`
+	MetricLabel           string `yaml:"use_label"`
+	HostnameMetric        string `yaml:"hostname_metric"`
+	HostnameMetricLabel   string `yaml:"hostname_label"`
+	HostnameNrdbLabelName string `yaml:"hostname_nrdb_name"`
 }
 type MetricRules struct {
 	ProviderName string      `yaml:"provider_name"`
@@ -34,10 +35,11 @@ func loadRules() EntityRules {
 
 		EntityType: "WindowsService",
 		EntityName: EntityName{
-			Metric:              "wmi_service_start_mode",
-			MetricLabel:         "name",
-			HostNameMetric:      "wmi_cs_hostname",
-			HostNameMetricLabel: "hostname",
+			Metric:                "wmi_service_start_mode",
+			MetricLabel:           "name",
+			HostnameMetric:        "wmi_cs_hostname",
+			HostnameMetricLabel:   "hostname",
+			HostnameNrdbLabelName: "windowsService.hostname",
 		},
 		Metrics: []MetricRules{
 			{

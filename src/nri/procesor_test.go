@@ -88,7 +88,7 @@ func TestCreateEntitiesFail(t *testing.T) {
 	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService}
 	_, err := createEntities(i, mfbn, rules)
 
-	assert.Equal(t, err, errors.New("hostName Metric not found"))
+	assert.Equal(t, err, errors.New("hostname Metric not found"))
 }
 
 func TestProccessMetricGauge(t *testing.T) {
