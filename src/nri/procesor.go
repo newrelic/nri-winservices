@@ -132,7 +132,6 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		}
 		e, ok := ebn[serviceName]
 		if !ok {
-			log.Error("Entity not found for service: %v", serviceName)
 			continue
 		}
 
