@@ -2,6 +2,8 @@ package nri
 
 import (
 	"fmt"
+	"regexp"
+	"strings"
 	"time"
 
 	"github.com/newrelic/infra-integrations-sdk/integration"
@@ -16,10 +18,10 @@ const entityTypeInventory = "windowsService"
 type entitiesByName map[string]*integration.Entity
 
 // Process creates entities and add metrics from the MetricFamiliesByName according to rules
-func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName) error {
+func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, allowList string, denyList string, allowRegex string) error {
 	entityRules := loadRules()
 
-	entityMap, err := createEntities(i, metricFamilyMap, entityRules)
+	entityMap, err := createEntities(i, metricFamilyMap, entityRules, allowList, denyList, allowRegex)
 	if err != nil {
 		return err
 	}
@@ -34,7 +36,7 @@ func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesB
 	return nil
 }
 
-func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules) (entitiesByName, error) {
+func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules, allowList string, denyList string, allowRegex string) (entitiesByName, error) {
 	entityMap := make(map[string]*integration.Entity)
 
 	mfHostname, ok := metricFamilyMap[entityRules.EntityName.HostnameMetric]
@@ -57,6 +59,13 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 		if err != nil {
 			return nil, err
 		}
+
+		shouldBeIncluded := validateServiceName(serviceName, allowList, denyList, allowRegex)
+
+		if !shouldBeIncluded {
+			continue
+		}
+
 		if _, ok := entityMap[serviceName]; ok {
 			continue
 		}
@@ -77,6 +86,30 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 		entityMap[serviceName] = entity
 	}
 	return entityMap, nil
+}
+
+func validateServiceName(serviceName string, allowList string, denyList string, allowRegex string) bool {
+	for _, as := range strings.Split(denyList, ",") {
+		if as == serviceName {
+			return false
+		}
+	}
+	for _, as := range strings.Split(allowList, ",") {
+		if as == serviceName {
+			return true
+		}
+	}
+	if allowRegex == "" {
+		return false
+	}
+
+	valid, err := regexp.MatchString(allowRegex, serviceName)
+	if err != nil {
+		log.Warn(err.Error())
+		return false
+	}
+
+	return valid
 }
 
 func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName) error {

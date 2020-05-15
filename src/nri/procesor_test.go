@@ -5,7 +5,7 @@ import (
 	"github.com/newrelic/nri-winservices/src/scraper"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	dto "github.com/prometheus/client_model/go"
@@ -72,13 +72,12 @@ func TestCreateEntities(t *testing.T) {
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService, "wmi_cs_hostname": metricFamlilyServiceHostname}
 
-	entityMap, err := createEntities(i, mfbn, rules)
-
-	assert.Nil(t, err)
+	entityMap, err := createEntities(i, mfbn, rules, "rpcss", "", "")
+	require.Nil(t, err)
 	_, ok := entityMap["rpcss"]
-	assert.True(t, ok)
-
-	assert.Equal(t, i.Entities[0].Name(), "test-hostname:rpcss")
+	require.True(t, ok)
+	require.Len(t, i.Entities, 1)
+	require.Equal(t, i.Entities[0].Name(), "test-hostname:rpcss")
 
 }
 
@@ -86,9 +85,9 @@ func TestCreateEntitiesFail(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService}
-	_, err := createEntities(i, mfbn, rules)
+	_, err := createEntities(i, mfbn, rules, "rpcss", "", "")
 
-	assert.Equal(t, err, errors.New("hostname Metric not found"))
+	require.Equal(t, err, errors.New("hostname Metric not found"))
 }
 
 func TestProccessMetricGauge(t *testing.T) {
@@ -96,11 +95,26 @@ func TestProccessMetricGauge(t *testing.T) {
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService, "wmi_cs_hostname": metricFamlilyServiceHostname}
 
-	entityMap, err := createEntities(i, mfbn, rules)
-	assert.Nil(t, err)
+	entityMap, err := createEntities(i, mfbn, rules, "rpcss", "", "")
+	require.Nil(t, err)
 	err = processMetricGauge(metricFamlilyService, rules, entityMap)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
+}
+
+func TestValidateServiceName(t *testing.T) {
+	valid := validateServiceName("deny", ",,,casa,deny", ",,,deny,", ".*")
+	require.False(t, valid)
+	valid = validateServiceName("test", ",,,casa,test", "", "")
+	require.True(t, valid)
+	valid = validateServiceName("win", ",,,casa,test", ",,,deny,", "^win")
+	require.True(t, valid)
+	valid = validateServiceName("win", ",,,casa,test", ",,,deny,", ".*")
+	require.True(t, valid)
+	valid = validateServiceName("win", ",,,casa,test", ",,,deny,", "[a-z]")
+	require.True(t, valid)
+	valid = validateServiceName("test", "", "", "")
+	require.False(t, valid)
 }
 
 func strPtr(s string) *string {
