@@ -1,11 +1,11 @@
 package scraper
 
 import (
-	"fmt"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetReal(t *testing.T) {
@@ -19,8 +19,4 @@ func TestGetReal(t *testing.T) {
 		actual = append(actual, k)
 	}
 	assert.NoError(t, err)
-	fmt.Println(*mfs["wmi_os_processes"].Name)
-	fmt.Println(mfs["wmi_os_processes"].Metric[0])
-	fmt.Println(*mfs["wmi_os_processes"].Help)
-	fmt.Println("EXAMPLE")
 }

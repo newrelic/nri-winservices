@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
 	"github.com/newrelic/nri-winservices/src/scraper"
@@ -14,6 +15,8 @@ import (
 const entityTypeInventory = "windowsService"
 
 type entitiesByName map[string]*integration.Entity
+type metadataMap map[string]string
+type attributesMap map[string]string
 
 // Process creates entities and add metrics from the MetricFamiliesByName according to rules
 func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, validator Validator) error {
@@ -27,7 +30,7 @@ func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesB
 	for _, metricsRules := range entityRules.Metrics {
 		if metricFamily, ok := metricFamilyMap[metricsRules.ProviderName]; ok {
 			if err := processMetricGauge(metricFamily, entityRules, entityMap); err != nil {
-				return err
+				log.Warn("error processing metric: %v", err.Error())
 			}
 		}
 	}
@@ -52,10 +55,10 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 		return nil, fmt.Errorf("entityName Metric not found")
 	}
 	for _, metric := range mf.GetMetric() {
-
-		serviceName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.MetricLabel)
+		serviceName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.Label)
 		if err != nil {
-			return nil, err
+			warnOnErr(err)
+			continue
 		}
 
 		shouldBeIncluded := validator.ValidateServiceName(serviceName)
@@ -67,19 +70,23 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 		if _, ok := entityMap[serviceName]; ok {
 			continue
 		}
+		serviceDisplayName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.DisplayNameLabel)
+		if err != nil {
+			warnOnErr(err)
+			continue
+		}
 		entityName := hostname + ":" + serviceName
 
-		entity, err := integrationInstance.NewEntity(entityName, entityRules.EntityType, serviceName)
-		fatalOnErr(err)
+		entity, err := integrationInstance.NewEntity(entityName, entityRules.EntityType, serviceDisplayName)
+		if err != nil {
+			warnOnErr(err)
+			continue
+		}
 		integrationInstance.AddEntity(entity)
 		err = entity.AddInventoryItem(entityTypeInventory, "name", entityName)
-		if err != nil {
-			log.Warn(err.Error())
-		}
+		warnOnErr(err)
 		err = entity.AddInventoryItem(entityTypeInventory, entityRules.EntityName.HostnameNrdbLabelName, hostname)
-		if err != nil {
-			log.Warn(err.Error())
-		}
+		warnOnErr(err)
 
 		entityMap[serviceName] = entity
 	}
@@ -96,11 +103,12 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 	}
 	for _, metric := range metricFamily.GetMetric() {
 		metricValue := metric.GetGauge().GetValue()
-		if metricValue == metricRules.SkipValue {
+		// skip enum metrics without value
+		if metricRules.EnumMetric && metricValue != 1 {
 			continue
 		}
 
-		serviceName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.MetricLabel)
+		serviceName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.Label)
 		if err != nil {
 			return err
 		}
@@ -109,41 +117,57 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			continue
 		}
 
+		attributes, metadata := getAttributesAndMetadata(metricRules.Attributes, metric)
+		addMetadata(metadata, e)
+		// _info metrics only contains metadata
+		if metricRules.InfoMetric {
+			continue
+		}
+
 		metricName := metricRules.NrdbName
 		gauge, err := integration.Gauge(time.Now(), metricName, metricValue)
-		if err != nil {
-			return err
-		}
-		// Add Metrics attributes
-		for _, attribute := range metricRules.Attributes {
-			value, err := getLabelValue(metric.GetLabel(), attribute.Label)
-			if err != nil {
-				return err
-			}
-			nrdbLabelName := attribute.NrdbLabelName
-			err = gauge.AddDimension(nrdbLabelName, value)
-			if err != nil {
-				log.Warn(err.Error())
-			}
-			// Add entity metadata for attributes
-			if attribute.IsEntityMetadata {
-				err = e.AddMetadata(nrdbLabelName, value)
-				if err != nil {
-					log.Warn(err.Error())
-				}
-				err = e.AddInventoryItem(entityTypeInventory, nrdbLabelName, value)
-				if err != nil {
-					log.Warn(err.Error())
-				}
-			}
-		}
-		// TODO Remove this when metadata decoration is available for DM.
-		for k, v := range e.GetMetadata() {
-			_ = gauge.AddDimension(k, v.(string))
-		}
+		warnOnErr(err)
+		addAttributes(attributes, gauge)
 		e.AddMetric(gauge)
 	}
 	return nil
+}
+
+func addMetadata(metadata metadataMap, e *integration.Entity) {
+	var err error
+	for k, v := range metadata {
+		err = e.AddMetadata(k, v)
+		warnOnErr(err)
+		err = e.AddInventoryItem(entityTypeInventory, k, v)
+		warnOnErr(err)
+	}
+}
+func addAttributes(attributes attributesMap, metric metric.Metric) {
+	var err error
+	for k, v := range attributes {
+		err = metric.AddDimension(k, v)
+		warnOnErr(err)
+	}
+}
+
+func getAttributesAndMetadata(attributesRules []Attribute, metric *dto.Metric) (attributesMap, metadataMap) {
+	var metadata = make(map[string]string)
+	var attributes = make(map[string]string)
+	for _, attribute := range attributesRules {
+		value, err := getLabelValue(metric.GetLabel(), attribute.Label)
+		if err != nil {
+			log.Warn(err.Error())
+			continue
+		}
+		nrdbLabelName := attribute.NrdbLabelName
+
+		if attribute.IsEntityMetadata {
+			metadata[nrdbLabelName] = value
+			continue
+		}
+		attributes[nrdbLabelName] = value
+	}
+	return attributes, metadata
 }
 
 func getLabelValue(label []*dto.LabelPair, key string) (string, error) {
@@ -159,7 +183,7 @@ func getHostname(mf dto.MetricFamily, entityRules EntityRules) (string, error) {
 	var hostname string
 	var err error
 	for _, m := range mf.GetMetric() {
-		hostname, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostnameMetricLabel)
+		hostname, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostnameLabel)
 		if err != nil {
 			return "", err
 		}
@@ -167,8 +191,8 @@ func getHostname(mf dto.MetricFamily, entityRules EntityRules) (string, error) {
 	return hostname, nil
 }
 
-func fatalOnErr(err error) {
+func warnOnErr(err error) {
 	if err != nil {
-		log.Fatal(err)
+		log.Warn(err.Error())
 	}
 }
