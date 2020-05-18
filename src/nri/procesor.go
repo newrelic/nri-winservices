@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
 	"github.com/newrelic/nri-winservices/src/scraper"
@@ -126,10 +127,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		metricName := metricRules.NrdbName
 		gauge, err := integration.Gauge(time.Now(), metricName, metricValue)
 		warnOnErr(err)
-		for k, v := range attributes {
-			err = gauge.AddDimension(k, v)
-			warnOnErr(err)
-		}
+		addAttributes(attributes, gauge)
 		e.AddMetric(gauge)
 	}
 	return nil
@@ -141,6 +139,13 @@ func addMetadata(metadata metadataMap, e *integration.Entity) {
 		err = e.AddMetadata(k, v)
 		warnOnErr(err)
 		err = e.AddInventoryItem(entityTypeInventory, k, v)
+		warnOnErr(err)
+	}
+}
+func addAttributes(attributes attributesMap, metric metric.Metric) {
+	var err error
+	for k, v := range attributes {
+		err = metric.AddDimension(k, v)
 		warnOnErr(err)
 	}
 }
