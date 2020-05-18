@@ -127,7 +127,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		metricName := metricRules.NrdbName
 		gauge, err := integration.Gauge(time.Now(), metricName, metricValue)
 		warnOnErr(err)
-		addAttributes(attributes, gauge)
+		addAttributes(attributes, gauge, e)
 		e.AddMetric(gauge)
 	}
 	return nil
@@ -142,10 +142,12 @@ func addMetadata(metadata metadataMap, e *integration.Entity) {
 		warnOnErr(err)
 	}
 }
-func addAttributes(attributes attributesMap, metric metric.Metric) {
+func addAttributes(attributes attributesMap, metric metric.Metric, e *integration.Entity) {
 	var err error
 	for k, v := range attributes {
 		err = metric.AddDimension(k, v)
+		warnOnErr(err)
+		err = e.AddInventoryItem(entityTypeInventory, k, v)
 		warnOnErr(err)
 	}
 }
