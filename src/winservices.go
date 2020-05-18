@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"net/http/httptest"
 	"os"
 
 	"github.com/newrelic/nri-winservices/src/nri"
@@ -13,8 +12,12 @@ import (
 )
 
 type argumentList struct {
-	Verbose bool `default:"false" help:"Print more information to logs."`
-	Pretty  bool `default:"false" help:"Print pretty formatted JSON."`
+	Verbose     bool   `default:"false" help:"Print more information to logs."`
+	Pretty      bool   `default:"false" help:"Print pretty formatted JSON."`
+	ExporterURL string `default:"http://localhost:9182/metrics" help:"The url to which the scraper will connect to fetch the data. There should be a windows service exporter listening at that address and port"`
+	AllowList   string `default:"" help:"Comma separated list of names of services to be included. By default no service is included"`
+	AllowRegex  string `default:"" help:"If set, the Regex specified will be applied to filter in services. es : \"^win\" will include all services starting with \"win\"."`
+	DenyList    string `default:"" help:"Comma separated list of names of services to be excluded. This is the last rule applied that take precedence over -allowList and -allowRegex"`
 }
 
 const (
@@ -27,6 +30,8 @@ var (
 )
 
 func main() {
+	var metricsByFamily scraper.MetricFamiliesByName
+
 	log.SetupLogging(args.Verbose)
 
 	integrationInstance, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
@@ -34,19 +39,14 @@ func main() {
 		log.Error(err.Error())
 		os.Exit(1)
 	}
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "scraper/testdata/actualOutput")
-	}))
-	defer ts.Close()
 
-	metricsByFamily, err := scraper.Get(http.DefaultClient, ts.URL)
+	metricsByFamily, err = scraper.Get(http.DefaultClient, args.ExporterURL)
 
-	// metricsByFamily, err := scraper.Get(http.DefaultClient, "http://localhost:9182/metrics")
-
-	if err := nri.Process(integrationInstance, metricsByFamily); err != nil {
+	validator := nri.NewValidator(args.AllowList, args.DenyList, args.AllowRegex)
+	if err := nri.Process(integrationInstance, metricsByFamily, validator); err != nil {
 		log.Error(err.Error())
-
 	}
+
 	err = integrationInstance.Publish()
 	if err != nil {
 		log.Error(err.Error())

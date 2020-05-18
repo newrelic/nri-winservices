@@ -5,7 +5,7 @@ import (
 	"github.com/newrelic/nri-winservices/src/scraper"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	dto "github.com/prometheus/client_model/go"
@@ -71,14 +71,13 @@ func TestCreateEntities(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService, "wmi_cs_hostname": metricFamlilyServiceHostname}
-
-	entityMap, err := createEntities(i, mfbn, rules)
-
-	assert.Nil(t, err)
+	validator := NewValidator("rpcss", "", "")
+	entityMap, err := createEntities(i, mfbn, rules, validator)
+	require.NoError(t, err)
 	_, ok := entityMap["rpcss"]
-	assert.True(t, ok)
-
-	assert.Equal(t, i.Entities[0].Name(), "test-hostname:rpcss")
+	require.True(t, ok)
+	require.Len(t, i.Entities, 1)
+	require.Equal(t, i.Entities[0].Name(), "test-hostname:rpcss")
 
 }
 
@@ -86,9 +85,26 @@ func TestCreateEntitiesFail(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService}
-	_, err := createEntities(i, mfbn, rules)
 
-	assert.Equal(t, err, errors.New("hostname Metric not found"))
+	validator := NewValidator("rpcss", "", "")
+	_, err := createEntities(i, mfbn, rules, validator)
+
+	require.Equal(t, err, errors.New("hostname Metric not found"))
+}
+
+func TestNoServiceNameAllowed(t *testing.T) {
+	i, _ := integration.New("integrationName", "integrationVersion")
+	rules := loadRules()
+	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService, "wmi_cs_hostname": metricFamlilyServiceHostname}
+
+	validator := NewValidator("", "", "")
+	entityMap, err := createEntities(i, mfbn, rules, validator)
+	require.NoError(t, err, "No error is expected even if no service is allowed")
+	require.Len(t, entityMap, 0, "No entity is expected since no service is allowed")
+	err = processMetricGauge(metricFamlilyService, rules, entityMap)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap)
+	require.NoError(t, err)
+	require.NoError(t, err, "No error is expected even if entityMap is empty")
 }
 
 func TestProccessMetricGauge(t *testing.T) {
@@ -96,10 +112,11 @@ func TestProccessMetricGauge(t *testing.T) {
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService, "wmi_cs_hostname": metricFamlilyServiceHostname}
 
-	entityMap, err := createEntities(i, mfbn, rules)
-	assert.Nil(t, err)
+	validator := NewValidator("rpcss", "", "")
+	entityMap, err := createEntities(i, mfbn, rules, validator)
+	require.NoError(t, err)
 	err = processMetricGauge(metricFamlilyService, rules, entityMap)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 }
 
