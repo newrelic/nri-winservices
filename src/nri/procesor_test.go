@@ -92,6 +92,21 @@ func TestCreateEntitiesFail(t *testing.T) {
 	require.Equal(t, err, errors.New("hostname Metric not found"))
 }
 
+func TestNoServiceNameAllowed(t *testing.T) {
+	i, _ := integration.New("integrationName", "integrationVersion")
+	rules := loadRules()
+	mfbn := scraper.MetricFamiliesByName{"wmi_service_start_mode": metricFamlilyService, "wmi_cs_hostname": metricFamlilyServiceHostname}
+
+	validator := NewValidator("", "", "")
+	entityMap, err := createEntities(i, mfbn, rules, validator)
+	require.NoError(t, err, "No error is expected even if no service is allowed")
+	require.Len(t, entityMap, 0, "No entity is expected since no service is allowed")
+	err = processMetricGauge(metricFamlilyService, rules, entityMap)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap)
+	require.NoError(t, err)
+	require.NoError(t, err, "No error is expected even if entityMap is empty")
+}
+
 func TestProccessMetricGauge(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
 	rules := loadRules()
