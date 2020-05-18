@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"net/http/httptest"
 	"os"
 
 	"github.com/newrelic/nri-winservices/src/nri"
@@ -15,7 +14,6 @@ import (
 type argumentList struct {
 	Verbose     bool   `default:"false" help:"Print more information to logs."`
 	Pretty      bool   `default:"false" help:"Print pretty formatted JSON."`
-	FakeData    bool   `default:"false" help:"The scraper will not connect to a real exporter, but will report fake data"`
 	ExporterURL string `default:"http://localhost:9182/metrics" help:"The url to which the scraper will connect to fetch the data. There should be a windows service exporter listening at that address and port"`
 	AllowList   string `default:"" help:"Comma separated list of names of services to be included. By default no service is included"`
 	AllowRegex  string `default:"" help:"If set, the Regex specified will be applied to filter in services. es : \"^win\" will include all services starting with \"win\"."`
@@ -42,16 +40,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	if args.FakeData {
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			http.ServeFile(w, r, "./src/scraper/testdata/actualOutput")
-		}))
-		defer ts.Close()
-		metricsByFamily, err = scraper.Get(http.DefaultClient, ts.URL)
-	} else {
-		metricsByFamily, err = scraper.Get(http.DefaultClient, args.ExporterURL)
-	}
-	if err := nri.Process(integrationInstance, metricsByFamily, args.AllowList, args.DenyList, args.AllowRegex); err != nil {
+	metricsByFamily, err = scraper.Get(http.DefaultClient, args.ExporterURL)
+
+	validator := nri.NewValidator(args.AllowList, args.DenyList, args.AllowRegex)
+	if err := nri.Process(integrationInstance, metricsByFamily, validator); err != nil {
 		log.Error(err.Error())
 	}
 
