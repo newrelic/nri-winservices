@@ -43,7 +43,11 @@ func main() {
 	metricsByFamily, err = scraper.Get(http.DefaultClient, args.ExporterURL)
 
 	validator := nri.NewValidator(args.AllowList, args.DenyList, args.AllowRegex)
-	if err := nri.Process(integrationInstance, metricsByFamily, validator); err != nil {
+	if err := nri.ProcessMetrics(integrationInstance, metricsByFamily, validator); err != nil {
+		log.Error(err.Error())
+	}
+
+	if err := nri.ProcessInventory(integrationInstance); err != nil {
 		log.Error(err.Error())
 	}
 

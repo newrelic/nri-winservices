@@ -11,15 +11,12 @@ import (
 	dto "github.com/prometheus/client_model/go"
 )
 
-//This constant is needed only till the workaround to register entity is in place
-const entityTypeInventory = "windowsService"
-
 type entitiesByName map[string]*integration.Entity
 type metadataMap map[string]string
 type attributesMap map[string]string
 
 // Process creates entities and add metrics from the MetricFamiliesByName according to rules
-func Process(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, validator Validator) error {
+func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, validator Validator) error {
 	entityRules := loadRules()
 
 	entityMap, err := createEntities(i, metricFamilyMap, entityRules, validator)
@@ -83,10 +80,6 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 			continue
 		}
 		integrationInstance.AddEntity(entity)
-		err = entity.AddInventoryItem(entityTypeInventory, "name", entityName)
-		warnOnErr(err)
-		err = entity.AddInventoryItem(entityTypeInventory, entityRules.EntityName.HostnameNrdbLabelName, hostname)
-		warnOnErr(err)
 
 		entityMap[serviceName] = entity
 	}
@@ -138,16 +131,12 @@ func addMetadata(metadata metadataMap, e *integration.Entity) {
 	for k, v := range metadata {
 		err = e.AddMetadata(k, v)
 		warnOnErr(err)
-		err = e.AddInventoryItem(entityTypeInventory, k, v)
-		warnOnErr(err)
 	}
 }
 func addAttributes(attributes attributesMap, metric metric.Metric, e *integration.Entity) {
 	var err error
 	for k, v := range attributes {
 		err = metric.AddDimension(k, v)
-		warnOnErr(err)
-		err = e.AddInventoryItem(entityTypeInventory, k, v)
 		warnOnErr(err)
 	}
 }
