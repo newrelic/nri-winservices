@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"os/exec"
+	"strings"
 	"unsafe"
 
 	"github.com/newrelic/infra-integrations-sdk/log"
@@ -57,6 +58,14 @@ func New(verbose bool, bindAddress string, bindPort string) Exporter {
 			if err != nil {
 				return // terminate on EOF
 			}
+			// TODO currently the exporter detects that is being lunched from a non interactive session (by the Agent)
+			// and tries to register as a service but fails. This is not affecting the exporter nither leaving Windows Event logs
+			// This should remove after modify the exporter behavior when is lunched from other process.
+			if strings.Contains(exporterLog, "Failed to start service: The service process could not connect to the service controller") {
+				// we remove this log since could be misslead a wrong interpretation.
+				continue
+			}
+
 			log.Info(exporterLog)
 		}
 	}()
