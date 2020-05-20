@@ -8,6 +8,7 @@ require (
 	github.com/prometheus/client_model v0.2.0
 	github.com/prometheus/common v0.9.1
 	github.com/stretchr/testify v1.5.1
+	golang.org/x/sys v0.0.0-20200519105757-fe76b779f299
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/yaml.v2 v2.2.5 // indirect
 )

@@ -2,5 +2,13 @@ integrations:
   - name: com.newrelic.winservices
     exec:
       - C:\Program Files\New Relic\newrelic-infra\newrelic-integrations\bin\nri-winservices.exe
+      - --scrape_interval
+      - 30s
+      # TODO complete this with examples
+      # - --allow_list
+      # - --deny_list
+      # - --allow_regex
     env:
-    interval: 60s
+    timeout: 10s
+    # Interval period to collect and send data should be configured under scrape_interval parameter
+    # interval: 30s
