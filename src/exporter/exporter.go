@@ -17,10 +17,11 @@ const (
 
 // Exporter manages the exporter execution
 type Exporter struct {
-	cmd       *exec.Cmd
-	ctx       context.Context
-	cancel    context.CancelFunc
-	jobObject windows.Handle
+	ExporterURL string
+	cmd         *exec.Cmd
+	ctx         context.Context
+	cancel      context.CancelFunc
+	jobObject   windows.Handle
 }
 
 type process struct {
@@ -29,20 +30,21 @@ type process struct {
 }
 
 // New create a configured Exporter struct ready to be runned
-func New(verbose bool, bindingAddress string) Exporter {
+func New(verbose bool, bindAddress string, bindPort string) Exporter {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	exporterLogLevel := "info"
 	if verbose {
 		exporterLogLevel = "debug"
 	}
+	exporterURL := bindAddress + ":" + bindPort
 
 	cmd := exec.CommandContext(ctx,
 		exporterPath,
 		"--collectors.enabled", enabledCollectors,
 		"--log.level", exporterLogLevel,
 		"--collector.service.services-where", "Name like '%'", //All Added to avoid warn message from Exporter
-		"--telemetry.addr", bindingAddress)
+		"--telemetry.addr", exporterURL)
 
 	r, err := cmd.StderrPipe()
 	if err != nil {
@@ -58,7 +60,7 @@ func New(verbose bool, bindingAddress string) Exporter {
 			log.Info(exporterLog)
 		}
 	}()
-	return Exporter{cmd: cmd, ctx: ctx, cancel: cancel}
+	return Exporter{ExporterURL: exporterURL, cmd: cmd, ctx: ctx, cancel: cancel}
 }
 
 // Run executes the exporter binary

@@ -44,10 +44,14 @@ func main() {
 		logOnErr(err)
 		os.Exit(1)
 	}
-	exporterURL := args.ExporterBindAddress + ":" + args.ExporterBindPort
-	e := exporter.New(args.Verbose, exporterURL)
+
+	e := exporter.New(args.Verbose, args.ExporterBindAddress, args.ExporterBindPort)
 	e.Run()
 
+	run(e, i)
+}
+
+func run(e exporter.Exporter, i *integration.Integration) {
 	interval, err := time.ParseDuration(args.ScrapeInterval)
 	logOnErr(err)
 	heartBeat := time.NewTicker(heartBeatPeriod)
@@ -56,7 +60,6 @@ func main() {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 
-LongRunning:
 	for {
 		select {
 		case <-heartBeat.C:
@@ -65,7 +68,7 @@ LongRunning:
 			fmt.Println("{}")
 
 		case <-metricInterval.C:
-			metricsByFamily, err := scraper.Get(http.DefaultClient, "http://"+exporterURL+"/metrics")
+			metricsByFamily, err := scraper.Get(http.DefaultClient, "http://"+e.ExporterURL+"/metrics")
 			logOnErr(err)
 			validator := nri.NewValidator(args.AllowList, args.DenyList, args.AllowRegex)
 			err = nri.ProcessMetrics(i, metricsByFamily, validator)
@@ -78,10 +81,9 @@ LongRunning:
 		case osCall := <-c:
 			log.Info("gracefully shuting down on system call:%+v", osCall)
 			e.Kill()
-			break LongRunning
+			return
 		}
 	}
-	log.Info("%v integration stopped", integrationName)
 }
 
 func logOnErr(err error) {
