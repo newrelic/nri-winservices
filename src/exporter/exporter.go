@@ -12,17 +12,20 @@ import (
 )
 
 const (
-	exporterPath      = "wmi_exporter.exe"
+	//TODO update this with the corresponding path
+	exporterPath      = "C:\\Program Files\\New Relic\\newrelic-infra\\newrelic-integrations\\bin\\wmi_exporter.exe"
 	enabledCollectors = "service,cs"
 )
 
 // Exporter manages the exporter execution
 type Exporter struct {
-	ExporterURL string
-	cmd         *exec.Cmd
-	ctx         context.Context
-	cancel      context.CancelFunc
-	jobObject   windows.Handle
+	URL        string
+	MetricPath string
+	cmd        *exec.Cmd
+	ctx        context.Context
+	cancel     context.CancelFunc
+	jobObject  windows.Handle
+	Done       chan struct{} // this channel is closed when the exporter stop running
 }
 
 type process struct {
@@ -65,22 +68,34 @@ func New(verbose bool, bindAddress string, bindPort string) Exporter {
 				// we remove this log since could be misslead a wrong interpretation.
 				continue
 			}
-
 			log.Info(exporterLog)
 		}
 	}()
-	return Exporter{ExporterURL: exporterURL, cmd: cmd, ctx: ctx, cancel: cancel}
+	return Exporter{
+		URL:        exporterURL,
+		MetricPath: "/metrics",
+		cmd:        cmd,
+		ctx:        ctx,
+		cancel:     cancel,
+		Done:       make(chan struct{}),
+	}
 }
 
 // Run executes the exporter binary
-func (e *Exporter) Run() {
+func (e *Exporter) Run() error {
 	err := e.cmd.Start()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	if err := e.createJobObject(); err != nil {
-		log.Error(err.Error())
+		return err
 	}
+	go func() {
+		e.cmd.Wait()
+		close(e.Done)
+	}()
+
+	return nil
 }
 
 // createJobObject adds the process to a JobObject configured to kill the process
@@ -113,13 +128,4 @@ func (e *Exporter) createJobObject() error {
 	}
 
 	return nil
-}
-
-// Kill cancel the ctx and close the handle
-func (e *Exporter) Kill() {
-	windows.CloseHandle(e.jobObject)
-	e.cancel()
-	if err := e.cmd.Wait(); err != nil {
-		log.Error(err.Error())
-	}
 }
