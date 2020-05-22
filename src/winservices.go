@@ -28,7 +28,7 @@ type argumentList struct {
 const (
 	integrationName    = "com.newrelic.winservices"
 	integrationVersion = "0.0.2"
-	heartBeatPeriod    = time.Second // Period for the hard beat signal should be less than timeout
+	heartBeatPeriod    = 5 * time.Second // Period for the hard beat signal should be less than timeout
 )
 
 var (
