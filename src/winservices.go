@@ -51,6 +51,7 @@ func main() {
 	}
 
 	run(e, i)
+	e.Kill()
 	// Integration exit if there are problems scraping or processing metrics and
 	// is being relaunched by the Agent since no hartbeats are send
 	os.Exit(1)
@@ -60,7 +61,7 @@ func run(e exporter.Exporter, i *integration.Integration) {
 	interval, err := time.ParseDuration(args.ScrapeInterval)
 	if err != nil {
 		log.Error("error parsing ScrapeInterval:", err.Error())
-		os.Exit(1)
+		return
 	}
 	heartBeat := time.NewTicker(heartBeatPeriod)
 	metricInterval := time.NewTicker(interval)

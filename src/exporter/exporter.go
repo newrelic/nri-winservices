@@ -129,3 +129,12 @@ func (e *Exporter) createJobObject() error {
 
 	return nil
 }
+
+// Kill cancel the ctx and close the handle
+func (e *Exporter) Kill() {
+	windows.CloseHandle(e.jobObject)
+	e.cancel()
+	if err := e.cmd.Wait(); err != nil {
+		log.Error(err.Error())
+	}
+}
