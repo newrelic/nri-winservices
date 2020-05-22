@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"os/signal"
 	"time"
 
 	"github.com/newrelic/nri-winservices/src/exporter"
@@ -29,7 +28,7 @@ type argumentList struct {
 const (
 	integrationName    = "com.newrelic.winservices"
 	integrationVersion = "0.0.2"
-	heartBeatPeriod    = time.Second // Period for the hard beat signal should be less than timeout
+	heartBeatPeriod    = 5 * time.Second // Period for the hard beat signal should be less than timeout
 )
 
 var (
@@ -41,24 +40,31 @@ func main() {
 
 	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
 	if err != nil {
-		logOnErr(err)
+		log.Error(err.Error())
 		os.Exit(1)
 	}
 
 	e := exporter.New(args.Verbose, args.ExporterBindAddress, args.ExporterBindPort)
-	e.Run()
+	if err = e.Run(); err != nil {
+		log.Error(err.Error())
+		os.Exit(1)
+	}
 
 	run(e, i)
+	e.Kill()
+	// Integration exit if there are problems scraping or processing metrics and
+	// is being relaunched by the Agent since no hartbeats are send
+	os.Exit(1)
 }
 
 func run(e exporter.Exporter, i *integration.Integration) {
 	interval, err := time.ParseDuration(args.ScrapeInterval)
-	logOnErr(err)
+	if err != nil {
+		log.Error("error parsing ScrapeInterval:", err.Error())
+		return
+	}
 	heartBeat := time.NewTicker(heartBeatPeriod)
 	metricInterval := time.NewTicker(interval)
-
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
 
 	for {
 		select {
@@ -68,19 +74,26 @@ func run(e exporter.Exporter, i *integration.Integration) {
 			fmt.Println("{}")
 
 		case <-metricInterval.C:
-			metricsByFamily, err := scraper.Get(http.DefaultClient, "http://"+e.ExporterURL+"/metrics")
-			logOnErr(err)
+			metricsByFamily, err := scraper.Get(http.DefaultClient, "http://"+e.URL+e.MetricPath)
+			if err != nil {
+				log.Error("fail to scrape metrics:%v", err.Error())
+				return
+			}
 			validator := nri.NewValidator(args.AllowList, args.DenyList, args.AllowRegex)
-			err = nri.ProcessMetrics(i, metricsByFamily, validator)
-			logOnErr(err)
-			err = nri.ProcessInventory(i)
-			logOnErr(err)
+			if err = nri.ProcessMetrics(i, metricsByFamily, validator); err != nil {
+				log.Error("fail to process metrics:%v", err.Error())
+				return
+			}
+			if err = nri.ProcessInventory(i); err != nil {
+				log.Error("fail to process inventory:%v", err.Error())
+				return
+			}
 			err = i.Publish()
 			logOnErr(err)
 
-		case osCall := <-c:
-			log.Info("gracefully shuting down on system call:%+v", osCall)
-			e.Kill()
+		case <-e.Done:
+			// exit when the exporter has stopped running
+			log.Error("exporter has stopped")
 			return
 		}
 	}
