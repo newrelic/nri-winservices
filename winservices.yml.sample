@@ -2,6 +2,10 @@ integrations:
   - name: com.newrelic.winservices
     exec:
       - C:\Program Files\New Relic\newrelic-infra\newrelic-integrations\bin\nri-winservices.exe
+      # - --exporter_bind_address
+      # - 127.0.0.1
+      # - --exporter_bind_port
+      # - 9182
       - --scrape_interval
       - 30s
       # TODO complete this with examples
@@ -11,4 +15,4 @@ integrations:
     env:
     timeout: 10s
     # Interval period to collect and send data should be configured under scrape_interval parameter
-    # interval: 30s
+    # interval: <use scrape_interval param>

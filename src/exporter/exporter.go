@@ -1,8 +1,10 @@
 package exporter
 
 import (
-	"bufio"
 	"context"
+	"encoding/json"
+	"fmt"
+	"io"
 	"os/exec"
 	"strings"
 	"unsafe"
@@ -15,17 +17,18 @@ const (
 	//TODO update this with the corresponding path
 	exporterPath      = "C:\\Program Files\\New Relic\\newrelic-infra\\newrelic-integrations\\bin\\wmi_exporter.exe"
 	enabledCollectors = "service,cs"
+	logFormat         = "exporter msg=%v source=%v"
 )
 
 // Exporter manages the exporter execution
 type Exporter struct {
 	URL        string
 	MetricPath string
+	Done       chan struct{} // this channel is closed when the exporter stop running
 	cmd        *exec.Cmd
 	ctx        context.Context
 	cancel     context.CancelFunc
 	jobObject  windows.Handle
-	Done       chan struct{} // this channel is closed when the exporter stop running
 }
 
 type process struct {
@@ -47,30 +50,10 @@ func New(verbose bool, bindAddress string, bindPort string) Exporter {
 		exporterPath,
 		"--collectors.enabled", enabledCollectors,
 		"--log.level", exporterLogLevel,
+		"--log.format", "logger:stderr?json=true",
 		"--collector.service.services-where", "Name like '%'", //All Added to avoid warn message from Exporter
 		"--telemetry.addr", exporterURL)
 
-	r, err := cmd.StderrPipe()
-	if err != nil {
-		log.Error(err.Error())
-	}
-	reader := bufio.NewReader(r)
-	go func() {
-		for {
-			exporterLog, err := reader.ReadString('\n')
-			if err != nil {
-				return // terminate on EOF
-			}
-			// TODO currently the exporter detects that is being lunched from a non interactive session (by the Agent)
-			// and tries to register as a service but fails. This is not affecting the exporter nither leaving Windows Event logs
-			// This should remove after modify the exporter behavior when is lunched from other process.
-			if strings.Contains(exporterLog, "Failed to start service: The service process could not connect to the service controller") {
-				// we remove this log since could be misslead a wrong interpretation.
-				continue
-			}
-			log.Info(exporterLog)
-		}
-	}()
 	return Exporter{
 		URL:        exporterURL,
 		MetricPath: "/metrics",
@@ -83,15 +66,17 @@ func New(verbose bool, bindAddress string, bindPort string) Exporter {
 
 // Run executes the exporter binary
 func (e *Exporter) Run() error {
+	e.redirectLogs()
 	err := e.cmd.Start()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to run exporter:%v", err)
 	}
 	if err := e.createJobObject(); err != nil {
-		return err
+		return fmt.Errorf("failed to create job object:%v", err)
 	}
 	go func() {
 		e.cmd.Wait()
+		log.Debug("exporter has stopped")
 		close(e.Done)
 	}()
 
@@ -104,7 +89,7 @@ func (e *Exporter) createJobObject() error {
 	var err error
 	e.jobObject, err = windows.CreateJobObject(nil, nil)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create job object: %v", err)
 	}
 
 	jobInfo := windows.JOBOBJECT_EXTENDED_LIMIT_INFORMATION{
@@ -119,12 +104,12 @@ func (e *Exporter) createJobObject() error {
 		uint32(unsafe.Sizeof(jobInfo)),
 	)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to set job object info:%v", err)
 	}
 
 	windows.AssignProcessToJobObject(e.jobObject, (*process)(unsafe.Pointer(e.cmd.Process)).handle)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to assign process to job object:%v", err)
 	}
 
 	return nil
@@ -133,8 +118,58 @@ func (e *Exporter) createJobObject() error {
 // Kill cancel the ctx and close the handle
 func (e *Exporter) Kill() {
 	windows.CloseHandle(e.jobObject)
-	e.cancel()
-	if err := e.cmd.Wait(); err != nil {
+	select {
+	case <-e.Done: //exporter is not running any more
+		return
+	default:
+		e.cancel()
+		if err := e.cmd.Wait(); err != nil {
+			log.Error(err.Error())
+		}
+	}
+
+}
+
+type logMsg struct {
+	Level, Msg, Source string
+}
+
+func (e *Exporter) redirectLogs() {
+	r, err := e.cmd.StderrPipe()
+	if err != nil {
 		log.Error(err.Error())
 	}
+	var m logMsg
+	dec := json.NewDecoder(r)
+	go func() {
+		for {
+			if err := dec.Decode(&m); err == io.EOF {
+				log.Debug("cmd StderrPipe has closed")
+				return
+			} else if err != nil {
+				log.Error("failed decoding exporter log:%v", err)
+			}
+			switch m.Level {
+			case "debug":
+				log.Debug(logFormat, m.Msg, m.Source)
+			case "info":
+				log.Info(logFormat, m.Msg, m.Source)
+			case "warn":
+				log.Warn(logFormat, m.Msg, m.Source)
+			case "error":
+				// TODO currently the exporter detects that is being lunched from a non interactive session (by the Agent)
+				// and tries to register as a service but fails. This is not affecting the exporter nither leaving Windows Event logs
+				// This should be removed after modify the exporter behavior when is lunched from other process.
+				if strings.Contains(m.Msg, "Failed to start service: The service process could not connect to the service controller") {
+					// we remove this log since could misslead a wrong interpretation.
+					continue
+				}
+				log.Error(logFormat, m.Msg, m.Source)
+			case "fatal":
+				// on Fatal error cmd.Wait() ends closing Done channel
+				msg := m.Msg + "(fatal error on exporter)"
+				log.Error(logFormat, msg, m.Source)
+			}
+		}
+	}()
 }
