@@ -19,33 +19,28 @@ type attributesMap map[string]string
 func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, validator Validator) error {
 	entityRules := loadRules()
 
-	entityMap, err := createEntities(i, metricFamilyMap, entityRules, validator)
+	hostname, err := getHostname(metricFamilyMap, entityRules)
+	if err != nil {
+		return err
+	}
+
+	entityMap, err := createEntities(i, metricFamilyMap, entityRules, validator, hostname)
 	if err != nil {
 		return err
 	}
 
 	for _, metricsRules := range entityRules.Metrics {
 		if metricFamily, ok := metricFamilyMap[metricsRules.ProviderName]; ok {
-			if err := processMetricGauge(metricFamily, entityRules, entityMap); err != nil {
-				log.Warn("error processing metric: %v", err.Error())
+			if err := processMetricGauge(metricFamily, entityRules, entityMap, hostname); err != nil {
+				log.Warn("error processing metric:%v", err.Error())
 			}
 		}
 	}
 	return nil
 }
 
-func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules, validator Validator) (entitiesByName, error) {
+func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules, validator Validator, hostname string) (entitiesByName, error) {
 	entityMap := make(map[string]*integration.Entity)
-
-	mfHostname, ok := metricFamilyMap[entityRules.EntityName.HostnameMetric]
-	if !ok {
-		return nil, fmt.Errorf("hostname Metric not found")
-	}
-
-	hostname, err := getHostname(mfHostname, entityRules)
-	if err != nil {
-		return nil, err
-	}
 
 	mf, ok := metricFamilyMap[entityRules.EntityName.Metric]
 	if !ok {
@@ -86,7 +81,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 	return entityMap, nil
 }
 
-func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName) error {
+func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName, hostname string) error {
 	metricRules, err := entityRules.getMetricRules(metricFamily.GetName())
 	if err != nil {
 		return fmt.Errorf("metric rule not found")
@@ -110,7 +105,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			continue
 		}
 
-		attributes, metadata := getAttributesAndMetadata(metricRules.Attributes, metric)
+		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, metric, e.Name(), hostname)
 		addMetadata(metadata, e)
 		// _info metrics only contains metadata
 		if metricRules.InfoMetric {
@@ -141,9 +136,12 @@ func addAttributes(attributes attributesMap, metric metric.Metric) {
 	}
 }
 
-func getAttributesAndMetadata(attributesRules []Attribute, metric *dto.Metric) (attributesMap, metadataMap) {
+func getAttributesAndMetadata(entityRules EntityRules, attributesRules []Attribute, metric *dto.Metric, entityName string, hostname string) (attributesMap, metadataMap) {
 	var metadata = make(map[string]string)
 	var attributes = make(map[string]string)
+	metadata[entityRules.EntityName.EntityNrdbLabelName] = entityName
+	metadata[entityRules.EntityName.HostnameNrdbLabelName] = hostname
+
 	for _, attribute := range attributesRules {
 		value, err := getLabelValue(metric.GetLabel(), attribute.Label)
 		if err != nil {
@@ -170,9 +168,15 @@ func getLabelValue(label []*dto.LabelPair, key string) (string, error) {
 	return "", fmt.Errorf("label %v not found", key)
 }
 
-func getHostname(mf dto.MetricFamily, entityRules EntityRules) (string, error) {
+func getHostname(metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules) (string, error) {
 	var hostname string
 	var err error
+
+	mf, ok := metricFamilyMap[entityRules.EntityName.HostnameMetric]
+	if !ok {
+		return "", fmt.Errorf("hostname Metric not found")
+	}
+
 	for _, m := range mf.GetMetric() {
 		hostname, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostnameLabel)
 		if err != nil {
