@@ -25,6 +25,8 @@ func TestProccessInventory(t *testing.T) {
 	require.NoError(t, err)
 	require.Greater(t, len(i.Entities), 0)
 
+	require.Equal(t, hostname+":"+serviceName, i.Entities[0].Name())
+
 	item, ok := i.Entities[0].Inventory.Item(entityTypeInventory)
 	require.True(t, ok)
 	require.Equal(t, hostname, item[entityRules.EntityName.HostnameNrdbLabelName])

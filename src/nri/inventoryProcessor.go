@@ -3,7 +3,6 @@ package nri
 import (
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
-	"strings"
 )
 
 //This constant is needed only till the workaround to register entity is in place DO NOT MODIFY
@@ -14,7 +13,7 @@ func ProcessInventory(i *integration.Integration) error {
 	for _, e := range i.Entities {
 		err := processEntityInventory(e, entityRules)
 		if err != nil {
-			log.Warn("Error while computing proessing entity inventory: " + err.Error())
+			log.Warn("Error while computing processing entity inventory: " + err.Error())
 			return err
 		}
 	}
@@ -22,11 +21,8 @@ func ProcessInventory(i *integration.Integration) error {
 }
 
 func processEntityInventory(e *integration.Entity, entityRules EntityRules) error {
-	err := e.AddInventoryItem(entityTypeInventory, "name", e.Name())
-	if err != nil {
-		return err
-	}
-	err = e.AddInventoryItem(entityTypeInventory, entityRules.EntityName.HostnameNrdbLabelName, strings.Split(e.Name(), ":")[0])
+
+	err := e.AddInventoryItem(entityTypeInventory, entityRules.EntityName.Label, e.Name())
 	if err != nil {
 		return err
 	}
