@@ -115,7 +115,7 @@ if (-Not $skipExporterCompile)
 
     go get -d $exporterRepo
     Set-Location $env:GOPATH\src\$exporterRepo
-    git checkout --force $exporterVersion
+    git checkout $exporterVersion
     # remove unused collectors 
     Remove-Item .\collector\* -Exclude $collectors
     promu build --prefix=output\$arch

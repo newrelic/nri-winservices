@@ -44,9 +44,12 @@ func main() {
 	}
 	log.SetupLogging(args.Verbose)
 
+	v := fmt.Sprintf("integration version: %s commit: %s", integrationVersion, commitHash)
 	if args.Version {
-		log.Info("integration version: %s commit: %v", integrationVersion, commitHash)
+		fmt.Print(v)
+		return
 	}
+	log.Debug(v)
 
 	if args.ExporterBindAddress == "" || args.ExporterBindPort == "" {
 		log.Fatal(fmt.Errorf("exporter_bind_address and exporter_bind_port need to be configured"))
