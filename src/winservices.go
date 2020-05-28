@@ -14,6 +14,7 @@ import (
 )
 
 type argumentList struct {
+	Version             bool   `default:"false" help:"Print the integration version and commit hash"`
 	Verbose             bool   `default:"false" help:"Print more information to logs."`
 	Pretty              bool   `default:"false" help:"Print pretty formatted JSON."`
 	AllowList           string `default:"" help:"Comma separated list of names of services to be included. By default no service is included"`
@@ -25,14 +26,15 @@ type argumentList struct {
 }
 
 const (
-	integrationName    = "com.newrelic.winservices"
-	integrationVersion = "0.0.2"
-	heartBeatPeriod    = 5 * time.Second // Period for the hard beat signal should be less than timeout
-	minScrapeInterval  = 15 * time.Second
+	integrationName   = "com.newrelic.winservices"
+	heartBeatPeriod   = 5 * time.Second // Period for the hard beat signal should be less than timeout
+	minScrapeInterval = 15 * time.Second
 )
 
 var (
-	args argumentList
+	args               argumentList
+	integrationVersion = "0.0.0"   // set by -ldflags on build
+	commitHash         = "default" // Commit hash used to build the integration set by -ldflags on build
 )
 
 func main() {
@@ -41,6 +43,13 @@ func main() {
 		log.Fatal(err)
 	}
 	log.SetupLogging(args.Verbose)
+
+	v := fmt.Sprintf("integration version: %s commit: %s", integrationVersion, commitHash)
+	if args.Version {
+		fmt.Print(v)
+		return
+	}
+	log.Debug(v)
 
 	if args.ExporterBindAddress == "" || args.ExporterBindPort == "" {
 		log.Fatal(fmt.Errorf("exporter_bind_address and exporter_bind_port need to be configured"))

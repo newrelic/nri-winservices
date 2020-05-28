@@ -2,17 +2,35 @@ integrations:
   - name: com.newrelic.winservices
     exec:
       - C:\Program Files\New Relic\newrelic-infra\newrelic-integrations\bin\nri-winservices.exe
+      # exporter_bind_address and exporter_bind_port must be configured before running this integration
+      # The IP address and port used by the Prometheus Exporter to bind the web server.
       # - --exporter_bind_address
       # - 127.0.0.1
       # - --exporter_bind_port
       # - 9182
+      
+      # Time between consecutive metric collection of the integration.
+      # It must be a number followed by a time unit (s, m or h), without spaces.
       - --scrape_interval
       - 30s
-      # TODO complete this with examples
+      
+      # Comma separated list of names of services to be included. By default no service is included.
       # - --allow_list
-      # - --deny_list
+      # - apphostsvc,netprofm,newrelic-infra
+      
+      # The Regex specified will be applied to filter in services.
+      # es : "^win" will include all services starting with "win".
       # - --allow_regex
-    env:
+      # - ^win
+      
+      # Comma separated list of names of services to be excluded.
+      # This is the last rule applied that take precedence over -allowList and -allowRegex
+      # - --deny_list
+      # - wintest
+      
+    # This time out is used by the NR Agent to restart the integration if no hearbeats are sent from
+    # the integration. Hearbeats are sent every 5s so this timeout shouldn't configured less than that
     timeout: 10s
+
     # Interval period to collect and send data should be configured under scrape_interval parameter
     # interval: <use scrape_interval param>
