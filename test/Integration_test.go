@@ -1,4 +1,5 @@
-// Package test provides functions for a richer testing
+// +build integration
+
 package test
 
 import (

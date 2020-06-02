@@ -22,7 +22,7 @@ const (
 var gauge = dto.MetricType_GAUGE
 
 var metricFamlilyServiceInfo = dto.MetricFamily{
-	Name: strPtr("wmi_service_info"),
+	Name: strPtr("windows_service_info"),
 	Type: &gauge,
 	Metric: []*dto.Metric{
 		{
@@ -47,7 +47,7 @@ var metricFamlilyServiceInfo = dto.MetricFamily{
 	},
 }
 var metricFamlilyService = dto.MetricFamily{
-	Name: strPtr("wmi_service_start_mode"),
+	Name: strPtr("windows_service_start_mode"),
 	Type: &gauge,
 	Metric: []*dto.Metric{
 		{
@@ -83,7 +83,7 @@ var metricFamlilyService = dto.MetricFamily{
 	},
 }
 var metricFamlilyServiceHostname = dto.MetricFamily{
-	Name: strPtr("wmi_cs_hostname"),
+	Name: strPtr("windows_cs_hostname"),
 	Type: &gauge,
 	Metric: []*dto.Metric{
 		{
@@ -104,9 +104,9 @@ func TestCreateEntities(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{
-		"wmi_service_info":       metricFamlilyServiceInfo,
-		"wmi_service_start_mode": metricFamlilyService,
-		"wmi_cs_hostname":        metricFamlilyServiceHostname,
+		"windows_service_info":       metricFamlilyServiceInfo,
+		"windows_service_start_mode": metricFamlilyService,
+		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
 	h, err := getHostname(mfbn, rules)
@@ -122,10 +122,10 @@ func TestCreateEntities(t *testing.T) {
 func TestGetHostnameFail(t *testing.T) {
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{
-		"wmi_service_info":       metricFamlilyServiceInfo,
-		"wmi_service_start_mode": metricFamlilyService,
+		"windows_service_info":       metricFamlilyServiceInfo,
+		"windows_service_start_mode": metricFamlilyService,
 		// exclude host name metrics from family
-		// "wmi_cs_hostname":        metricFamlilyServiceHostname,
+		// "windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 	_, err := getHostname(mfbn, rules)
 	require.Equal(t, err, errors.New("hostname Metric not found"))
@@ -135,9 +135,9 @@ func TestNoServiceNameAllowed(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{
-		"wmi_service_info":       metricFamlilyServiceInfo,
-		"wmi_service_start_mode": metricFamlilyService,
-		"wmi_cs_hostname":        metricFamlilyServiceHostname,
+		"windows_service_info":       metricFamlilyServiceInfo,
+		"windows_service_start_mode": metricFamlilyService,
+		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
 	validator := NewValidator("", "", "")
@@ -155,9 +155,9 @@ func TestProccessMetricGauge(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
 	rules := loadRules()
 	mfbn := scraper.MetricFamiliesByName{
-		"wmi_service_info":       metricFamlilyServiceInfo,
-		"wmi_service_start_mode": metricFamlilyService,
-		"wmi_cs_hostname":        metricFamlilyServiceHostname,
+		"windows_service_info":       metricFamlilyServiceInfo,
+		"windows_service_start_mode": metricFamlilyService,
+		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
 	h, err := getHostname(mfbn, rules)

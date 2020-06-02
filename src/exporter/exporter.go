@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	ExporterName      = "wmi_exporter.exe"
+	ExporterName      = "windows_exporter.exe"
 	enabledCollectors = "service,cs"
 	logFormat         = "exporter msg=%v source=%v"
 )
