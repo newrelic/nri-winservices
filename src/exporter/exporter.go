@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"unsafe"
 
@@ -14,8 +16,7 @@ import (
 )
 
 const (
-	//TODO update this with the corresponding path
-	exporterPath      = "C:\\Program Files\\New Relic\\newrelic-infra\\newrelic-integrations\\bin\\wmi_exporter.exe"
+	ExporterName      = "wmi_exporter.exe"
 	enabledCollectors = "service,cs"
 	logFormat         = "exporter msg=%v source=%v"
 )
@@ -37,7 +38,14 @@ type process struct {
 }
 
 // New create a configured Exporter struct ready to be runned
-func New(verbose bool, bindAddress string, bindPort string) Exporter {
+func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
+
+	integrationDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		return nil, fmt.Errorf("failed to create exporter:%v", err)
+	}
+	exporterPath := filepath.Join(integrationDir, ExporterName)
+
 	ctx, cancel := context.WithCancel(context.Background())
 
 	exporterLogLevel := "info"
@@ -54,14 +62,14 @@ func New(verbose bool, bindAddress string, bindPort string) Exporter {
 		"--collector.service.services-where", "Name like '%'", //All Added to avoid warn message from Exporter
 		"--telemetry.addr", exporterURL)
 
-	return Exporter{
+	return &Exporter{
 		URL:        exporterURL,
 		MetricPath: "/metrics",
 		cmd:        cmd,
 		ctx:        ctx,
 		cancel:     cancel,
 		Done:       make(chan struct{}),
-	}
+	}, nil
 }
 
 // Run executes the exporter binary
