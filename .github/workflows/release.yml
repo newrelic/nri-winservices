@@ -1,0 +1,63 @@
+name: Release
+on:
+  release:
+    types:
+      - created
+jobs:
+  CreateAndPushWindowsExecutable:
+    name: CreateAndPushWindowsExecutable
+    strategy:
+      matrix:
+        go: [ 1.14 ]
+        goarch: [ amd64 ]
+    runs-on: windows-2019
+    steps:
+    - uses: actions/setup-go@v2
+      with:
+        go-version: ${{ matrix.go }}
+      id: go
+    - name: Setting EnvVariable to checkout newLine char properly
+      shell: bash
+      run: |
+        git config --system core.autocrlf false
+        git config --system core.eol lf
+    - name: Checking out the code
+      uses: actions/checkout@v2
+    - name: Test and Build
+      shell: powershell
+      run: |
+        $ErrorView = 'NormalView'
+        [Environment]::SetEnvironmentVariable("path", "$env:path;$env:GOPATH\bin", "Machine")
+        .\win_build.ps1 -arch ${{ matrix.goarch }} -version ${{ github.event.release.tag_name }}
+    - name: Create Tar
+      shell: bash
+      run: |
+        cp winservices.yml.sample ./target/bin/windows_${{ matrix.goarch }}
+        tar -czvf ${{ github.event.repository.name }}-${{ matrix.goarch }}.tar.gz ./target/bin/windows_${{ matrix.goarch }}/*
+    - name: Upload Integration binary
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: .\target\bin\windows_${{ matrix.goarch }}\${{ github.event.repository.name }}.exe
+        asset_name: ${{ github.event.repository.name }}-${{ matrix.goarch }}.exe
+        asset_content_type: Integration binary
+    - name: Upload exporter binary
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: .\target\bin\windows_${{ matrix.goarch }}\windows_exporter.exe
+        asset_name: wmi-exporter-${{ matrix.goarch }}.exe
+        asset_content_type: Exporter binary
+    - name: Upload Tarball
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./${{ github.event.repository.name }}-${{ matrix.goarch }}.tar.gz
+        asset_name: ${{ github.event.repository.name }}-${{ matrix.goarch }}.tar.gz
+        asset_content_type: Integration Tarball

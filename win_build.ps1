@@ -11,18 +11,26 @@ param (
     [switch]$skipTests=$false,
     [switch]$skipExporterCompile=$false
 )
+# Print errors in NormalView
+$ErrorView = 'NormalView'
 
 $integration = $(Split-Path -Leaf $PSScriptRoot)
 $integrationName = $integration.Replace("nri-", "")
 $executable = "nri-$integrationName.exe"
 $commitHash = (git rev-parse HEAD)
 
-$exporterRepo = "github.com/prometheus-community/windows_exporter"
+$exporterRepo = "github.com\prometheus-community\windows_exporter"
 $exporterBinaryName = "windows_exporter.exe"
-# Commit used by v0.12.0 of wmi_exporter
+# Commit used by v0.12.0 of windows_exporter
 $exporterVersion = "eff5f2415398d89173a2203c47366e4882f3bc0e"
 # Collector used by the Windows Service integration
 $collectors = "collector.go","wmi.go","perflib.go","service.go","cs.go"
+
+$env:GOPATH = go env GOPATH
+$env:GOBIN = "$env:GOPATH\bin"
+$env:GOOS = "windows"
+$env:GOARCH = $arch
+$env:GO111MODULE = "auto"
 
 # verifying version number format
 $v = $version.Split(".")
@@ -39,27 +47,15 @@ if ($wrong.Length  -ne 0) {
 }
 
 echo "--- Checking dependencies"
-
-echo "Checking Go..."
-go version
-if (-not $?)
-{
-    echo "Can't find Go"
-    exit -1
-}
-echo "Checking GIT..."
-git version
-if (-not $?)
-{
-    echo "Can't find GIT"
-    exit -1
-}
-
-$env:GOOS = "windows"
-$env:GOARCH = $arch
+# We are running a job in a windows that calls a .ps1 experiencing this issue. 
+# Basically when using git (and as well when running go get or go mod...) the powershell script fails misinterpreting the output
+# https://stackoverflow.com/questions/57279007/error-when-pulling-from-powershell-script
+$ErrorActionPreference = "SilentlyContinue"
+go mod download
+$ErrorActionPreference = "Stop"
+go mod download
 
 echo "--- Collecting files"
-
 $goFiles = go list ./...
 
 echo "--- Format check"
@@ -110,14 +106,29 @@ if (-Not $skipExporterCompile)
 {
     echo "--- Compiling exporter"
     Push-Location $env:GOPATH
+    
+    $ErrorActionPreference = "SilentlyContinue"
     # exporter is build using the Prometheus tool
     go get "github.com/prometheus/promu"
+    go get -d "$exporterRepo"
+    $ErrorActionPreference = "Stop"
 
-    go get -d $exporterRepo
-    Set-Location $env:GOPATH\src\$exporterRepo
-    git checkout $exporterVersion
+    Set-Location "$env:GOPATH\src\$exporterRepo"
+
+    $ErrorActionPreference = "SilentlyContinue"
+    git checkout "$exporterVersion"
+    $ErrorActionPreference = "Stop"
+    $currentCommit = cat .git/HEAD
+    if($currentCommit -ne $exporterVersion){
+        echo "Failed checking out exporter version $exporterVersion"
+        exit -1
+    }
+
     # remove unused collectors 
     Remove-Item .\collector\* -Exclude $collectors
+    $ErrorActionPreference = "SilentlyContinue"
+    go mod download
+    $ErrorActionPreference = "Stop"
     promu build --prefix=output\$arch
 
     Pop-Location
@@ -127,4 +138,15 @@ if (-Not $skipExporterCompile)
         echo "Failed compiling exporter"
         exit -1
     }
+
+    #if (-Not $skipTests) {
+    #    echo "--- Running integrations tests"
+    #    go test -v -tags=integration ./test/integration_test.go
+    #    if (-not $?)
+    #    {
+    #        echo "Failed running integrations tests"
+    #        exit -1
+    #    }
+    #}
+
 }

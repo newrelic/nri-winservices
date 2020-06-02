@@ -1,0 +1,37 @@
+name: PullRequestAndMergeMaster
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+jobs:
+  CreateAndPushWindowsExecutable:
+    name: CreateAndPushWindowsExecutable
+    strategy:
+      matrix:
+        go: [ 1.14 ]
+        goarch: [ amd64 ]
+    runs-on: windows-2019
+    steps:
+    - uses: actions/setup-go@v2
+      with:
+        go-version: ${{ matrix.go }}
+      id: go
+    - name: Setting EnvVariable to checkout newLine char properly
+      shell: bash
+      run: |
+        git config --system core.autocrlf false
+        git config --system core.eol lf
+    - name: Checking out the code
+      uses: actions/checkout@v2
+    - name: Test and Build
+      shell: powershell
+      run: |
+        $ErrorView = 'NormalView'
+        [Environment]::SetEnvironmentVariable("path", "$env:path;$env:GOPATH\bin", "Machine")
+        .\win_build.ps1 -arch ${{ matrix.goarch }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: binaries
+        path: .\target\bin\windows_${{ matrix.goarch }}
