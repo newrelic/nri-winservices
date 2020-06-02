@@ -63,7 +63,10 @@ func main() {
 		log.Warn("scrap interval defined is less than 15s. Interval has set to 15s ")
 		interval = minScrapeInterval
 	}
-	e := exporter.New(args.Verbose, args.ExporterBindAddress, args.ExporterBindPort)
+	e, err := exporter.New(args.Verbose, args.ExporterBindAddress, args.ExporterBindPort)
+	if err != nil {
+		log.Fatal(err)
+	}
 	if err = e.Run(); err != nil {
 		log.Fatal(err)
 	}
@@ -71,7 +74,7 @@ func main() {
 	log.Fatal(run(e, i, interval))
 }
 
-func run(e exporter.Exporter, i *integration.Integration, interval time.Duration) error {
+func run(e *exporter.Exporter, i *integration.Integration, interval time.Duration) error {
 	defer e.Kill()
 	heartBeat := time.NewTicker(heartBeatPeriod)
 	metricInterval := time.NewTicker(interval)

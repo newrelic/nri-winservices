@@ -1,19 +1,20 @@
 package nri
 
 import (
+	"testing"
+
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/nri-winservices/src/scraper"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestProccessInventory(t *testing.T) {
 	entityRules := loadRules()
 	i, _ := integration.New("integrationName", "integrationVersion")
 	mfbn := scraper.MetricFamiliesByName{
-		"wmi_service_info":       metricFamlilyServiceInfo,
-		"wmi_service_start_mode": metricFamlilyService,
-		"wmi_cs_hostname":        metricFamlilyServiceHostname,
+		"windows_service_info":       metricFamlilyServiceInfo,
+		"windows_service_start_mode": metricFamlilyService,
+		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
 	validator := NewValidator(serviceName, "", "")

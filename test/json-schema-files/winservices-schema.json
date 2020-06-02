@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "protocol_version": {
+      "pattern": "^4$",
+      "type": "string"
+    },
+    "integration": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "pattern": "^com.newrelic.winservices$",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^[0-9]+.[0-9]+.[0-9]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ]
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "common": {
+            "type": "object"
+          },
+          "entity": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "pattern": "(.*):(.*)",
+                "type": "string"
+              },
+              "displayName": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": {
+                "minLength": 1,
+                "pattern": "WindowsService",
+                "type": "string"
+              },
+              "metadata": {
+                "type": "object",
+                "properties": {
+                  "windowsService.displayName": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "windowsService.entityName": {
+                    "pattern": "(.*):(.*)",
+                    "type": "string"
+                  },
+                  "windowsService.hostname": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "windowsService.name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "windowsService.processId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "windowsService.startMode": {
+                    "pattern": "^(boot|system|auto|manual|disabled)$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "windowsService.displayName",
+                  "windowsService.entityName",
+                  "windowsService.hostname",
+                  "windowsService.name",
+                  "windowsService.processId",
+                  "windowsService.startMode"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "displayName",
+              "type",
+              "metadata"
+            ]
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "timestamp": {
+                  "type": "integer"
+                },
+                "name": {
+                  "minLength": 1,
+                  "pattern": "^windowsService.service.(startMode|status|state)$",
+                  "type": "string"
+                },
+                "type": {
+                  "pattern": "gauge",
+                  "type": "string"
+                },
+                "attributes": {
+                  "type": "object",
+                  "properties": {
+                    "windowsService.state": {
+                      "pattern": "^(stopped|start pending|stop pending|running|continue pending|pause pending|paused|unknown)$",
+                      "type": "string" 
+                    },
+                    "windowsService.status": {
+                      "pattern": "^(ok|error|degraded|unknown|pred fail|starting|stopping|service|stressed|nonrecover|no contact|lost comm)$",
+                      "type": "string" 
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "value": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "timestamp",
+                "name",
+                "type",
+                "attributes",
+                "value"
+              ]
+            }
+          },
+          "inventory": {
+            "type": "object",
+            "properties": {
+              "windowsService": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "windowsService.displayName": {
+                    "type": "string"
+                  },
+                  "windowsService.entityName": {
+                    "type": "string"
+                  },
+                  "windowsService.hostname": {
+                    "type": "string"
+                  },
+                  "windowsService.name": {
+                    "type": "string"
+                  },
+                  "windowsService.processId": {
+                    "type": "string"
+                  },
+                  "windowsService.startMode": {
+                    "type": "string"
+                  },
+                  "windowsService.state": {
+                    "type": "string"
+                  },
+                  "windowsService.status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "windowsService.displayName",
+                  "windowsService.entityName",
+                  "windowsService.hostname",
+                  "windowsService.name",
+                  "windowsService.processId",
+                  "windowsService.startMode",
+                  "windowsService.state",
+                  "windowsService.status"
+                ]
+              }
+            },
+            "required": [
+              "windowsService"
+            ]
+          },
+          "events": {
+            "type": "array",
+            "items": {}
+          }
+        },
+        "required": [
+          "common",
+          "entity",
+          "metrics",
+          "inventory",
+          "events"
+        ]
+      }
+    }
+  },
+  "required": [
+    "protocol_version",
+    "integration",
+    "data"
+  ]
+}

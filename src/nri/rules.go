@@ -26,9 +26,9 @@ type EntityName struct {
 // MetricRules describe the metrics that compose the entity.
 //
 // prometheus enums metrics are generally send using following style:
-// 	wmi_service_start_mode{name="wersvc",start_mode="auto"} 0
-// 	wmi_service_start_mode{name="wersvc",start_mode="disabled"} 0
-// 	wmi_service_start_mode{name="wersvc",start_mode="manual"} 1
+// 	windows_service_start_mode{name="wersvc",start_mode="auto"} 0
+// 	windows_service_start_mode{name="wersvc",start_mode="disabled"} 0
+// 	windows_service_start_mode{name="wersvc",start_mode="manual"} 1
 // using EnumMetric=true will only send the metric with value 1 with the corresponding attribute
 //
 // for promethus *_info metrics no metric will be send, just metadata.
@@ -54,17 +54,17 @@ func loadRules() EntityRules {
 
 		EntityType: "WindowsService",
 		EntityName: EntityName{
-			Metric:                "wmi_service_info",
+			Metric:                "windows_service_info",
 			Label:                 "name",
 			DisplayNameLabel:      "display_name",
 			EntityNrdbLabelName:   "windowsService.entityName",
-			HostnameMetric:        "wmi_cs_hostname",
+			HostnameMetric:        "windows_cs_hostname",
 			HostnameLabel:         "hostname",
 			HostnameNrdbLabelName: "windowsService.hostname",
 		},
 		Metrics: []MetricRules{
 			{
-				ProviderName: "wmi_service_info",
+				ProviderName: "windows_service_info",
 				InfoMetric:   true,
 				Attributes: []Attribute{
 					{
@@ -85,7 +85,7 @@ func loadRules() EntityRules {
 				},
 			},
 			{
-				ProviderName: "wmi_service_start_mode",
+				ProviderName: "windows_service_start_mode",
 				MetricType:   "gauge",
 				NrdbName:     "windowsService.service.startMode",
 				EnumMetric:   true,
@@ -98,7 +98,7 @@ func loadRules() EntityRules {
 				},
 			},
 			{
-				ProviderName: "wmi_service_state",
+				ProviderName: "windows_service_state",
 				MetricType:   "gauge",
 				NrdbName:     "windowsService.service.state",
 				EnumMetric:   true,
@@ -110,7 +110,7 @@ func loadRules() EntityRules {
 				},
 			},
 			{
-				ProviderName: "wmi_service_status",
+				ProviderName: "windows_service_status",
 				MetricType:   "gauge",
 				NrdbName:     "windowsService.service.status",
 				EnumMetric:   true,
