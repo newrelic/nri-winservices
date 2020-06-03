@@ -21,9 +21,14 @@ func Validate(fileName string, input string) error {
 	schemaLoader := gojsonschema.NewReferenceLoader(schemaURI)
 	documentLoader := gojsonschema.NewStringLoader(input)
 
-	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+	schema, err := gojsonschema.NewSchema(schemaLoader)
 	if err != nil {
-		return fmt.Errorf("Error loading JSON schema, error: %v", err)
+		return fmt.Errorf("error loading JSON schema, error: %v, schemaURI: %s", err, schemaURI)
+	}
+
+	result, err := schema.Validate(documentLoader)
+	if err != nil {
+		return fmt.Errorf("error validating, error: %v", err)
 	}
 
 	if result.Valid() {
@@ -34,7 +39,7 @@ func Validate(fileName string, input string) error {
 		fmt.Printf("\t- %s\n", desc)
 	}
 	fmt.Printf("\n")
-	return fmt.Errorf("The output of the integration doesn't have expected JSON format")
+	return fmt.Errorf("the output of the integration doesn't have expected JSON format")
 }
 
 // ValidationField is a struct used in JSON schema
