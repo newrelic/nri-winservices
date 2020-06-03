@@ -89,6 +89,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 	if metricFamily.GetType() != dto.MetricType_GAUGE {
 		return fmt.Errorf("metric type not Gauge")
 	}
+	noMetricAdded := true
 	for _, metric := range metricFamily.GetMetric() {
 		metricValue := metric.GetGauge().GetValue()
 		// skip enum metrics without value
@@ -117,6 +118,10 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		warnOnErr(err)
 		addAttributes(attributes, gauge)
 		e.AddMetric(gauge)
+		noMetricAdded = false
+	}
+	if noMetricAdded && metricRules.EnumMetric {
+		log.Debug("all metrics have value 0 for:%s", metricFamily.GetName())
 	}
 	return nil
 }
