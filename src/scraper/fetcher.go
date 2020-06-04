@@ -1,9 +1,12 @@
 package scraper
 
 import (
+	"fmt"
+	"github.com/newrelic/infra-integrations-sdk/log"
 	dto "github.com/prometheus/client_model/go"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/prometheus/common/expfmt"
 )
@@ -18,20 +21,27 @@ func Get(client HTTPDoer, url string) (MetricFamiliesByName, error) {
 		return mfs, err
 	}
 	req.Header.Set("Content-Type", "application/json")
+	log.Debug("Performing HTTP request against: %s", url)
+	t := time.Now()
 	resp, err := client.Do(req)
 	if err != nil {
 		return mfs, err
 	}
+	if resp.StatusCode != 200 {
+		return mfs, fmt.Errorf("the exporter answered with a value different from 200")
+	}
+	log.Debug("HTTP request performed - Status: %s, total time taken to perform request: %s", resp.Status, time.Since(t).String())
 
 	defer func() {
 		_ = resp.Body.Close()
 	}()
 
+	log.Debug("Parsing body of the exporter answer")
 	countedBody := &countReadCloser{innerReadCloser: resp.Body}
 	d := expfmt.NewDecoder(countedBody, expfmt.FmtText)
 	for {
 		var mf dto.MetricFamily
-		if err := d.Decode(&mf); err != nil {
+		if err = d.Decode(&mf); err != nil {
 			if err == io.EOF {
 				break
 			}
@@ -39,6 +49,7 @@ func Get(client HTTPDoer, url string) (MetricFamiliesByName, error) {
 		}
 		mfs[mf.GetName()] = mf
 	}
+	log.Debug("Body of the exporter answer parsed")
 	return mfs, nil
 }
 

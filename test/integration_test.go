@@ -42,6 +42,7 @@ func runIntegration() (string, string, error) {
 		"-exporter_bind_address", "127.0.0.1",
 		"-exporter_bind_port", "9183",
 		"-allow_regex", "^*$",
+		"-verbose",
 	)
 	defer cmd.Wait()
 	defer cancel()
@@ -56,7 +57,7 @@ func runIntegration() (string, string, error) {
 		return "", "", fmt.Errorf("fail to start cmd: %v, currentPath: %s", err, path)
 	}
 
-	time.Sleep(20 * time.Second)
+	time.Sleep(29 * time.Second)
 	stdout := outbuf.String()
 	stderr := errbuf.String()
 
@@ -68,6 +69,7 @@ func runIntegration() (string, string, error) {
 	return stdout, stderr, nil
 }
 func TestIntegration(t *testing.T) {
+
 	require.False(t, isProcessRunning(exporter.ExporterName))
 
 	stdout, stderr, err := runIntegration()
