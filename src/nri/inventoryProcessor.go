@@ -8,6 +8,7 @@ import (
 //This constant is needed only till the workaround to register entity is in place DO NOT MODIFY
 const entityTypeInventory = "windowsService"
 
+// ProcessInventory for each entity adds to the inventory entity metadata and metrics dimensions
 func ProcessInventory(i *integration.Integration) error {
 	entityRules := loadRules()
 	for _, e := range i.Entities {

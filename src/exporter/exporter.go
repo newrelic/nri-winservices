@@ -16,6 +16,7 @@ import (
 )
 
 const (
+	// ExporterName name of the exporter binary
 	ExporterName      = "windows_exporter.exe"
 	enabledCollectors = "service,cs"
 	logFormat         = "exporter msg=%v source=%v"
@@ -37,7 +38,7 @@ type process struct {
 	handle windows.Handle
 }
 
-// New create a configured Exporter struct ready to be runned
+// New create a configured Exporter struct ready to be run
 func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 
 	integrationDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
@@ -79,7 +80,7 @@ func (e *Exporter) Run() error {
 	if err != nil {
 		return fmt.Errorf("failed to run exporter:%v", err)
 	}
-	if err := e.createJobObject(); err != nil {
+	if err = e.createJobObject(); err != nil {
 		return fmt.Errorf("failed to create job object:%v", err)
 	}
 	go func() {
@@ -115,7 +116,7 @@ func (e *Exporter) createJobObject() error {
 		return fmt.Errorf("failed to set job object info:%v", err)
 	}
 
-	windows.AssignProcessToJobObject(e.jobObject, (*process)(unsafe.Pointer(e.cmd.Process)).handle)
+	err = windows.AssignProcessToJobObject(e.jobObject, (*process)(unsafe.Pointer(e.cmd.Process)).handle)
 	if err != nil {
 		return fmt.Errorf("failed to assign process to job object:%v", err)
 	}
@@ -169,7 +170,7 @@ func (e *Exporter) redirectLogs() {
 				// and tries to register as a service but fails. This is not affecting the exporter nither leaving Windows Event logs
 				// This should be removed after modify the exporter behavior when is lunched from other process.
 				if strings.Contains(m.Msg, "Failed to start service: The service process could not connect to the service controller") {
-					// we remove this log since could misslead a wrong interpretation.
+					// we remove this log since it can be misleading.
 					continue
 				}
 				log.Error(logFormat, m.Msg, m.Source)

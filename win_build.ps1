@@ -139,14 +139,14 @@ if (-Not $skipExporterCompile)
         exit -1
     }
 
-    #if (-Not $skipTests) {
-    #    echo "--- Running integrations tests"
-    #    go test -v -tags=integration ./test/integration_test.go
-    #    if (-not $?)
-    #    {
-    #        echo "Failed running integrations tests"
-    #        exit -1
-    #    }
-    #}
+    if (-Not $skipTests) {
+        echo "--- Running integrations tests"
+        go test -v -tags=integration ./test/integration_test.go
+        if (-not $?)
+        {
+            echo "Failed running integrations tests"
+            exit -1
+        }
+    }
 
 }

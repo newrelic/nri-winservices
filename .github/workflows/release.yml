@@ -52,7 +52,7 @@ jobs:
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: .\target\bin\windows_${{ matrix.goarch }}\windows_exporter.exe
-        asset_name: wmi-exporter-${{ matrix.goarch }}.exe
+        asset_name: windows-exporter-${{ matrix.goarch }}.exe
         asset_content_type: Exporter binary
     - name: Upload Tarball
       uses: actions/upload-release-asset@v1.0.1

@@ -15,7 +15,7 @@ type entitiesByName map[string]*integration.Entity
 type metadataMap map[string]string
 type attributesMap map[string]string
 
-// Process creates entities and add metrics from the MetricFamiliesByName according to rules
+// ProcessMetrics creates entities and add metrics from the MetricFamiliesByName according to rules
 func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, validator Validator) error {
 	entityRules := loadRules()
 
@@ -46,8 +46,8 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 	if !ok {
 		return nil, fmt.Errorf("entityName Metric not found")
 	}
-	for _, metric := range mf.GetMetric() {
-		serviceName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.Label)
+	for _, m := range mf.GetMetric() {
+		serviceName, err := getLabelValue(m.GetLabel(), entityRules.EntityName.Label)
 		if err != nil {
 			warnOnErr(err)
 			continue
@@ -62,7 +62,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 		if _, ok := entityMap[serviceName]; ok {
 			continue
 		}
-		serviceDisplayName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.DisplayNameLabel)
+		serviceDisplayName, err := getLabelValue(m.GetLabel(), entityRules.EntityName.DisplayNameLabel)
 		if err != nil {
 			warnOnErr(err)
 			continue
@@ -90,14 +90,14 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		return fmt.Errorf("metric type not Gauge")
 	}
 	noMetricAdded := true
-	for _, metric := range metricFamily.GetMetric() {
-		metricValue := metric.GetGauge().GetValue()
+	for _, m := range metricFamily.GetMetric() {
+		metricValue := m.GetGauge().GetValue()
 		// skip enum metrics without value
 		if metricRules.EnumMetric && metricValue != 1 {
 			continue
 		}
 
-		serviceName, err := getLabelValue(metric.GetLabel(), entityRules.EntityName.Label)
+		serviceName, err := getLabelValue(m.GetLabel(), entityRules.EntityName.Label)
 		if err != nil {
 			return err
 		}
@@ -106,7 +106,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			continue
 		}
 
-		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, metric, e.Name(), hostname)
+		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, m, e.Name(), hostname)
 		addMetadata(metadata, e)
 		// _info metrics only contains metadata
 		if metricRules.InfoMetric {
@@ -121,7 +121,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		noMetricAdded = false
 	}
 	if noMetricAdded && metricRules.EnumMetric {
-		log.Debug("all metrics have value 0 for:%s", metricFamily.GetName())
+		log.Debug("all metrics have value 0 for: %s", metricFamily.GetName())
 	}
 	return nil
 }
