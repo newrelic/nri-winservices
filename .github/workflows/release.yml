@@ -28,12 +28,14 @@ jobs:
       run: |
         $ErrorView = 'NormalView'
         [Environment]::SetEnvironmentVariable("path", "$env:path;$env:GOPATH\bin", "Machine")
-        .\win_build.ps1 -arch ${{ matrix.goarch }} -version ${{ github.event.release.tag_name }}
-    - name: Create Tar
+        $semanticVersion = "${{ github.event.release.tag_name }}" -replace '[v]',''
+        .\win_build.ps1 -arch ${{ matrix.goarch }} -version $semanticVersion
+    - name: Create Tar and Zip
       shell: bash
       run: |
         cp winservices.yml.sample ./target/bin/windows_${{ matrix.goarch }}
         tar -czvf ${{ github.event.repository.name }}-${{ matrix.goarch }}.tar.gz ./target/bin/windows_${{ matrix.goarch }}/*
+        7z a ${{ github.event.repository.name }}-${{ matrix.goarch }}.zip ./target/bin/windows_${{ matrix.goarch }}/*
     - name: Upload Integration binary
       uses: actions/upload-release-asset@v1.0.1
       env:
@@ -60,4 +62,13 @@ jobs:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: ./${{ github.event.repository.name }}-${{ matrix.goarch }}.tar.gz
         asset_name: ${{ github.event.repository.name }}-${{ matrix.goarch }}.tar.gz
+        asset_content_type: Integration Tarball
+    - name: Upload Zip
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./${{ github.event.repository.name }}-${{ matrix.goarch }}.zip
+        asset_name: ${{ github.event.repository.name }}-${{ matrix.goarch }}.zip
         asset_content_type: Integration Tarball
