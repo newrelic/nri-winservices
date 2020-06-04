@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/newrelic/nri-winservices/src/exporter"
+	"github.com/newrelic/nri-winservices/src/matcher"
 	"github.com/newrelic/nri-winservices/src/nri"
 	"github.com/newrelic/nri-winservices/src/scraper"
 
@@ -17,9 +18,7 @@ type argumentList struct {
 	Version             bool   `default:"false" help:"Print the integration version and commit hash"`
 	Verbose             bool   `default:"false" help:"Print more information to logs."`
 	Pretty              bool   `default:"false" help:"Print pretty formatted JSON."`
-	AllowList           string `default:"" help:"Comma separated list of names of services to be included. By default no service is included"`
-	AllowRegex          string `default:"" help:"If set, the Regex specified will be applied to filter in services. es : \"^win\" will include all services starting with \"win\"."`
-	DenyList            string `default:"" help:"Comma separated list of names of services to be excluded. This is the last rule applied that take precedence over -allowList and -allowRegex"`
+	FilterList          string `default:"" help:"List of filter that are used to filter the services that are sent by the integration."`
 	ExporterBindAddress string `default:"" help:"The IP address to bind to for the Prometheus exporter launched by this integration."`
 	ExporterBindPort    string `default:"" help:"Binding port of the Prometheus exporter launched by this integration."`
 	ScrapeInterval      string `default:"30s" help:"Interval of time for scraping metrics from the prometheus exporter. es: 30s"`
@@ -87,6 +86,8 @@ func run(e *exporter.Exporter, i *integration.Integration, interval time.Duratio
 	defer e.Kill()
 	heartBeat := time.NewTicker(heartBeatPeriod)
 	metricInterval := time.NewTicker(interval)
+	log.Debug("Filter list: %s", args.FilterList)
+	matcher := matcher.New(args.FilterList)
 	for {
 		select {
 		case <-heartBeat.C:
@@ -105,8 +106,7 @@ func run(e *exporter.Exporter, i *integration.Integration, interval time.Duratio
 			}
 			log.Debug("Metrics scraped, MetricsByFamily found: %d, time elapsed: %s", len(metricsByFamily), time.Since(t).String())
 
-			validator := nri.NewValidator(args.AllowList, args.DenyList, args.AllowRegex)
-			if err = nri.ProcessMetrics(i, metricsByFamily, validator); err != nil {
+			if err = nri.ProcessMetrics(i, metricsByFamily, matcher); err != nil {
 				return fmt.Errorf("fail to process metrics:%v", err)
 			}
 			log.Debug("Metrics processed, entities found: %d, time elapsed: %s", len(i.Entities), time.Since(t).String())
@@ -120,10 +120,8 @@ func run(e *exporter.Exporter, i *integration.Integration, interval time.Duratio
 			if err != nil {
 				log.Error("failed to publish integration:%v", err)
 			}
-			log.Debug("Metrics and inventory published")
 
 		case <-e.Done:
-			log.Debug("The exporter is not running anymore, the integration is going to be stopped")
 			// exit when the exporter has stopped running
 			return fmt.Errorf("exporter has stopped")
 		}

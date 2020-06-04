@@ -8,25 +8,25 @@ integrations:
       # - 127.0.0.1
       # - --exporter_bind_port
       # - 9182
+
+      # List of filters that will be applied to the service name in order to filter which services
+      # will be collected. By default no service is collected.
+      # The prefix "!" excludes the pattern.
+      # The prefix "regex" indicates that the pattern contains a regex expression otherwise literal strings are used.
+      # The list follows the same order of precedence of gitignore files, from highest to lowest
+      # (within one level of precedence, the last matching pattern decides the outcome).
+      # windowsService.name is currently the only supported attribute to filter 
+      # - --filter_list
+      # - |
+      #   windowsService.name:
+      #   regex ".*"
+      #   "IncludeImportantService"
+      #   ! "ExcludeIrrelevantService"
       
       # Time between consecutive metric collection of the integration.
       # It must be a number followed by a time unit (s, m or h), without spaces.
       - --scrape_interval
       - 30s
-      
-      # Comma separated list of names of services to be included. By default no service is included.
-      # - --allow_list
-      # - apphostsvc,netprofm,newrelic-infra
-      
-      # The Regex specified will be applied to filter in services.
-      # es : "^win" will include all services starting with "win".
-      # - --allow_regex
-      # - ^win
-      
-      # Comma separated list of names of services to be excluded.
-      # This is the last rule applied that take precedence over -allowList and -allowRegex
-      # - --deny_list
-      # - wintest
       
     # This time out is used by the NR Agent to restart the integration if no hearbeats are sent from
     # the integration. Hearbeats are sent every 5s so this timeout shouldn't configured less than that

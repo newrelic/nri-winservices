@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/newrelic/infra-integrations-sdk/integration"
+	"github.com/newrelic/nri-winservices/src/matcher"
 	"github.com/newrelic/nri-winservices/src/scraper"
 	"github.com/stretchr/testify/require"
 )
@@ -17,8 +18,8 @@ func TestProccessInventory(t *testing.T) {
 		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
-	validator := NewValidator(serviceName, "", "")
-	err := ProcessMetrics(i, mfbn, validator)
+	matcher := matcher.New(`"` + serviceName + `"`)
+	err := ProcessMetrics(i, mfbn, matcher)
 	require.NoError(t, err)
 	require.Greater(t, len(i.Entities), 0)
 

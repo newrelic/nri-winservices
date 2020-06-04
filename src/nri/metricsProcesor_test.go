@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/newrelic/infra-integrations-sdk/integration"
+	"github.com/newrelic/nri-winservices/src/matcher"
 	"github.com/newrelic/nri-winservices/src/scraper"
 	dto "github.com/prometheus/client_model/go"
 	"github.com/stretchr/testify/assert"
@@ -110,8 +111,8 @@ func TestCreateEntities(t *testing.T) {
 	}
 
 	h, err := getHostname(mfbn, rules)
-	validator := NewValidator(serviceName, "", "")
-	entityMap, err := createEntities(i, mfbn, rules, validator, h)
+	matcher := matcher.New(`"` + serviceName + `"`)
+	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
 	require.NoError(t, err)
 	_, ok := entityMap[serviceName]
 	require.True(t, ok)
@@ -140,9 +141,9 @@ func TestNoServiceNameAllowed(t *testing.T) {
 		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
-	validator := NewValidator("", "", "")
+	matcher := matcher.New("")
 	h, err := getHostname(mfbn, rules)
-	entityMap, err := createEntities(i, mfbn, rules, validator, h)
+	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
 	require.NoError(t, err, "No error is expected even if no service is allowed")
 	require.Len(t, entityMap, 0, "No entity is expected since no service is allowed")
 	err = processMetricGauge(metricFamlilyService, rules, entityMap, h)
@@ -161,8 +162,8 @@ func TestProccessMetricGauge(t *testing.T) {
 	}
 
 	h, err := getHostname(mfbn, rules)
-	validator := NewValidator(serviceName, "", "")
-	entityMap, err := createEntities(i, mfbn, rules, validator, h)
+	matcher := matcher.New(`"` + serviceName + `"`)
+	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
 	require.NoError(t, err)
 	// process info metrics
 	err = processMetricGauge(metricFamlilyServiceInfo, rules, entityMap, h)

@@ -41,7 +41,7 @@ func runIntegration() (string, string, error) {
 		"-scrape_interval", "15s",
 		"-exporter_bind_address", "127.0.0.1",
 		"-exporter_bind_port", "9183",
-		"-allow_regex", "^*$",
+		"-filter_list", "regex \"^*$\"",
 		"-verbose",
 	)
 	defer cmd.Wait()
