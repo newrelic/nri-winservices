@@ -4,40 +4,41 @@
 ![](https://github.com/newrelic/nri-winservices/workflows/PullRequestAndMergeMaster/badge.svg)
 ![](https://github.com/newrelic/nri-winservices/workflows/Release/badge.svg)
 
-
-
-New Relic's Windows Services integration brings data about the services running on your Windows hosts into our platform.
- You can check the state and start mode of each service, find out which hosts are running a service, add services to 
+New Relic's Windows Services integration collects data from the services running on your Windows hosts into our platform. You can check the state, status, and start mode of each service, find out which hosts are running a service, add services to 
  workloads, set up alerts for services, and more.
-
-Our integration is bundled with the Windows agent: if you are already monitoring Windows hosts on New Relic, you just 
+ 
+ For information on how to use and configure the Windows services integration, [read the official documentation](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/windows-services-integration). 
+ 
+> Our integration is bundled with the [Windows agent](/docs/infrastructure/install-configure-manage-infrastructure/windows-installation/install-infrastructure-windows-server-using-msi-installer): if you are already monitoring Windows hosts on New Relic, you just 
 need to enable the integration to get Windows services data into our platform.
 
-To get data from Windows hosts a reduced version of the Prometheus exporter for 
-Windows is used. It exposes Prometheus metrics on the port specified in the agent configuration, which are collected by the 
-integration, transformed into entities and metrics, filtered, and then set to New Relic.
+# Architecture
 
+To get data from Windows, the Windows services integration uses a reduced version of the [Prometheus exporter for 
+Windows](github.com/prometheus-community/windows_exporter), which exposes Prometheus metrics on the port specified in the agent configuration. The integration collects these metrics, transforms them into entities, filters them, and then sent them to New Relic. 
 
-## Installation
+![The Windows services integration collects Windows Management Instrumentation  (WMI) data using the Windows Prometheus exporter. It then transforms and filters the data before sending it to New Relic.](https://docs.newrelic.com/sites/default/files/thumbnails/image/WindowsServicesOHI.png)
 
-This integration will be included as a bundle in the future releases of the Agent. It will be not enabled by default.
+## Install
 
-## Building 
-In order to build the project it is available a PowerShell script: `win_build.ps1` that will take care of building the 
-project and the supported version of the integration placing binaries in the folder `/target/bin`
-Note that only Windows is supported.
+This integration comes bundled with New Relic's Windows agent. It's not enabled by default. For install and configuration instructions, [see the official documentation](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/windows-services-integration#install).
+
+## Build
+
+To build the integration, run `win_build.ps1`. This PowerShell script takes care of building the project and the supported version of the integration, placing the binaries in `/target/bin`.
+
+> Note that only Windows is supported.
 
 ## Testing
 
-Once built, the integration can be tested running `nri-winservices.exe` placed in the `./target/bin` directory. 
-It will spin up automatically the exported with the provided settings. 
+Once built, the integration can be tested running `nri-winservices.exe`, which is in the `./target/bin` directory. The command spins up automatically the exporter with the provided configuration. 
 
 ## Support
 
-This project is not supported yet and it is currently under development
+This project is not supported yet and it is currently under development.
 
 ## Contributing
-Contributions to improve nri-winservices are encouraged! Keep in mind when you submit your pull request, you'll need to
+Contributions to improve `nri-winservices` are encouraged! Keep in mind when you submit your pull request, you'll need to
  sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project.
 To execute our corporate CLA, which is required if your contribution is on behalf of a company, or if you have any
  questions, please drop us an email at open-source@newrelic.com.
