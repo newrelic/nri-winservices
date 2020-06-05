@@ -2,35 +2,44 @@ integrations:
   - name: com.newrelic.winservices
     exec:
       - C:\Program Files\New Relic\newrelic-infra\newrelic-integrations\bin\nri-winservices.exe
-      # exporter_bind_address and exporter_bind_port must be configured before running this integration
-      # The IP address and port used by the Prometheus Exporter to bind the web server.
+
+      # IP address and port used by the Prometheus exporter to bind the server.
+      #
       # - --exporter_bind_address
       # - 127.0.0.1
       # - --exporter_bind_port
       # - 9182
+      
+      # Time between consecutive metric collection of the integration.
+      # It must be a number followed by a time unit (s, m or h), without spaces.
+      #
+      - --scrape_interval
+      - 30s
 
-      # List of filters that will be applied to the service name in order to filter which services
-      # will be collected. By default no service is collected.
-      # The prefix "!" excludes the pattern.
-      # The prefix "regex" indicates that the pattern contains a regex expression otherwise literal strings are used.
-      # The list follows the same order of precedence of gitignore files, from highest to lowest
-      # (within one level of precedence, the last matching pattern decides the outcome).
-      # windowsService.name is currently the only supported attribute to filter 
+      # By default, no service is included: to include services, create a list
+      # of filters to be applied to the service names. Filters are applied by
+      # order of precedence (within one level of precedence, the last matching
+      # pattern decides the outcome).
+      #
+      # Currently, only windowsService.name is supported for filtering.
+      # Prepend "!" to the pattern to exclude services.
+      # Prepend "regex" to indicate that the pattern is a regular expression.
+      #
       # - --filter_list
       # - |
       #   windowsService.name:
       #   regex ".*"
-      #   "IncludeImportantService"
-      #   ! "ExcludeIrrelevantService"
+      #   "ServiceNameToBeIncluded"
+      #   ! "ServiceNameToBeExcluded"
       
-      # Time between consecutive metric collection of the integration.
-      # It must be a number followed by a time unit (s, m or h), without spaces.
-      - --scrape_interval
-      - 30s
-      
-    # This time out is used by the NR Agent to restart the integration if no hearbeats are sent from
-    # the integration. Hearbeats are sent every 5s so this timeout shouldn't configured less than that
+    # Timeout used by the agent to restart the integration if no heartbeats are
+    # sent from the integration. Heartbeats are sent every 5s, so this timeout
+    # shouldn't be less than that.
+    #
     timeout: 10s
 
-    # Interval period to collect and send data should be configured under scrape_interval parameter
-    # interval: <use scrape_interval param>
+    # Since this is a long-running integration, interval is ignored. To
+    # configure the interval period for collecting and sending data, edit
+    # the scrape_interval parameter.
+    #
+    # interval: 
