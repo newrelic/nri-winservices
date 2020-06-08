@@ -33,7 +33,7 @@ jobs:
     - name: Create Tar and Zip
       shell: bash
       run: |
-        cp winservices.yml.sample ./target/bin/windows_${{ matrix.goarch }}
+        cp winservices-config.yml.sample ./target/bin/windows_${{ matrix.goarch }}
         tar -czvf ${{ github.event.repository.name }}-${{ matrix.goarch }}.tar.gz ./target/bin/windows_${{ matrix.goarch }}/*
         7z a ${{ github.event.repository.name }}-${{ matrix.goarch }}.zip ./target/bin/windows_${{ matrix.goarch }}/*
     - name: Upload Integration binary
