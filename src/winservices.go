@@ -120,8 +120,10 @@ func run(e *exporter.Exporter, i *integration.Integration, interval time.Duratio
 			if err != nil {
 				log.Error("failed to publish integration:%v", err)
 			}
+			log.Debug("Metrics and inventory published")
 
 		case <-e.Done:
+			log.Debug("The exporter is not running anymore, the integration is going to be stopped")
 			// exit when the exporter has stopped running
 			return fmt.Errorf("exporter has stopped")
 		}

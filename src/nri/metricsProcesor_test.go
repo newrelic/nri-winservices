@@ -18,6 +18,7 @@ const (
 	serviceDisplayName = "Remote Procedure Call (RPC)"
 	servicePid         = "668"
 	hostname           = "test-hostname"
+	filter             = "windowsService.name:\n" + `"` + serviceName + `"`
 )
 
 var gauge = dto.MetricType_GAUGE
@@ -111,7 +112,7 @@ func TestCreateEntities(t *testing.T) {
 	}
 
 	h, err := getHostname(mfbn, rules)
-	matcher := matcher.New(`"` + serviceName + `"`)
+	matcher := matcher.New(filter)
 	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
 	require.NoError(t, err)
 	_, ok := entityMap[serviceName]
@@ -162,7 +163,7 @@ func TestProccessMetricGauge(t *testing.T) {
 	}
 
 	h, err := getHostname(mfbn, rules)
-	matcher := matcher.New(`"` + serviceName + `"`)
+	matcher := matcher.New(filter)
 	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
 	require.NoError(t, err)
 	// process info metrics

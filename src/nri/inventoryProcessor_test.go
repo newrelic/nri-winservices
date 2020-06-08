@@ -18,7 +18,7 @@ func TestProccessInventory(t *testing.T) {
 		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
-	matcher := matcher.New(`"` + serviceName + `"`)
+	matcher := matcher.New(filter)
 	err := ProcessMetrics(i, mfbn, matcher)
 	require.NoError(t, err)
 	require.Greater(t, len(i.Entities), 0)

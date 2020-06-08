@@ -22,7 +22,7 @@ type Matcher struct {
 }
 type pattern struct {
 	exclude bool
-	regex   string
+	regex   *regexp.Regexp
 }
 
 // Match returns true if the string matches one of the patterns
@@ -37,11 +37,7 @@ func (m *Matcher) Match(s string) bool {
 	return false
 }
 func (p pattern) match(s string) matchResult {
-	match, err := regexp.MatchString(p.regex, s)
-	if err != nil {
-		log.Warn(err.Error())
-		return noMatch
-	}
+	match := p.regex.MatchString(s)
 
 	if p.exclude && match {
 		return exclude
@@ -54,6 +50,7 @@ func (p pattern) match(s string) matchResult {
 }
 
 // New create a new Matcher instance from a multiline filter
+// es:
 // - |
 //   windowsService.name:
 //   regex "^win.*$"
@@ -63,6 +60,16 @@ func New(filterList string) Matcher {
 	var m Matcher
 	scanner := bufio.NewScanner(strings.NewReader(filterList))
 	r, _ := regexp.Compile("\"(.+)\"")
+
+	// On the current implementation "windowsService.name" is the only attribute available for filter
+	// this attribute should be specified at the top of the filter.
+	if scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line != "windowsService.name:" {
+			log.Error("filter attribute not supported: %s", line)
+			return m
+		}
+	}
 
 	for scanner.Scan() {
 		var p pattern
@@ -90,14 +97,18 @@ func New(filterList string) Matcher {
 			continue
 		}
 
-		regex := strings.ReplaceAll(s[0], "\"", "")
-
-		p.regex = regex
+		filter := strings.ReplaceAll(s[0], "\"", "")
 		// if the filter is not a regex all special regex characters are escaped
 		if !isRegex {
-			p.regex = "^" + regexp.QuoteMeta(p.regex) + "$"
+			filter = "^" + regexp.QuoteMeta(filter) + "$"
+		}
+		reg, err := regexp.Compile(filter)
+		if err != nil {
+			log.Warn("failed to compile regex:%s err:%v", reg, err)
+			continue
 		}
 		log.Debug("pattern added regex: %v exclude: %v", p.regex, p.exclude)
+		p.regex = reg
 		m.patterns = append(m.patterns, p)
 	}
 	return m
