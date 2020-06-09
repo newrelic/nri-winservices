@@ -70,6 +70,10 @@
                     "minLength": 1,
                     "type": "string"
                   },
+                  "windowsService.runAs": {
+                    "minLength": 0,
+                    "type": "string"
+                  },
                   "windowsService.startMode": {
                     "pattern": "^(boot|system|auto|manual|disabled)$",
                     "type": "string"
@@ -81,6 +85,7 @@
                   "windowsService.hostname",
                   "windowsService.name",
                   "windowsService.processId",
+                  "windowsService.runAs",
                   "windowsService.startMode"
                 ]
               }
@@ -161,6 +166,10 @@
                   "windowsService.processId": {
                     "type": "string"
                   },
+                  "windowsService.runAs": {
+                    "type": "string",
+                    "minLength": 0
+                  },
                   "windowsService.startMode": {
                     "type": "string"
                   },
@@ -178,6 +187,7 @@
                   "windowsService.hostname",
                   "windowsService.name",
                   "windowsService.processId",
+                  "windowsService.runAs",
                   "windowsService.startMode",
                   "windowsService.state",
                   "windowsService.status"
