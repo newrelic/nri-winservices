@@ -1,7 +1,6 @@
 package matcher
 
 import (
-	"bufio"
 	"regexp"
 	"strings"
 
@@ -49,41 +48,24 @@ func (p pattern) match(s string) matchResult {
 	return noMatch
 }
 
-// New create a new Matcher instance from a multiline filter
-// es:
-// - |
-//   windowsService.name:
-//   regex "^win.*$"
-//   "newrelic-infra"
-//   ! "winmgmt"
-func New(filterList string) Matcher {
+// New create a new Matcher instance from slices of filters
+// (not) (regex) "<filter>"
+func New(filters []string) Matcher {
 	var m Matcher
-	scanner := bufio.NewScanner(strings.NewReader(filterList))
+	//TODO add groups to detect exclude and regex and use that instead
 	r, _ := regexp.Compile("\"(.+)\"")
 
-	// On the current implementation "windowsService.name" is the only attribute available for filter
-	// this attribute should be specified at the top of the filter.
-	if scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-		if line != "windowsService.name:" {
-			log.Error("filter attribute not supported: %s", line)
-			return m
-		}
-	}
-
-	for scanner.Scan() {
+	for _, line := range filters {
 		var p pattern
+		var filter string
 		isRegex := false
-		line := strings.TrimSpace(scanner.Text())
+		line := strings.TrimSpace(line)
 
-		if strings.HasSuffix(line, ":") {
-			// "windowsService.name":
-			// first line of the filter represents the attribute were the filter is applied
-			// we discard this since currently the filter apply only to service name.
-			continue
+		if line == "" {
+			log.Debug("filter line empty")
 		}
 
-		if strings.HasPrefix(line, "!") {
+		if strings.HasPrefix(line, "not") {
 			p.exclude = true
 		}
 
@@ -91,13 +73,17 @@ func New(filterList string) Matcher {
 			isRegex = true
 		}
 
-		s := r.FindAllString(line, -1)
-		if len(s) != 1 {
-			log.Warn("wrong syntax of filter in line: %s", line)
-			continue
+		if !isRegex && !p.exclude {
+			// double quotes are remove when unmarshal yml like: - "filter"
+			filter = line
+		} else {
+			s := r.FindAllString(line, -1)
+			if len(s) != 1 {
+				log.Warn("wrong syntax of filter in line: %s", line)
+				continue
+			}
+			filter = strings.ReplaceAll(s[0], "\"", "")
 		}
-
-		filter := strings.ReplaceAll(s[0], "\"", "")
 		// if the filter is not a regex all special regex characters are escaped
 		if !isRegex {
 			filter = "^" + regexp.QuoteMeta(filter) + "$"

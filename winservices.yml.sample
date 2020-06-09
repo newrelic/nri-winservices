@@ -31,7 +31,12 @@ integrations:
       #   regex ".*"
       #   "ServiceNameToBeIncluded"
       #   ! "ServiceNameToBeExcluded"
-      
+    config:
+      filter_entity:
+        windowsService.name:
+          - regex "^*$"
+          - "ServiceNameToBeIncluded"
+          - not "ServiceNameToBeExcluded"
     # Timeout used by the agent to restart the integration if no heartbeats are
     # sent from the integration. Heartbeats are sent every 5s, so this timeout
     # shouldn't be less than that.

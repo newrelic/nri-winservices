@@ -18,9 +18,9 @@ const (
 	serviceDisplayName = "Remote Procedure Call (RPC)"
 	servicePid         = "668"
 	hostname           = "test-hostname"
-	filter             = "windowsService.name:\n" + `"` + serviceName + `"`
 )
 
+var filter = []string{serviceName}
 var gauge = dto.MetricType_GAUGE
 
 var metricFamlilyServiceInfo = dto.MetricFamily{
@@ -142,7 +142,7 @@ func TestNoServiceNameAllowed(t *testing.T) {
 		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
-	matcher := matcher.New("")
+	matcher := matcher.New([]string{})
 	h, err := getHostname(mfbn, rules)
 	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
 	require.NoError(t, err, "No error is expected even if no service is allowed")

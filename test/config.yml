@@ -1,0 +1,6 @@
+filter_entity:
+  windowsService.name:
+    - regex "^*$"
+    - "ServiceNameToBeIncluded"
+    - not "ServiceNameToBeExcluded"
+    
