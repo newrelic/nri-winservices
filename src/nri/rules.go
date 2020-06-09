@@ -73,6 +73,11 @@ func loadRules() EntityRules {
 						IsEntityMetadata: true,
 					},
 					{
+						Label:            "run_as",
+						NrdbLabelName:    "windowsService.runAs",
+						IsEntityMetadata: true,
+					},
+					{
 						Label:            "display_name",
 						NrdbLabelName:    "windowsService.displayName",
 						IsEntityMetadata: true,
