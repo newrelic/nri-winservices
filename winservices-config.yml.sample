@@ -1,20 +1,12 @@
 integrations:
   - name: com.newrelic.winservices
     exec:
-      - C:\Program Files\New Relic\newrelic-infra\newrelic-integrations\bin\nri-winservices.exe
-
+      - C:\Program Files\New Relic\newrelic-infra\newrelic-integrations\nri-winservices.exe
+    config:
       # IP address and port used by the Prometheus exporter to bind the server.
-      #
-      # - --exporter_bind_address
-      # - 127.0.0.1
-      # - --exporter_bind_port
-      # - 9182
-      
-      # Time between consecutive metric collection of the integration.
-      # It must be a number followed by a time unit (s, m or h), without spaces.
-      #
-      - --scrape_interval
-      - 30s
+      # 
+      # exporter_bind_address: 127.0.0.1
+      # exporter_bind_port: 9182
 
       # By default, no service is included: to include services, create a list
       # of filters to be applied to the service names. Filters are applied by
@@ -22,21 +14,20 @@ integrations:
       # pattern decides the outcome).
       #
       # Currently, only windowsService.name is supported for filtering.
-      # Prepend "!" to the pattern to exclude services.
+      # Prepend "not" to the pattern to exclude services.
       # Prepend "regex" to indicate that the pattern is a regular expression.
       #
-      # - --filter_list
-      # - |
-      #   windowsService.name:
-      #   regex ".*"
-      #   "ServiceNameToBeIncluded"
-      #   ! "ServiceNameToBeExcluded"
-    config:
       filter_entity:
         windowsService.name:
-          - regex "^*$"
-          - "ServiceNameToBeIncluded"
-          - not "ServiceNameToBeExcluded"
+          # - regex "^*$"
+          # - "ServiceNameToBeIncluded"
+          # - not "ServiceNameToBeExcluded"
+
+      # Time between consecutive metric collection of the integration.
+      # It must be a number followed by a time unit (s, m or h), without spaces.
+      #
+      scrape_interval: 30s
+
     # Timeout used by the agent to restart the integration if no heartbeats are
     # sent from the integration. Heartbeats are sent every 5s, so this timeout
     # shouldn't be less than that.
@@ -47,4 +38,4 @@ integrations:
     # configure the interval period for collecting and sending data, edit
     # the scrape_interval parameter.
     #
-    # interval: 
+    # interval:

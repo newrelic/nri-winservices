@@ -1,7 +1,6 @@
 package nri
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -9,8 +8,11 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestParseConfigYaml(t *testing.T) {
+func TestNewConfig(t *testing.T) {
 	content := []byte(`
+exporter_bind_address: 127.0.0.1
+exporter_bind_port: 9182
+scrape_interval: 30s
 filter_entity:
   windowsService.name:
     - regex ".*"
@@ -23,18 +25,6 @@ filter_entity:
 	_, err = tmpfile.Write(content)
 	require.NoError(t, err)
 
-	c, err := ParseConfigYaml(tmpfile.Name())
+	_, err = NewConfig(tmpfile.Name())
 	require.NoError(t, err)
-	fmt.Printf("%v", c)
-
 }
-
-// func TestNew(t *testing.T) {
-// 	yml := `
-// filter_entity:
-//   windowsService.name:
-//     - regex ".*"
-//     - "ServiceNameToBeIncluded"
-//     - not "ServiceNameToBeExcluded"`
-// 	New(yml)
-// }

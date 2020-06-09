@@ -35,6 +35,14 @@ func (m *Matcher) Match(s string) bool {
 	}
 	return false
 }
+
+// IsEmpty returns true if the Matcher has no patterns
+func (m *Matcher) IsEmpty() bool {
+	if len(m.patterns) != 0 {
+		return false
+	}
+	return true
+}
 func (p pattern) match(s string) matchResult {
 	match := p.regex.MatchString(s)
 
@@ -52,7 +60,7 @@ func (p pattern) match(s string) matchResult {
 // (not) (regex) "<filter>"
 func New(filters []string) Matcher {
 	var m Matcher
-	//TODO add groups to detect exclude and regex and use that instead
+	//TODO i think this could be improved adding groups to detect exclude and regex
 	r, _ := regexp.Compile("\"(.+)\"")
 
 	for _, line := range filters {
@@ -93,7 +101,7 @@ func New(filters []string) Matcher {
 			log.Warn("failed to compile regex:%s err:%v", reg, err)
 			continue
 		}
-		log.Debug("pattern added regex: %v exclude: %v", p.regex, p.exclude)
+		log.Debug("pattern added regex: %v exclude: %v", filter, p.exclude)
 		p.regex = reg
 		m.patterns = append(m.patterns, p)
 	}

@@ -1,3 +1,6 @@
+exporter_bind_address: 127.0.0.1
+exporter_bind_port: 9182
+scrape_interval: 15s
 filter_entity:
   windowsService.name:
     - regex "^*$"

@@ -38,11 +38,7 @@ func runIntegration() (string, string, error) {
 	cmd := exec.CommandContext(
 		ctx,
 		integrationPath+"nri-winservices.exe",
-		"-scrape_interval", "15s",
-		"-exporter_bind_address", "127.0.0.1",
-		"-exporter_bind_port", "9183",
 		"-config_path", "./config.yml",
-		// "-filter_list", "windowsService.name:\n regex \"^*$\"",
 		"-verbose",
 	)
 	defer cmd.Wait()
