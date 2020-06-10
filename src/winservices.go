@@ -14,10 +14,10 @@ import (
 )
 
 type argumentList struct {
-	Version    bool `default:"false" help:"Print the integration version and commit hash"`
-	Verbose    bool `default:"false" help:"Print more information to logs."`
-	Pretty     bool `default:"false" help:"Print pretty formatted JSON."`
-	ConfigPath string
+	Version    bool   `default:"false" help:"Print the integration version and commit hash"`
+	Verbose    bool   `default:"false" help:"Print more information to logs."`
+	Pretty     bool   `default:"false" help:"Print pretty formatted JSON."`
+	ConfigPath string `default:"" help:"Path to the config file."`
 }
 
 const (

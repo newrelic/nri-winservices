@@ -21,7 +21,7 @@ Windows](github.com/prometheus-community/windows_exporter), which exposes Promet
 
 ## Install
 
-This integration comes bundled with New Relic's Windows agent. It's not enabled by default. For install and configuration instructions, [see the official documentation](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/windows-services-integration#install).
+This integration comes bundled with New Relic's Windows infrastructure agent. It's not enabled by default. For installation and configuration instructions, [see the official documentation](https://docs.newrelic.com/docs/integrations/host-integrations/host-integrations-list/windows-services-integration#install).
 
 ## Build
 
@@ -31,7 +31,11 @@ To build the integration, run `win_build.ps1`. This PowerShell script takes care
 
 ## Testing
 
-Once built, the integration can be tested running `nri-winservices.exe`, which is in the `./target/bin` directory. The command spins up automatically the exporter with the provided configuration. 
+Once built, the integration can be tested running `nri-winservices.exe`, which is in the `./target/bin` directory, using the config file in `./test/config.yml`. The command spins up automatically the exporter with the provided configuration. 
+
+```powershell
+PS .\nri-winservices.exe -config_path "../../../test/config.yml"
+```
 
 ## Support
 
