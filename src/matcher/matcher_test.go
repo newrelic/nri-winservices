@@ -12,7 +12,7 @@ import (
 func TestMatcherMatch(t *testing.T) {
 	var filterList = []string{
 		`customImportantService`,
-		`"important.?^ServiceWithSpecialChars" #Comments`,
+		`"special.?^ServiceWithSpecialChars" #Comments`,
 		`regex "important.*$" #Comments`,
 		`not "importantServiceToExclude"`,
 		` not "importantServiceToExcludeSpacePrefix"`,
@@ -26,7 +26,7 @@ func TestMatcherMatch(t *testing.T) {
 		fmt.Printf("exclude:%v regex:%v\n", p.exclude, p.regex)
 	}
 	assert.True(t, m.Match("customImportantService"))
-	assert.True(t, m.Match("important.?^ServiceWithSpecialChars"))
+	assert.True(t, m.Match("special.?^ServiceWithSpecialChars"))
 	assert.True(t, m.Match("importantServiceSub"))
 	assert.False(t, m.Match("importantServiceToExclude"))
 	assert.False(t, m.Match("importantServiceToExcludeSpacePrefix"))

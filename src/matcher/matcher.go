@@ -2,7 +2,6 @@ package matcher
 
 import (
 	"regexp"
-	"strings"
 
 	"github.com/newrelic/infra-integrations-sdk/log"
 )
@@ -60,38 +59,36 @@ func (p pattern) match(s string) matchResult {
 // (not) (regex) "<filter>"
 func New(filters []string) Matcher {
 	var m Matcher
-	//TODO i think this could be improved adding groups to detect exclude and regex
-	r, _ := regexp.Compile("\"(.+)\"")
+
+	r, _ := regexp.Compile("(not)?.?(regex)?.?\"(.+)\"")
 
 	for _, line := range filters {
 		var p pattern
 		var filter string
-		isRegex := false
-		line := strings.TrimSpace(line)
+		var isRegex, exclude bool
 
 		if line == "" {
 			log.Debug("filter line empty")
+			continue
 		}
 
-		if strings.HasPrefix(line, "not") {
-			p.exclude = true
-		}
-
-		if strings.Contains(line, "regex ") {
-			isRegex = true
-		}
-
-		if !isRegex && !p.exclude {
-			// double quotes are remove when unmarshal yml like: - "filter"
-			filter = line
-		} else {
-			s := r.FindAllString(line, -1)
-			if len(s) != 1 {
-				log.Warn("wrong syntax of filter in line: %s", line)
-				continue
+		if s := r.FindStringSubmatch(line); s != nil {
+			// s[1] -> (not)
+			if s[1] != "" {
+				exclude = true
 			}
-			filter = strings.ReplaceAll(s[0], "\"", "")
+			// s[2] -> (regex)
+			if s[2] != "" {
+				isRegex = true
+			}
+			// s[3] -> \"(.+)\"
+			if s[3] != "" {
+				filter = s[3]
+			}
+		} else {
+			filter = line
 		}
+
 		// if the filter is not a regex all special regex characters are escaped
 		if !isRegex {
 			filter = "^" + regexp.QuoteMeta(filter) + "$"
@@ -101,8 +98,9 @@ func New(filters []string) Matcher {
 			log.Warn("failed to compile regex:%s err:%v", reg, err)
 			continue
 		}
-		log.Debug("pattern added regex: %v exclude: %v", filter, p.exclude)
+		log.Debug("pattern added regex: %v exclude: %v", filter, exclude)
 		p.regex = reg
+		p.exclude = exclude
 		m.patterns = append(m.patterns, p)
 	}
 	return m
