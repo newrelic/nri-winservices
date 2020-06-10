@@ -210,7 +210,8 @@
           "inventory",
           "events"
         ]
-      }
+      },
+      "minItems": 100
     }
   },
   "required": [

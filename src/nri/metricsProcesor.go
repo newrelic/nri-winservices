@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/newrelic/nri-winservices/src/matcher"
+
 	"github.com/newrelic/infra-integrations-sdk/data/metric"
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
@@ -16,7 +18,7 @@ type metadataMap map[string]string
 type attributesMap map[string]string
 
 // ProcessMetrics creates entities and add metrics from the MetricFamiliesByName according to rules
-func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, validator Validator) error {
+func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, matcher matcher.Matcher) error {
 	entityRules := loadRules()
 
 	hostname, err := getHostname(metricFamilyMap, entityRules)
@@ -24,7 +26,7 @@ func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFa
 		return err
 	}
 
-	entityMap, err := createEntities(i, metricFamilyMap, entityRules, validator, hostname)
+	entityMap, err := createEntities(i, metricFamilyMap, entityRules, matcher, hostname)
 	if err != nil {
 		return err
 	}
@@ -39,7 +41,7 @@ func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFa
 	return nil
 }
 
-func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules, validator Validator, hostname string) (entitiesByName, error) {
+func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules, matcher matcher.Matcher, hostname string) (entitiesByName, error) {
 	entityMap := make(map[string]*integration.Entity)
 
 	mf, ok := metricFamilyMap[entityRules.EntityName.Metric]
@@ -53,7 +55,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 			continue
 		}
 
-		shouldBeIncluded := validator.ValidateServiceName(serviceName)
+		shouldBeIncluded := matcher.Match(serviceName)
 
 		if !shouldBeIncluded {
 			continue
