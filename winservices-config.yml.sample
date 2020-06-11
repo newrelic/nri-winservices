@@ -9,19 +9,16 @@ integrations:
       # exporter_bind_port: 9182
 
       # By default, no service is included: to include services, create a list
-      # of filters to be applied to the service names. Filters are applied by
-      # order of precedence (within one level of precedence, the last matching
-      # pattern decides the outcome).
+      # of filters to be applied to the service names. Services that matches with 
+      # any of the matching list will be included.
       #
-      # Currently, only windowsService.name is supported for filtering.
-      # Prepend "not" to the pattern to exclude services.
+      # Currently, only windowsService.name metadata is supported for filtering.
       # Prepend "regex" to indicate that the pattern is a regular expression.
       #
-      filter_entity:
+      include_matching_entities:
         windowsService.name:
           # - regex "^*$"
           # - "ServiceNameToBeIncluded"
-          # - not "ServiceNameToBeExcluded"
 
       # Time between consecutive metric collection of the integration.
       # It must be a number followed by a time unit (s, m or h), without spaces.
