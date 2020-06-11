@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/golang/protobuf v1.4.0 // indirect
 	github.com/newrelic/infra-integrations-sdk v1.0.1-0.20200424124535-eb16a35ce590
+	github.com/prometheus-community/windows_exporter v0.13.0
 	github.com/prometheus/client_model v0.2.0
 	github.com/prometheus/common v0.9.1
 	github.com/stretchr/testify v1.5.1
