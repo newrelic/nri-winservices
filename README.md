@@ -1,6 +1,7 @@
 [![New Relic Experimental header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/Experimental.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#category-new-relic-experimental)
 
 # nri-winservices
+![Snyk Dependencies](https://github.com/newrelic/nri-winservices/workflows/Snyk%20Dependencies/badge.svg)
 ![](https://github.com/newrelic/nri-winservices/workflows/PullRequestAndMergeMaster/badge.svg)
 ![](https://github.com/newrelic/nri-winservices/workflows/Release/badge.svg)
 
