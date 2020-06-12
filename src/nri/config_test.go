@@ -18,11 +18,10 @@ func TestNewConfig(t *testing.T) {
 exporter_bind_address: 127.0.0.1
 exporter_bind_port: 9182
 scrape_interval: 30s
-filter_entity:
+include_matching_entities:
   windowsService.name:
     - regex ".*"
-    - "ServiceNameToBeIncluded"
-    - not "ServiceNameToBeExcluded"`)
+    - "ServiceNameToBeIncluded"`)
 
 	tmpfile, err := ioutil.TempFile("", "config")
 	require.NoError(t, err)

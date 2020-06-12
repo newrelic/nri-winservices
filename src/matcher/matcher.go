@@ -11,30 +11,19 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/log"
 )
 
-type matchResult int
-
-const (
-	noMatch matchResult = iota
-	exclude
-	include
-)
-
 //Matcher groups the rules to validate the service name
 type Matcher struct {
 	patterns []pattern
 }
 type pattern struct {
-	exclude bool
-	regex   *regexp.Regexp
+	regex *regexp.Regexp
 }
 
 // Match returns true if the string matches one of the patterns
-// within one level of precedence, the last matching pattern decides the outcome
 func (m *Matcher) Match(s string) bool {
-	n := len(m.patterns)
-	for i := n - 1; i >= 0; i-- {
-		if match := m.patterns[i].match(s); match > noMatch {
-			return match == include
+	for _, p := range m.patterns {
+		if p.match(s) {
+			return true
 		}
 	}
 	return false
@@ -47,30 +36,21 @@ func (m *Matcher) IsEmpty() bool {
 	}
 	return true
 }
-func (p pattern) match(s string) matchResult {
-	match := p.regex.MatchString(s)
-
-	if p.exclude && match {
-		return exclude
-	}
-
-	if match {
-		return include
-	}
-	return noMatch
+func (p pattern) match(s string) bool {
+	return p.regex.MatchString(s)
 }
 
 // New create a new Matcher instance from slices of filters
-// (not) (regex) "<filter>"
+// (regex) "<filter>"
 func New(filters []string) Matcher {
 	var m Matcher
 
-	r, _ := regexp.Compile("(not)?.?(regex)?.?\"(.+)\"")
+	r, _ := regexp.Compile("(regex)?.?\"(.+)\"")
 
 	for _, line := range filters {
 		var p pattern
 		var filter string
-		var isRegex, exclude bool
+		var isRegex bool
 
 		if line == "" {
 			log.Debug("filter line empty")
@@ -78,17 +58,13 @@ func New(filters []string) Matcher {
 		}
 
 		if s := r.FindStringSubmatch(line); s != nil {
-			// s[1] -> (not)
+			// s[1] -> (regex)
 			if s[1] != "" {
-				exclude = true
-			}
-			// s[2] -> (regex)
-			if s[2] != "" {
 				isRegex = true
 			}
-			// s[3] -> \"(.+)\"
-			if s[3] != "" {
-				filter = s[3]
+			// s[2] -> \"(.+)\"
+			if s[2] != "" {
+				filter = s[2]
 			}
 		} else {
 			filter = line
@@ -103,9 +79,8 @@ func New(filters []string) Matcher {
 			log.Warn("failed to compile regex:%s err:%v", reg, err)
 			continue
 		}
-		log.Debug("pattern added regex: %v exclude: %v", filter, exclude)
+		log.Debug("pattern added regex: %v ", filter)
 		p.regex = reg
-		p.exclude = exclude
 		m.patterns = append(m.patterns, p)
 	}
 	return m

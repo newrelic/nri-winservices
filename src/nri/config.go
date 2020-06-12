@@ -30,7 +30,7 @@ type Config struct {
 }
 
 type configYml struct {
-	FilterEntity        map[string][]string `yaml:"filter_entity"`
+	FilterEntity        map[string][]string `yaml:"include_matching_entities"`
 	ExporterBindAddress string              `yaml:"exporter_bind_address"`
 	ExporterBindPort    string              `yaml:"exporter_bind_port"`
 	ScrapeInterval      string              `yaml:"scrape_interval"`
