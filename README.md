@@ -3,6 +3,7 @@
 # nri-winservices
 ![](https://github.com/newrelic/nri-winservices/workflows/PullRequestAndMergeMaster/badge.svg)
 ![](https://github.com/newrelic/nri-winservices/workflows/Release/badge.svg)
+![Snyk Dependencies](https://github.com/newrelic/nri-winservices/workflows/Snyk%20Dependencies/badge.svg)
 
 New Relic's Windows Services integration collects data from the services running on your Windows hosts into our platform. You can check the state, status, and start mode of each service, find out which hosts are running a service, add services to 
  workloads, set up alerts for services, and more.
@@ -36,6 +37,12 @@ Once built, the integration can be tested running `nri-winservices.exe`, which i
 ```powershell
 PS .\nri-winservices.exe -config_path "../../../test/config.yml"
 ```
+
+## Changelog
+
+Changelog of releases is create by running `git-chglog  --next-tag v0.0.0`. 
+
+Commit messages not following [the conventional commits pattern](https://www.conventionalcommits.org/en/v1.0.0/)  (es: `type(scope): what I have changed`) will be not included in the Changelog.
 
 ## Support
 
