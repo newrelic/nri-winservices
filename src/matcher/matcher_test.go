@@ -15,7 +15,7 @@ func TestMatcherMatch(t *testing.T) {
 	var filterList = []string{
 		`customImportantService`,
 		`"special.?^ServiceWithSpecialChars" #Comments`,
-		`regex "important.*$" #Comments`,
+		`regex "^Important.*$" #Comments`,
 		`regex`,
 		`regex .*`,
 		`.*`,
@@ -24,10 +24,10 @@ func TestMatcherMatch(t *testing.T) {
 
 	m := New(filterList)
 
-	assert.True(t, m.Match("customImportantService"))
+	assert.True(t, m.Match("customimportantservice"))
 	assert.True(t, m.Match("special.?^ServiceWithSpecialChars"))
 	assert.True(t, m.Match("importantServiceSub"))
 	assert.True(t, m.Match("quoted"))
-	assert.True(t, m.Match("importantServiceSub"))
+	assert.False(t, m.Match("notimportantService"))
 	assert.False(t, m.Match("randomService"))
 }

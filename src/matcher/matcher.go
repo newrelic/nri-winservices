@@ -74,7 +74,8 @@ func New(filters []string) Matcher {
 		if !isRegex {
 			filter = "^" + regexp.QuoteMeta(filter) + "$"
 		}
-		reg, err := regexp.Compile(filter)
+		// windows services names are collected in lower case, (?i) is the case insensitive flag
+		reg, err := regexp.Compile("(?i)" + filter)
 		if err != nil {
 			log.Warn("failed to compile regex:%s err:%v", reg, err)
 			continue
