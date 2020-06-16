@@ -7,6 +7,7 @@ package nri
 
 import (
 	"testing"
+	"time"
 
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/nri-winservices/src/matcher"
@@ -42,5 +43,6 @@ func TestProccessInventory(t *testing.T) {
 	require.Equal(t, serviceDisplayName, item["windowsService.displayName"])
 	require.Equal(t, servicePid, item["windowsService.processId"])
 	require.Equal(t, serviceStartMode, item["windowsService.startMode"])
+	require.Equal(t, time.Now().Hour(), item[heartBeatInventory])
 
 }

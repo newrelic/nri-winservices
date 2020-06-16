@@ -16,7 +16,7 @@ need to enable the integration to get Windows services data into our platform.
 # Architecture
 
 To get data from Windows, the Windows services integration uses a reduced version of the [Prometheus exporter for 
-Windows](github.com/prometheus-community/windows_exporter), which exposes Prometheus metrics on the port specified in the agent configuration. The integration collects these metrics, transforms them into entities, filters them, and then sent them to New Relic. 
+Windows](https://github.com/prometheus-community/windows_exporter), which exposes Prometheus metrics on the port specified in the agent configuration. The integration collects these metrics, transforms them into entities, filters them, and then sent them to New Relic. 
 
 ![The Windows services integration collects Windows Management Instrumentation  (WMI) data using the Windows Prometheus exporter. It then transforms and filters the data before sending it to New Relic.](https://docs.newrelic.com/sites/default/files/thumbnails/image/WindowsServicesOHI.png)
 

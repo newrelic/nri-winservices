@@ -6,12 +6,17 @@
 package nri
 
 import (
+	"time"
+
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
 )
 
 //This constant is needed only till the workaround to register entity is in place DO NOT MODIFY
-const entityTypeInventory = "windowsService"
+const (
+	entityTypeInventory = "windowsService"
+	heartBeatInventory  = "heartBeat"
+)
 
 // ProcessInventory for each entity adds to the inventory entity metadata and metrics dimensions
 func ProcessInventory(i *integration.Integration) error {
@@ -45,6 +50,12 @@ func processEntityInventory(e *integration.Entity, entityRules EntityRules) erro
 				return err
 			}
 		}
+	}
+	// this is part of the inventory workaround to send entities.
+	// Since no metrics from the entities are being send we must update the inventory to keep the entity active.
+	err = e.AddInventoryItem(entityTypeInventory, heartBeatInventory, time.Now().Hour())
+	if err != nil {
+		return err
 	}
 	return nil
 }
