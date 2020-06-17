@@ -6,7 +6,7 @@ param (
     # Target architecture: amd64 (default) or 386
     [ValidateSet("amd64", "386")]
     [string]$arch="amd64",
-    [string]$version="0.0.0",
+    [string]$version="v0.0.0",
     # Skip tests
     [switch]$skipTests=$false,
     [switch]$skipExporterCompile=$false
@@ -31,20 +31,6 @@ $env:GOBIN = "$env:GOPATH\bin"
 $env:GOOS = "windows"
 $env:GOARCH = $arch
 $env:GO111MODULE = "auto"
-
-# verifying version number format
-$v = $version.Split(".")
-
-if ($v.Length -ne 3) {
-    echo "-version must follow a numeric major.minor.patch semantic versioning schema (received: $version)"
-    exit -1
-}
-
-$wrong = $v | ? { (-Not [System.Int32]::TryParse($_, [ref]0)) -or ( $_.Length -eq 0) -or ([int]$_ -lt 0)} | % { 1 }
-if ($wrong.Length  -ne 0) {
-    echo "-version major, minor and patch must be valid positive integers (received: $version)"
-    exit -1
-}
 
 echo "--- Checking dependencies"
 # We are running a job in a windows that calls a .ps1 experiencing this issue. 
