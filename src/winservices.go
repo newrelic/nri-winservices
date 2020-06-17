@@ -16,6 +16,7 @@ import (
 
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
+
 	//This import is useful merely to keep track of dependency and generate license automatically
 	_ "github.com/prometheus-community/windows_exporter/collector"
 )
@@ -33,7 +34,7 @@ const (
 
 var (
 	args               argumentList
-	integrationVersion = "0.0.0"   // set by -ldflags on build
+	integrationVersion = "v0.0.0"  // set by -ldflags on build
 	commitHash         = "default" // Commit hash used to build the integration set by -ldflags on build
 )
 
