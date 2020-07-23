@@ -17,8 +17,8 @@ integrations:
       #
       include_matching_entities:
         windowsService.name:
-          # - regex "^*$"
-          # - "ServiceNameToBeIncluded"
+          # - regex ".*"
+          # - "newrelic-infra"
 
       # Time between consecutive metric collection of the integration.
       # It must be a number followed by a time unit (s, m or h), without spaces.
