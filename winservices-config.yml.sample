@@ -1,7 +1,5 @@
 integrations:
-  - name: com.newrelic.winservices
-    exec:
-      - C:\Program Files\New Relic\newrelic-infra\newrelic-integrations\nri-winservices.exe
+  - name: nri-winservices
     config:
       # IP address and port used by the Prometheus exporter to bind the server.
       # 

@@ -57,7 +57,7 @@ func loadRules() EntityRules {
 
 	rules := EntityRules{
 
-		EntityType: "WindowsService",
+		EntityType: "WIN_SERVICE",
 		EntityName: EntityName{
 			Metric:                "windows_service_info",
 			Label:                 "name",
@@ -97,7 +97,7 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "windows_service_start_mode",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.service.startMode",
+				NrdbName:     "windows_service_start_mode",
 				EnumMetric:   true,
 				Attributes: []Attribute{
 					{
@@ -110,7 +110,7 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "windows_service_state",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.service.state",
+				NrdbName:     "windows_service_state",
 				EnumMetric:   true,
 				Attributes: []Attribute{
 					{
@@ -122,7 +122,7 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "windows_service_status",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.service.status",
+				NrdbName:     "windows_service_status",
 				EnumMetric:   true,
 				Attributes: []Attribute{
 					{
