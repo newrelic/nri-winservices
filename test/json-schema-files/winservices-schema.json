@@ -44,7 +44,7 @@
               },
               "type": {
                 "minLength": 1,
-                "pattern": "WINDOWS_SERVICE",
+                "pattern": "WIN_SERVICE",
                 "type": "string"
               },
               "metadata": {
@@ -81,7 +81,6 @@
                 },
                 "required": [
                   "windowsService.displayName",
-                  "windowsService.entityName",
                   "windowsService.hostname",
                   "windowsService.name",
                   "windowsService.processId",
@@ -108,7 +107,7 @@
                 },
                 "name": {
                   "minLength": 1,
-                  "pattern": "^windowsService.service.(startMode|status|state)$",
+                  "pattern": "^windows_service_(start_mode|status|state)$",
                   "type": "string"
                 },
                 "type": {
