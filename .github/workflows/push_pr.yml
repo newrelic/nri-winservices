@@ -41,6 +41,7 @@ jobs:
       with:
         coverageCommand: go test -coverprofile=c.out ./...
         prefix: ${{ env.CC_PREFIX }} # CC will strip this from the test report, leading to the correct file path
+        debug: true
     - uses: actions/upload-artifact@v2
       with:
         name: binaries
