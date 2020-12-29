@@ -8,7 +8,7 @@ package matcher
 import (
 	"regexp"
 
-	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/v4/log"
 )
 
 //Matcher groups the rules to validate the service name
