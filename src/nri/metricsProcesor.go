@@ -11,9 +11,9 @@ import (
 
 	"github.com/newrelic/nri-winservices/src/matcher"
 
-	"github.com/newrelic/infra-integrations-sdk/data/metric"
-	"github.com/newrelic/infra-integrations-sdk/integration"
-	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/v4/data/metric"
+	"github.com/newrelic/infra-integrations-sdk/v4/integration"
+	"github.com/newrelic/infra-integrations-sdk/v4/log"
 	"github.com/newrelic/nri-winservices/src/scraper"
 	dto "github.com/prometheus/client_model/go"
 )

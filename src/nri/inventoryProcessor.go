@@ -8,8 +8,8 @@ package nri
 import (
 	"time"
 
-	"github.com/newrelic/infra-integrations-sdk/integration"
-	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/v4/integration"
+	"github.com/newrelic/infra-integrations-sdk/v4/log"
 )
 
 //This constant is needed only till the workaround to register entity is in place DO NOT MODIFY

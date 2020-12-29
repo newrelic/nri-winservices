@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 	"time"
 
-	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/v4/log"
 	"github.com/newrelic/nri-winservices/src/matcher"
 	yaml "gopkg.in/yaml.v2"
 )
