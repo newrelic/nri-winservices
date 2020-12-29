@@ -7,7 +7,7 @@ package scraper
 
 import (
 	"fmt"
-	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/v4/log"
 	dto "github.com/prometheus/client_model/go"
 	"io"
 	"net/http"

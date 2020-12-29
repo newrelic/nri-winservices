@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/newrelic/infra-integrations-sdk/integration"
+	"github.com/newrelic/infra-integrations-sdk/v4/integration"
 	"github.com/newrelic/nri-winservices/src/matcher"
 	"github.com/newrelic/nri-winservices/src/scraper"
 	"github.com/stretchr/testify/require"

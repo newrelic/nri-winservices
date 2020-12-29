@@ -14,8 +14,8 @@ import (
 	"github.com/newrelic/nri-winservices/src/nri"
 	"github.com/newrelic/nri-winservices/src/scraper"
 
-	"github.com/newrelic/infra-integrations-sdk/integration"
-	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/v4/integration"
+	"github.com/newrelic/infra-integrations-sdk/v4/log"
 
 	//This import is useful merely to keep track of dependency and generate license automatically
 	_ "github.com/prometheus-community/windows_exporter/collector"
