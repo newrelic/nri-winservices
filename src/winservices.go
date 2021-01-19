@@ -94,16 +94,11 @@ func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config) e
 			}
 			log.Debug("Metrics processed, entities found: %d, time elapsed: %s", len(i.Entities), time.Since(t).String())
 
-			if err = nri.ProcessInventory(i); err != nil {
-				return fmt.Errorf("fail to process inventory:%v", err)
-			}
-			log.Debug("Inventory processed, time elapsed: %s", time.Since(t).String())
-
 			err = i.Publish()
 			if err != nil {
 				log.Error("failed to publish integration:%v", err)
 			}
-			log.Debug("Metrics and inventory published")
+			log.Debug("Metrics published")
 
 		case <-e.Done:
 			log.Debug("The exporter is not running anymore, the integration is going to be stopped")

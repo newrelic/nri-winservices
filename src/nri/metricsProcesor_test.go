@@ -182,7 +182,6 @@ func TestProccessMetricGauge(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, serviceStartMode, metadata["windowsService.startMode"])
 	assert.Equal(t, hostname, metadata[rules.EntityName.HostnameNrdbLabelName])
-	assert.Equal(t, hostname+":"+serviceName, metadata[rules.EntityName.EntityNrdbLabelName])
 
 }
 

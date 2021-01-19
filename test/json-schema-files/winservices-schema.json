@@ -44,7 +44,7 @@
               },
               "type": {
                 "minLength": 1,
-                "pattern": "WindowsService",
+                "pattern": "WIN_SERVICE",
                 "type": "string"
               },
               "metadata": {
@@ -81,7 +81,6 @@
                 },
                 "required": [
                   "windowsService.displayName",
-                  "windowsService.entityName",
                   "windowsService.hostname",
                   "windowsService.name",
                   "windowsService.processId",
@@ -108,7 +107,7 @@
                 },
                 "name": {
                   "minLength": 1,
-                  "pattern": "^windowsService.service.(startMode|status|state)$",
+                  "pattern": "^windows_service_(start_mode|status|state)$",
                   "type": "string"
                 },
                 "type": {
@@ -143,60 +142,7 @@
             }
           },
           "inventory": {
-            "type": "object",
-            "properties": {
-              "windowsService": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "windowsService.displayName": {
-                    "type": "string"
-                  },
-                  "windowsService.entityName": {
-                    "type": "string"
-                  },
-                  "windowsService.hostname": {
-                    "type": "string"
-                  },
-                  "windowsService.name": {
-                    "type": "string"
-                  },
-                  "windowsService.processId": {
-                    "type": "string"
-                  },
-                  "windowsService.runAs": {
-                    "type": "string",
-                    "minLength": 0
-                  },
-                  "windowsService.startMode": {
-                    "type": "string"
-                  },
-                  "windowsService.state": {
-                    "type": "string"
-                  },
-                  "windowsService.status": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name",
-                  "windowsService.displayName",
-                  "windowsService.entityName",
-                  "windowsService.hostname",
-                  "windowsService.name",
-                  "windowsService.processId",
-                  "windowsService.runAs",
-                  "windowsService.startMode",
-                  "windowsService.state",
-                  "windowsService.status"
-                ]
-              }
-            },
-            "required": [
-              "windowsService"
-            ]
+            "type": "object"
           },
           "events": {
             "type": "array",

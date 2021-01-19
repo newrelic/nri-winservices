@@ -22,7 +22,6 @@ type EntityName struct {
 	Metric                string `yaml:"from_metric"`
 	Label                 string `yaml:"name_label"`
 	DisplayNameLabel      string `yaml:"display_name_label"`
-	EntityNrdbLabelName   string `yaml:"entity_nrdb_name"`
 	HostnameMetric        string `yaml:"hostname_metric"`
 	HostnameLabel         string `yaml:"hostname_label"`
 	HostnameNrdbLabelName string `yaml:"hostname_nrdb_name"`
@@ -57,12 +56,11 @@ func loadRules() EntityRules {
 
 	rules := EntityRules{
 
-		EntityType: "WindowsService",
+		EntityType: "WIN_SERVICE",
 		EntityName: EntityName{
 			Metric:                "windows_service_info",
 			Label:                 "name",
 			DisplayNameLabel:      "display_name",
-			EntityNrdbLabelName:   "windowsService.entityName",
 			HostnameMetric:        "windows_cs_hostname",
 			HostnameLabel:         "hostname",
 			HostnameNrdbLabelName: "windowsService.hostname",
@@ -97,7 +95,7 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "windows_service_start_mode",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.service.startMode",
+				NrdbName:     "windows_service_start_mode",
 				EnumMetric:   true,
 				Attributes: []Attribute{
 					{
@@ -110,7 +108,7 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "windows_service_state",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.service.state",
+				NrdbName:     "windows_service_state",
 				EnumMetric:   true,
 				Attributes: []Attribute{
 					{
@@ -122,7 +120,7 @@ func loadRules() EntityRules {
 			{
 				ProviderName: "windows_service_status",
 				MetricType:   "gauge",
-				NrdbName:     "windowsService.service.status",
+				NrdbName:     "windows_service_status",
 				EnumMetric:   true,
 				Attributes: []Attribute{
 					{
