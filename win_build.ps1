@@ -119,6 +119,7 @@ if (-Not $skipExporterCompile)
 
     Pop-Location
     Copy-Item "$env:GOPATH\src\$exporterRepo\output\$arch\$exporterBinaryName" -Destination ".\target\bin\windows_$arch\" -Force 
+    Copy-Item "$env:GOPATH\src\$exporterRepo\LICENSE" -Destination ".\target\bin\windows_$arch\windows_exporter-LICENSE" -Force 
     if (-not $?)
     {
         echo "Failed compiling exporter"
