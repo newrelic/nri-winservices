@@ -6,7 +6,6 @@
 package nri
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/newrelic/infra-integrations-sdk/v4/integration"
@@ -89,23 +88,6 @@ var metricFamlilyService = dto.MetricFamily{
 		},
 	},
 }
-var metricFamlilyServiceHostname = dto.MetricFamily{
-	Name: strPtr("windows_cs_hostname"),
-	Type: &gauge,
-	Metric: []*dto.Metric{
-		{
-			Label: []*dto.LabelPair{
-				{
-					Name:  strPtr("hostname"),
-					Value: strPtr(hostname),
-				},
-			},
-			Gauge: &dto.Gauge{
-				Value: float64Ptr(1),
-			},
-		},
-	},
-}
 
 func TestCreateEntities(t *testing.T) {
 	i, _ := integration.New("integrationName", "integrationVersion")
@@ -113,29 +95,15 @@ func TestCreateEntities(t *testing.T) {
 	mfbn := scraper.MetricFamiliesByName{
 		"windows_service_info":       metricFamlilyServiceInfo,
 		"windows_service_start_mode": metricFamlilyService,
-		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
-	h, err := getHostname(mfbn, rules)
 	matcher := matcher.New(filter)
-	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
+	entityMap, err := createEntities(i, mfbn, rules, matcher, hostname)
 	require.NoError(t, err)
 	_, ok := entityMap[serviceName]
 	require.True(t, ok)
 	require.Len(t, i.Entities, 1)
 	require.Equal(t, i.Entities[0].Name(), hostname+":"+serviceName)
-}
-
-func TestGetHostnameFail(t *testing.T) {
-	rules := loadRules()
-	mfbn := scraper.MetricFamiliesByName{
-		"windows_service_info":       metricFamlilyServiceInfo,
-		"windows_service_start_mode": metricFamlilyService,
-		// exclude host name metrics from family
-		// "windows_cs_hostname":        metricFamlilyServiceHostname,
-	}
-	_, err := getHostname(mfbn, rules)
-	require.Equal(t, err, errors.New("hostname Metric not found"))
 }
 
 func TestNoServiceNameAllowed(t *testing.T) {
@@ -144,16 +112,14 @@ func TestNoServiceNameAllowed(t *testing.T) {
 	mfbn := scraper.MetricFamiliesByName{
 		"windows_service_info":       metricFamlilyServiceInfo,
 		"windows_service_start_mode": metricFamlilyService,
-		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
 	matcher := matcher.New([]string{})
-	h, err := getHostname(mfbn, rules)
-	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
+	entityMap, err := createEntities(i, mfbn, rules, matcher, hostname)
 	require.NoError(t, err, "No error is expected even if no service is allowed")
 	require.Len(t, entityMap, 0, "No entity is expected since no service is allowed")
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, h)
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, h)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
 	require.NoError(t, err)
 	require.NoError(t, err, "No error is expected even if entityMap is empty")
 }
@@ -164,25 +130,21 @@ func TestProccessMetricGauge(t *testing.T) {
 	mfbn := scraper.MetricFamiliesByName{
 		"windows_service_info":       metricFamlilyServiceInfo,
 		"windows_service_start_mode": metricFamlilyService,
-		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
-	h, err := getHostname(mfbn, rules)
 	matcher := matcher.New(filter)
-	entityMap, err := createEntities(i, mfbn, rules, matcher, h)
+	entityMap, err := createEntities(i, mfbn, rules, matcher, hostname)
 	require.NoError(t, err)
 	// process info metrics
-	err = processMetricGauge(metricFamlilyServiceInfo, rules, entityMap, h)
+	err = processMetricGauge(metricFamlilyServiceInfo, rules, entityMap, hostname)
 	require.NoError(t, err)
 	metadata := entityMap[serviceName].GetMetadata()
 	assert.Equal(t, serviceDisplayName, metadata["windowsService.displayName"])
 	assert.Equal(t, servicePid, metadata["windowsService.processId"])
 	// process startmode metrics
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, h)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
 	assert.NoError(t, err)
 	assert.Equal(t, serviceStartMode, metadata["windowsService.startMode"])
-	assert.Equal(t, hostname, metadata[rules.EntityName.HostnameNrdbLabelName])
-	assert.Equal(t, hostname+":"+serviceName, metadata[rules.EntityName.EntityNrdbLabelName])
 
 }
 
