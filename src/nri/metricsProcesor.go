@@ -23,12 +23,11 @@ type metadataMap map[string]string
 type attributesMap map[string]string
 
 // ProcessMetrics creates entities and add metrics from the MetricFamiliesByName according to rules
-func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, matcher matcher.Matcher) error {
+func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, matcher matcher.Matcher, hostname string) error {
 	entityRules := loadRules()
 
-	hostname, err := getHostname(metricFamilyMap, entityRules)
-	if err != nil {
-		return err
+	if hostname == "" {
+		return fmt.Errorf("hostname cannot be empty")
 	}
 
 	entityMap, err := createEntities(i, metricFamilyMap, entityRules, matcher, hostname)
@@ -177,24 +176,6 @@ func getLabelValue(label []*dto.LabelPair, key string) (string, error) {
 		}
 	}
 	return "", fmt.Errorf("label %v not found", key)
-}
-
-func getHostname(metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules) (string, error) {
-	var hostname string
-	var err error
-
-	mf, ok := metricFamilyMap[entityRules.EntityName.HostnameMetric]
-	if !ok {
-		return "", fmt.Errorf("hostname Metric not found")
-	}
-
-	for _, m := range mf.GetMetric() {
-		hostname, err = getLabelValue(m.GetLabel(), entityRules.EntityName.HostnameLabel)
-		if err != nil {
-			return "", err
-		}
-	}
-	return hostname, nil
 }
 
 func warnOnErr(err error) {
