@@ -21,6 +21,7 @@ type EntityRules struct {
 type EntityName struct {
 	Metric                string `yaml:"from_metric"`
 	Label                 string `yaml:"name_label"`
+	EntityNrdbLabelName   string `yaml:"entity_nrdb_name"`
 	DisplayNameLabel      string `yaml:"display_name_label"`
 	HostnameNrdbLabelName string `yaml:"hostname_nrdb_name"`
 }
@@ -59,6 +60,7 @@ func loadRules() EntityRules {
 			Metric:                "windows_service_info",
 			Label:                 "name",
 			DisplayNameLabel:      "display_name",
+			EntityNrdbLabelName:   "windowsService.entityName",
 			HostnameNrdbLabelName: "windowsService.hostname",
 		},
 		Metrics: []MetricRules{
