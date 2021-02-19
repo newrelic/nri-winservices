@@ -23,7 +23,7 @@ import (
 const (
 	// ExporterName name of the exporter binary
 	ExporterName      = "windows_exporter.exe"
-	enabledCollectors = "service,cs"
+	enabledCollectors = "service"
 	logFormat         = "exporter msg=%v source=%v"
 )
 
@@ -137,11 +137,7 @@ func (e *Exporter) Kill() {
 		return
 	default:
 		e.cancel()
-		if err := e.cmd.Wait(); err != nil {
-			log.Error(err.Error())
-		}
 	}
-
 }
 
 type logMsg struct {

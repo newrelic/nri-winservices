@@ -8,6 +8,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/newrelic/nri-winservices/src/exporter"
@@ -38,6 +39,8 @@ var (
 	commitHash         = "default" // Commit hash used to build the integration set by -ldflags on build
 )
 
+type hostnameFn func() (name string, err error)
+
 func main() {
 	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
 	fatalOnErr(err)
@@ -62,11 +65,11 @@ func main() {
 
 	// After fail the integration is being relaunched by the Agent when timeout expires since no heartbeats are send
 	log.Debug("Running Integration")
-	err = run(e, i, config)
+	err = run(e, i, config, os.Hostname)
 	log.Fatal(err)
 }
 
-func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config) error {
+func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config, hostnameFn hostnameFn) error {
 	defer e.Kill()
 	heartBeat := time.NewTicker(config.HeartBeatPeriod)
 	metricInterval := time.NewTicker(config.ScrapeInterval)
@@ -89,7 +92,12 @@ func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config) e
 			}
 			log.Debug("Metrics scraped, MetricsByFamily found: %d, time elapsed: %s", len(metricsByFamily), time.Since(t).String())
 
-			if err = nri.ProcessMetrics(i, metricsByFamily, config.Matcher); err != nil {
+			hostname, err := hostnameFn()
+			if err != nil {
+				return fmt.Errorf("fail to get the hostname:%v", err)
+			}
+
+			if err = nri.ProcessMetrics(i, metricsByFamily, config.Matcher, hostname); err != nil {
 				return fmt.Errorf("fail to process metrics:%v", err)
 			}
 			log.Debug("Metrics processed, entities found: %d, time elapsed: %s", len(i.Entities), time.Since(t).String())
