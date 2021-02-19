@@ -150,7 +150,6 @@ func addAttributes(attributes attributesMap, metric metric.Metric) {
 func getAttributesAndMetadata(entityRules EntityRules, attributesRules []Attribute, metric *dto.Metric, entityName string, hostname string) (attributesMap, metadataMap) {
 	var metadata = make(map[string]string)
 	var attributes = make(map[string]string)
-	metadata[entityRules.EntityName.EntityNrdbLabelName] = entityName
 	metadata[entityRules.EntityName.HostnameNrdbLabelName] = hostname
 
 	for _, attribute := range attributesRules {

@@ -6,6 +6,7 @@
 package nri
 
 import (
+	"os"
 	"testing"
 	"time"
 
@@ -21,11 +22,13 @@ func TestProccessInventory(t *testing.T) {
 	mfbn := scraper.MetricFamiliesByName{
 		"windows_service_info":       metricFamlilyServiceInfo,
 		"windows_service_start_mode": metricFamlilyService,
-		"windows_cs_hostname":        metricFamlilyServiceHostname,
 	}
 
 	matcher := matcher.New(filter)
-	err := ProcessMetrics(i, mfbn, matcher)
+	hostname, err := os.Hostname()
+	require.NoError(t, err)
+
+	err = ProcessMetrics(i, mfbn, matcher, hostname)
 	require.NoError(t, err)
 	require.Greater(t, len(i.Entities), 0)
 
