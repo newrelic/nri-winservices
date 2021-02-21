@@ -31,6 +31,17 @@ jobs:
         $ErrorView = 'NormalView'
         [Environment]::SetEnvironmentVariable("path", "$env:path;$env:GOPATH\bin", "Machine")
         .\win_build.ps1 -arch ${{ matrix.goarch }}
+    - name: Set codeclimate prefix
+      run: |
+        echo "CC_PREFIX=$(go list -m)" >> $GITHUB_ENV
+    - name: Test & publish code coverage
+      uses: paambaati/codeclimate-action@v2.7.5
+      env:
+        CC_TEST_REPORTER_ID: ebf5d51be1de01e33b3b599496bf25286faa96afd50eacbf68207bd6211974a2
+      with:
+        coverageCommand: go test -coverprofile=c.out ./...
+        prefix: ${{ env.CC_PREFIX }} # CC will strip this from the test report, leading to the correct file path
+        debug: true
     - uses: actions/upload-artifact@v2
       with:
         name: binaries
