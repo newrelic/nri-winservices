@@ -88,43 +88,43 @@ func loadRules() EntityRules {
 					},
 				},
 			},
-			{
-				ProviderName: "windows_service_start_mode",
-				MetricType:   "gauge",
-				NrdbName:     "windows_service_start_mode",
-				EnumMetric:   true,
-				Attributes: []Attribute{
-					{
-						Label:            "start_mode",
-						NrdbLabelName:    "windowsService.startMode",
-						IsEntityMetadata: true,
-					},
-				},
-			},
-			{
-				ProviderName: "windows_service_state",
-				MetricType:   "gauge",
-				NrdbName:     "windows_service_state",
-				EnumMetric:   true,
-				Attributes: []Attribute{
-					{
-						Label:         "state",
-						NrdbLabelName: "windowsService.state",
-					},
-				},
-			},
-			{
-				ProviderName: "windows_service_status",
-				MetricType:   "gauge",
-				NrdbName:     "windows_service_status",
-				EnumMetric:   true,
-				Attributes: []Attribute{
-					{
-						Label:         "status",
-						NrdbLabelName: "windowsService.status",
-					},
-				},
-			},
+			//{
+			//	ProviderName: "windows_service_start_mode",
+			//	MetricType:   "gauge",
+			//	NrdbName:     "windows_service_start_mode",
+			//	EnumMetric:   true,
+			//	Attributes: []Attribute{
+			//		{
+			//			Label:            "start_mode",
+			//			NrdbLabelName:    "windowsService.startMode",
+			//			IsEntityMetadata: true,
+			//		},
+			//	},
+			//},
+			//{
+			//	ProviderName: "windows_service_state",
+			//	MetricType:   "gauge",
+			//	NrdbName:     "windows_service_state",
+			//	EnumMetric:   true,
+			//	Attributes: []Attribute{
+			//		{
+			//			Label:         "state",
+			//			NrdbLabelName: "windowsService.state",
+			//		},
+			//	},
+			//},
+			//{
+			//	ProviderName: "windows_service_status",
+			//	MetricType:   "gauge",
+			//	NrdbName:     "windows_service_status",
+			//	EnumMetric:   true,
+			//	Attributes: []Attribute{
+			//		{
+			//			Label:         "status",
+			//			NrdbLabelName: "windowsService.status",
+			//		},
+			//	},
+			//},
 		},
 	}
 

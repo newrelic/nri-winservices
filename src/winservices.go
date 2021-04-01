@@ -7,7 +7,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 	"time"
 
@@ -86,7 +85,8 @@ func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config, h
 			t := time.Now()
 			log.Debug("Scraping and publishing metrics")
 
-			metricsByFamily, err := scraper.Get(http.DefaultClient, "http://"+e.URL+e.MetricPath)
+			//metricsByFamily, err := scraper.Get(http.DefaultClient, "http://"+e.URL+e.MetricPath)
+			metricsByFamily, err := scraper.GetRegistry()
 			if err != nil {
 				return fmt.Errorf("fail to scrape metrics:%v", err)
 			}
