@@ -31,7 +31,7 @@ type EntityName struct {
 // 	windows_service_start_mode{name="wersvc",start_mode="auto"} 0
 // 	windows_service_start_mode{name="wersvc",start_mode="disabled"} 0
 // 	windows_service_start_mode{name="wersvc",start_mode="manual"} 1
-// using EnumMetric=true will only send the metric with value 1 with the corresponding attribute
+//  using EnumMetric=true will only send the metric with value 1 with the corresponding attribute
 //
 // for promethus *_info metrics no metric will be send, just metadata.
 type MetricRules struct {
@@ -88,43 +88,43 @@ func loadRules() EntityRules {
 					},
 				},
 			},
-			//{
-			//	ProviderName: "windows_service_start_mode",
-			//	MetricType:   "gauge",
-			//	NrdbName:     "windows_service_start_mode",
-			//	EnumMetric:   true,
-			//	Attributes: []Attribute{
-			//		{
-			//			Label:            "start_mode",
-			//			NrdbLabelName:    "windowsService.startMode",
-			//			IsEntityMetadata: true,
-			//		},
-			//	},
-			//},
-			//{
-			//	ProviderName: "windows_service_state",
-			//	MetricType:   "gauge",
-			//	NrdbName:     "windows_service_state",
-			//	EnumMetric:   true,
-			//	Attributes: []Attribute{
-			//		{
-			//			Label:         "state",
-			//			NrdbLabelName: "windowsService.state",
-			//		},
-			//	},
-			//},
-			//{
-			//	ProviderName: "windows_service_status",
-			//	MetricType:   "gauge",
-			//	NrdbName:     "windows_service_status",
-			//	EnumMetric:   true,
-			//	Attributes: []Attribute{
-			//		{
-			//			Label:         "status",
-			//			NrdbLabelName: "windowsService.status",
-			//		},
-			//	},
-			//},
+			{
+				ProviderName: "windows_service_start_mode",
+				MetricType:   "gauge",
+				NrdbName:     "windows_service_start_mode",
+				EnumMetric:   true,
+				Attributes: []Attribute{
+					{
+						Label:            "start_mode",
+						NrdbLabelName:    "windowsService.startMode",
+						IsEntityMetadata: true,
+					},
+				},
+			},
+			{
+				ProviderName: "windows_service_state",
+				MetricType:   "gauge",
+				NrdbName:     "windows_service_state",
+				EnumMetric:   true,
+				Attributes: []Attribute{
+					{
+						Label:         "state",
+						NrdbLabelName: "windowsService.state",
+					},
+				},
+			},
+			// {
+			// 	ProviderName: "windows_service_status",
+			// 	MetricType:   "gauge",
+			// 	NrdbName:     "windows_service_status",
+			// 	EnumMetric:   true,
+			// 	Attributes: []Attribute{
+			// 		{
+			// 			Label:         "status",
+			// 			NrdbLabelName: "windowsService.status",
+			// 		},
+			// 	},
+			// },
 		},
 	}
 
