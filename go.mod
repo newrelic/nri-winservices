@@ -11,5 +11,5 @@ require (
 	github.com/stretchr/testify v1.5.1
 	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/sys v0.0.0-20200519105757-fe76b779f299
-	gopkg.in/yaml.v2 v2.2.7
+	gopkg.in/yaml.v2 v2.4.0
 )
