@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	dto "github.com/prometheus/client_model/go"
+	"golang.org/x/sys/windows"
 	"golang.org/x/sys/windows/svc/mgr"
 )
 
@@ -22,6 +23,14 @@ var (
 	labelDisplayName        = "display_name"
 	labelProcessID          = "process_id"
 	labelRunAs              = "run_as"
+	labelStartMode			= "start_mode"
+	labelStartModeValues    = map[uint32]string {
+		windows.SERVICE_AUTO_START: "auto",
+		windows.SERVICE_BOOT_START: "boot",
+		windows.SERVICE_DEMAND_START: "manual",
+		windows.SERVICE_DISABLED: "disabled",
+		windows.SERVICE_SYSTEM_START: "system",
+	}
 	labelState              = "state"
 	stateDescription        = []string{"pending", "pending", "paused", "running", "starting", "stopping", "stopped"}
 )
@@ -41,7 +50,9 @@ func GetServices() (MetricFamiliesByName, error) {
 	}
 
 	mfs := MetricFamiliesByName{}
-	metrics := []*dto.Metric{}
+	metricsInfo := []*dto.Metric{}
+	metricsStartMode := []*dto.Metric{}
+	//metricsState := []*dto.Metric{}
 
 	// Iterate through the Services List
 	for _, svc := range svcList {
@@ -69,9 +80,10 @@ func GetServices() (MetricFamiliesByName, error) {
 		displayName := svcConfig.DisplayName
 		runAs := svcConfig.ServiceStartName
 		servicePid := strconv.FormatUint(uint64(svcStatus.ProcessId), 10)
+		startMode := labelStartModeValues[svcConfig.StartType]
 		// state := stateDescription[svcStatus.State]
 
-		metrics = append(metrics, &dto.Metric{
+		metricsInfo = append(metricsInfo, &dto.Metric{
 			Label: []*dto.LabelPair{
 				{
 					Name:  &labelDisplayName,
@@ -96,6 +108,25 @@ func GetServices() (MetricFamiliesByName, error) {
 			TimestampMs: nil,
 		})
 
+		metricsStartMode = append(metricsStartMode, &dto.Metric{
+			Label: []*dto.LabelPair{
+				{
+					Name:  &labelServiceName,
+					Value: &name,
+				},
+				{
+					Name:  &labelStartMode,
+					Value: &startMode,
+				},
+			},
+			Gauge: &dto.Gauge{
+				Value: &gaugeValue,
+			},
+			TimestampMs: nil,
+		})
+
+		//metricsState
+
 		_ = svcHandle.Close()
 	}
 
@@ -103,7 +134,22 @@ func GetServices() (MetricFamiliesByName, error) {
 	mfs[windowsServiceInfo] = dto.MetricFamily{
 		Name:   &windowsServiceInfo,
 		Type:   &gauge,
-		Metric: metrics,
+		Metric: metricsInfo,
 	}
+
+	//windows_service_start_mode{name="aarsvc_390e7",start_mode="auto"} 0
+	mfs[windowsServiceStartMode] = dto.MetricFamily{
+		Name:   &windowsServiceStartMode,
+		Type:   &gauge,
+		Metric: metricsStartMode,
+	}
+
+	//windows_service_state{name="aarsvc_390e7",state="continue pending"} 0
+	//mfs[windowsServiceState] = dto.MetricFamily{
+	//	Name:   &windowsServiceState,
+	//	Type:   &gauge,
+	//	Metric: metricsState,
+	//}
+
 	return mfs, nil
 }
