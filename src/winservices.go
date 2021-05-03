@@ -7,7 +7,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 	"time"
 
@@ -78,7 +77,7 @@ func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config, h
 		select {
 		case <-heartBeat.C:
 			log.Debug("Sending heartBeat")
-			// hart beat signal for long running integrations
+			// heart beat signal for long running integrations
 			// https://docs.newrelic.com/docs/integrations/integrations-sdk/file-specifications/host-integrations-newer-configuration-format#timeout
 			fmt.Println("{}")
 
@@ -86,25 +85,26 @@ func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config, h
 			t := time.Now()
 			log.Debug("Scraping and publishing metrics")
 
-			metricsByFamily, err := scraper.Get(http.DefaultClient, "http://"+e.URL+e.MetricPath)
+			//metricsByFamily, err := scraper.Get(http.DefaultClient, "http://"+e.URL+e.MetricPath)
+			metricsByFamily, err := scraper.GetServices()
 			if err != nil {
-				return fmt.Errorf("fail to scrape metrics:%v", err)
+				return fmt.Errorf("fail to scrape metrics: %v", err)
 			}
 			log.Debug("Metrics scraped, MetricsByFamily found: %d, time elapsed: %s", len(metricsByFamily), time.Since(t).String())
 
 			hostname, err := hostnameFn()
 			if err != nil {
-				return fmt.Errorf("fail to get the hostname:%v", err)
+				return fmt.Errorf("fail to get the hostname: %v", err)
 			}
 
 			if err = nri.ProcessMetrics(i, metricsByFamily, config.Matcher, hostname); err != nil {
-				return fmt.Errorf("fail to process metrics:%v", err)
+				return fmt.Errorf("fail to process metrics: %v", err)
 			}
 			log.Debug("Metrics processed, entities found: %d, time elapsed: %s", len(i.Entities), time.Since(t).String())
 
 			err = i.Publish()
 			if err != nil {
-				log.Error("failed to publish integration:%v", err)
+				log.Error("failed to publish integration: %v", err)
 			}
 			log.Debug("Metrics published")
 

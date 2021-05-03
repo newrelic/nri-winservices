@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
@@ -46,11 +45,12 @@ type process struct {
 // New create a configured Exporter struct ready to be run
 func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 
-	integrationDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		return nil, fmt.Errorf("failed to create exporter:%v", err)
-	}
-	exporterPath := filepath.Join(integrationDir, ExporterName)
+	//integrationDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	//if err != nil {
+	//	return nil, fmt.Errorf("failed to create exporter:%v", err)
+	//}
+	//exporterPath := filepath.Join(integrationDir, ExporterName)
+	exporterPath := filepath.Join(`C:\Program Files\New Relic\newrelic-infra\newrelic-integrations`, ExporterName)
 
 	ctx, cancel := context.WithCancel(context.Background())
 

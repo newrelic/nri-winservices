@@ -10,6 +10,6 @@ require (
 	github.com/prometheus/common v0.9.1
 	github.com/stretchr/testify v1.5.1
 	github.com/xeipuuv/gojsonschema v1.2.0
-	golang.org/x/sys v0.0.0-20200519105757-fe76b779f299
+	golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae
 	gopkg.in/yaml.v2 v2.2.7
 )

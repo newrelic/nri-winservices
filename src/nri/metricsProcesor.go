@@ -38,7 +38,7 @@ func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFa
 	for _, metricsRules := range entityRules.Metrics {
 		if metricFamily, ok := metricFamilyMap[metricsRules.ProviderName]; ok {
 			if err := processMetricGauge(metricFamily, entityRules, entityMap, hostname); err != nil {
-				log.Warn("error processing metric:%v", err.Error())
+				log.Warn("error processing metric: %v %v", err.Error(), metricFamily)
 			}
 		}
 	}
