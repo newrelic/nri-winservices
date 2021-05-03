@@ -23,16 +23,24 @@ var (
 	labelDisplayName        = "display_name"
 	labelProcessID          = "process_id"
 	labelRunAs              = "run_as"
-	labelStartMode			= "start_mode"
-	labelStartModeValues    = map[uint32]string {
-		windows.SERVICE_AUTO_START: "auto",
-		windows.SERVICE_BOOT_START: "boot",
+	labelStartMode          = "start_mode"
+	labelStartModeValues    = map[uint32]string{
+		windows.SERVICE_AUTO_START:   "auto",
+		windows.SERVICE_BOOT_START:   "boot",
 		windows.SERVICE_DEMAND_START: "manual",
-		windows.SERVICE_DISABLED: "disabled",
+		windows.SERVICE_DISABLED:     "disabled",
 		windows.SERVICE_SYSTEM_START: "system",
 	}
-	labelState              = "state"
-	stateDescription        = []string{"pending", "pending", "paused", "running", "starting", "stopping", "stopped"}
+	labelState       = "state"
+	labelStateValues = map[uint]string{
+		windows.SERVICE_CONTINUE_PENDING: "pending",
+		windows.SERVICE_PAUSE_PENDING:    "pending",
+		windows.SERVICE_PAUSED:           "paused",
+		windows.SERVICE_RUNNING:          "running",
+		windows.SERVICE_START_PENDING:    "starting",
+		windows.SERVICE_STOP_PENDING:     "stopping",
+		windows.SERVICE_STOPPED:          "stopped",
+	}
 )
 
 func GetServices() (MetricFamiliesByName, error) {
@@ -52,7 +60,7 @@ func GetServices() (MetricFamiliesByName, error) {
 	mfs := MetricFamiliesByName{}
 	metricsInfo := []*dto.Metric{}
 	metricsStartMode := []*dto.Metric{}
-	//metricsState := []*dto.Metric{}
+	metricsState := []*dto.Metric{}
 
 	// Iterate through the Services List
 	for _, svc := range svcList {
@@ -79,9 +87,9 @@ func GetServices() (MetricFamiliesByName, error) {
 		name := svc
 		displayName := svcConfig.DisplayName
 		runAs := svcConfig.ServiceStartName
-		servicePid := strconv.FormatUint(uint64(svcStatus.ProcessId), 10)
+		pid := strconv.FormatUint(uint64(svcStatus.ProcessId), 10)
 		startMode := labelStartModeValues[svcConfig.StartType]
-		// state := stateDescription[svcStatus.State]
+		state := labelStateValues[uint(svcStatus.State)]
 
 		metricsInfo = append(metricsInfo, &dto.Metric{
 			Label: []*dto.LabelPair{
@@ -95,7 +103,7 @@ func GetServices() (MetricFamiliesByName, error) {
 				},
 				{
 					Name:  &labelProcessID,
-					Value: &servicePid,
+					Value: &pid,
 				},
 				{
 					Name:  &labelRunAs,
@@ -125,7 +133,22 @@ func GetServices() (MetricFamiliesByName, error) {
 			TimestampMs: nil,
 		})
 
-		//metricsState
+		metricsState = append(metricsState, &dto.Metric{
+			Label: []*dto.LabelPair{
+				{
+					Name:  &labelServiceName,
+					Value: &name,
+				},
+				{
+					Name:  &labelState,
+					Value: &state,
+				},
+			},
+			Gauge: &dto.Gauge{
+				Value: &gaugeValue,
+			},
+			TimestampMs: nil,
+		})
 
 		_ = svcHandle.Close()
 	}
@@ -145,11 +168,11 @@ func GetServices() (MetricFamiliesByName, error) {
 	}
 
 	//windows_service_state{name="aarsvc_390e7",state="continue pending"} 0
-	//mfs[windowsServiceState] = dto.MetricFamily{
-	//	Name:   &windowsServiceState,
-	//	Type:   &gauge,
-	//	Metric: metricsState,
-	//}
+	mfs[windowsServiceState] = dto.MetricFamily{
+		Name:   &windowsServiceState,
+		Type:   &gauge,
+		Metric: metricsState,
+	}
 
 	return mfs, nil
 }

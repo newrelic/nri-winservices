@@ -3,7 +3,6 @@ module github.com/newrelic/nri-winservices
 go 1.13
 
 require (
-	github.com/go-delve/delve v1.6.0 // indirect
 	github.com/golang/protobuf v1.4.0 // indirect
 	github.com/newrelic/infra-integrations-sdk/v4 v4.0.0
 	github.com/prometheus-community/windows_exporter v0.15.0
