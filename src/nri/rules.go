@@ -66,22 +66,22 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:            "name",
-						NrdbLabelName:    "windowsService.name",
+						NrdbLabelName:    "name",
 						IsEntityMetadata: true,
 					},
 					{
 						Label:            "run_as",
-						NrdbLabelName:    "windowsService.runAs",
+						NrdbLabelName:    "run_as",
 						IsEntityMetadata: true,
 					},
 					{
 						Label:            "display_name",
-						NrdbLabelName:    "windowsService.displayName",
+						NrdbLabelName:    "display_name",
 						IsEntityMetadata: true,
 					},
 					{
 						Label:            "process_id",
-						NrdbLabelName:    "windowsService.processId",
+						NrdbLabelName:    "process_id",
 						IsEntityMetadata: true,
 					},
 				},
@@ -94,7 +94,7 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:            "start_mode",
-						NrdbLabelName:    "windowsService.startMode",
+						NrdbLabelName:    "start_mode",
 						IsEntityMetadata: true,
 					},
 				},
@@ -107,7 +107,7 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:         "state",
-						NrdbLabelName: "windowsService.state",
+						NrdbLabelName: "state",
 					},
 				},
 			},
@@ -119,7 +119,7 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:         "status",
-						NrdbLabelName: "windowsService.status",
+						NrdbLabelName: "status",
 					},
 				},
 			},
