@@ -20,7 +20,7 @@ import (
 
 const (
 	entityNamePrefix = "win_service"
-	// localhost will be automatically replaced by the host_name or display_name by the agent
+	// localhost will be automatically replaced by the host_name or display_name by the agent when is found inside EntityName
 	hostName = "localhost"
 )
 
