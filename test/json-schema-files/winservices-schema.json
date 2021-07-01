@@ -35,7 +35,7 @@
             "type": "object",
             "properties": {
               "name": {
-                "pattern": "(.*):(.*)",
+                "pattern": "(.*):(.*):(.*)",
                 "type": "string"
               },
               "displayName": {
@@ -50,42 +50,33 @@
               "metadata": {
                 "type": "object",
                 "properties": {
-                  "windowsService.displayName": {
+                  "display_name": {
                     "minLength": 1,
                     "type": "string"
                   },
-                  "windowsService.entityName": {
-                    "pattern": "(.*):(.*)",
-                    "type": "string"
-                  },
-                  "windowsService.hostname": {
+                  "name": {
                     "minLength": 1,
                     "type": "string"
                   },
-                  "windowsService.name": {
+                  "process_id": {
                     "minLength": 1,
                     "type": "string"
                   },
-                  "windowsService.processId": {
-                    "minLength": 1,
-                    "type": "string"
-                  },
-                  "windowsService.runAs": {
+                  "run_as": {
                     "minLength": 0,
                     "type": "string"
                   },
-                  "windowsService.startMode": {
+                  "start_mode": {
                     "pattern": "^(boot|system|auto|manual|disabled)$",
                     "type": "string"
                   }
                 },
                 "required": [
-                  "windowsService.displayName",
-                  "windowsService.hostname",
-                  "windowsService.name",
-                  "windowsService.processId",
-                  "windowsService.runAs",
-                  "windowsService.startMode"
+                  "displayName",
+                  "name",
+                  "processId",
+                  "runAs",
+                  "startMode"
                 ]
               }
             },
@@ -117,11 +108,11 @@
                 "attributes": {
                   "type": "object",
                   "properties": {
-                    "windowsService.state": {
+                    "state": {
                       "pattern": "^(stopped|start pending|stop pending|running|continue pending|pause pending|paused|unknown)$",
                       "type": "string" 
                     },
-                    "windowsService.status": {
+                    "status": {
                       "pattern": "^(ok|error|degraded|unknown|pred fail|starting|stopping|service|stressed|nonrecover|no contact|lost comm)$",
                       "type": "string" 
                     }
