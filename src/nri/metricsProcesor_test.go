@@ -138,12 +138,12 @@ func TestProccessMetricGauge(t *testing.T) {
 	err = processMetricGauge(metricFamlilyServiceInfo, rules, entityMap)
 	require.NoError(t, err)
 	metadata := entityMap[serviceName].GetMetadata()
-	assert.Equal(t, serviceDisplayName, metadata["windowsService.displayName"])
-	assert.Equal(t, servicePid, metadata["windowsService.processId"])
+	assert.Equal(t, serviceDisplayName, metadata["display_name"])
+	assert.Equal(t, servicePid, metadata["process_id"])
 	// process startmode metrics
 	err = processMetricGauge(metricFamlilyService, rules, entityMap)
 	assert.NoError(t, err)
-	assert.Equal(t, serviceStartMode, metadata["windowsService.startMode"])
+	assert.Equal(t, serviceStartMode, metadata["start_mode"])
 
 }
 
