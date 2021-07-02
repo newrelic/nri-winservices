@@ -94,12 +94,10 @@ if (-Not $skipExporterCompile)
     Push-Location $env:GOPATH
     
     $ErrorActionPreference = "SilentlyContinue"
+    go get -d "$exporterRepo"
     # exporter is build using the Prometheus tool
-    echo "Getting Promu"
     $env:GO111MODULE = "on"
     go get "github.com/prometheus/promu"
-    echo "Getting exporterRepo"
-    go get "$exporterRepo"
     $ErrorActionPreference = "Stop"
 
     Set-Location "$env:GOPATH\src\$exporterRepo"
