@@ -30,7 +30,7 @@ $env:GOPATH = go env GOPATH
 $env:GOBIN = "$env:GOPATH\bin"
 $env:GOOS = "windows"
 $env:GOARCH = $arch
-$env:GO111MODULE = "auto"
+$env:GO111MODULE = "on"
 
 echo "--- Checking dependencies"
 # We are running a job in a windows that calls a .ps1 experiencing this issue. 
