@@ -38,7 +38,7 @@
                 "pattern": "(.*):(.*):(.*)",
                 "type": "string"
               },
-              "display_name": {
+              "displayName": {
                 "minLength": 1,
                 "type": "string"
               },
@@ -82,7 +82,7 @@
             },
             "required": [
               "name",
-              "display_name",
+              "displayName",
               "type",
               "metadata"
             ]
