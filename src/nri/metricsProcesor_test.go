@@ -21,7 +21,6 @@ const (
 	serviceStartMode   = "auto"
 	serviceDisplayName = "Remote Procedure Call (RPC)"
 	servicePid         = "668"
-	hostname           = "test-hostname"
 )
 
 var filter = []string{serviceName}
@@ -98,12 +97,12 @@ func TestCreateEntities(t *testing.T) {
 	}
 
 	matcher := matcher.New(filter)
-	entityMap, err := createEntities(i, mfbn, rules, matcher, hostname)
+	entityMap, err := createEntities(i, mfbn, rules, matcher)
 	require.NoError(t, err)
 	_, ok := entityMap[serviceName]
 	require.True(t, ok)
 	require.Len(t, i.Entities, 1)
-	require.Equal(t, i.Entities[0].Name(), hostname+":"+serviceName)
+	require.Equal(t, i.Entities[0].Name(), entityNamePrefix+":"+hostName+":"+serviceName)
 }
 
 func TestNoServiceNameAllowed(t *testing.T) {
@@ -115,11 +114,11 @@ func TestNoServiceNameAllowed(t *testing.T) {
 	}
 
 	matcher := matcher.New([]string{})
-	entityMap, err := createEntities(i, mfbn, rules, matcher, hostname)
+	entityMap, err := createEntities(i, mfbn, rules, matcher)
 	require.NoError(t, err, "No error is expected even if no service is allowed")
 	require.Len(t, entityMap, 0, "No entity is expected since no service is allowed")
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap)
 	require.NoError(t, err)
 	require.NoError(t, err, "No error is expected even if entityMap is empty")
 }
@@ -133,18 +132,18 @@ func TestProccessMetricGauge(t *testing.T) {
 	}
 
 	matcher := matcher.New(filter)
-	entityMap, err := createEntities(i, mfbn, rules, matcher, hostname)
+	entityMap, err := createEntities(i, mfbn, rules, matcher)
 	require.NoError(t, err)
 	// process info metrics
-	err = processMetricGauge(metricFamlilyServiceInfo, rules, entityMap, hostname)
+	err = processMetricGauge(metricFamlilyServiceInfo, rules, entityMap)
 	require.NoError(t, err)
 	metadata := entityMap[serviceName].GetMetadata()
-	assert.Equal(t, serviceDisplayName, metadata["windowsService.displayName"])
-	assert.Equal(t, servicePid, metadata["windowsService.processId"])
+	assert.Equal(t, serviceDisplayName, metadata["display_name"])
+	assert.Equal(t, servicePid, metadata["process_id"])
 	// process startmode metrics
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap)
 	assert.NoError(t, err)
-	assert.Equal(t, serviceStartMode, metadata["windowsService.startMode"])
+	assert.Equal(t, serviceStartMode, metadata["start_mode"])
 
 }
 

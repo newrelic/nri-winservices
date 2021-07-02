@@ -17,12 +17,11 @@ type EntityRules struct {
 }
 
 // EntityName indicates which metrics labels use to form the unique entity name and displayName
-// for windows services the entity name is hostname:serviceName.
+// for windows services the entity name is win_service:hostname:serviceName.
 type EntityName struct {
-	Metric                string `yaml:"from_metric"`
-	Label                 string `yaml:"name_label"`
-	DisplayNameLabel      string `yaml:"display_name_label"`
-	HostnameNrdbLabelName string `yaml:"hostname_nrdb_name"`
+	Metric           string `yaml:"from_metric"`
+	Label            string `yaml:"name_label"`
+	DisplayNameLabel string `yaml:"display_name_label"`
 }
 
 // MetricRules describe the metrics that compose the entity.
@@ -56,10 +55,9 @@ func loadRules() EntityRules {
 
 		EntityType: "WIN_SERVICE",
 		EntityName: EntityName{
-			Metric:                "windows_service_info",
-			Label:                 "name",
-			DisplayNameLabel:      "display_name",
-			HostnameNrdbLabelName: "windowsService.hostname",
+			Metric:           "windows_service_info",
+			Label:            "name",
+			DisplayNameLabel: "display_name",
 		},
 		Metrics: []MetricRules{
 			{
@@ -68,22 +66,22 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:            "name",
-						NrdbLabelName:    "windowsService.name",
+						NrdbLabelName:    "name",
 						IsEntityMetadata: true,
 					},
 					{
 						Label:            "run_as",
-						NrdbLabelName:    "windowsService.runAs",
+						NrdbLabelName:    "run_as",
 						IsEntityMetadata: true,
 					},
 					{
 						Label:            "display_name",
-						NrdbLabelName:    "windowsService.displayName",
+						NrdbLabelName:    "display_name",
 						IsEntityMetadata: true,
 					},
 					{
 						Label:            "process_id",
-						NrdbLabelName:    "windowsService.processId",
+						NrdbLabelName:    "process_id",
 						IsEntityMetadata: true,
 					},
 				},
@@ -96,7 +94,7 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:            "start_mode",
-						NrdbLabelName:    "windowsService.startMode",
+						NrdbLabelName:    "start_mode",
 						IsEntityMetadata: true,
 					},
 				},
@@ -109,7 +107,7 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:         "state",
-						NrdbLabelName: "windowsService.state",
+						NrdbLabelName: "state",
 					},
 				},
 			},
@@ -121,7 +119,7 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:         "status",
-						NrdbLabelName: "windowsService.status",
+						NrdbLabelName: "status",
 					},
 				},
 			},

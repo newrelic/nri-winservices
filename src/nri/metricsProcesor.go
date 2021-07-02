@@ -18,26 +18,28 @@ import (
 	dto "github.com/prometheus/client_model/go"
 )
 
+const (
+	entityNamePrefix = "WIN_SERVICE"
+	// localhost will be automatically replaced by the host_name or display_name by the agent when is found inside EntityName
+	hostName = "localhost"
+)
+
 type entitiesByName map[string]*integration.Entity
 type metadataMap map[string]string
 type attributesMap map[string]string
 
 // ProcessMetrics creates entities and add metrics from the MetricFamiliesByName according to rules
-func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, matcher matcher.Matcher, hostname string) error {
+func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, matcher matcher.Matcher) error {
 	entityRules := loadRules()
 
-	if hostname == "" {
-		return fmt.Errorf("hostname cannot be empty")
-	}
-
-	entityMap, err := createEntities(i, metricFamilyMap, entityRules, matcher, hostname)
+	entityMap, err := createEntities(i, metricFamilyMap, entityRules, matcher)
 	if err != nil {
 		return err
 	}
 
 	for _, metricsRules := range entityRules.Metrics {
 		if metricFamily, ok := metricFamilyMap[metricsRules.ProviderName]; ok {
-			if err := processMetricGauge(metricFamily, entityRules, entityMap, hostname); err != nil {
+			if err := processMetricGauge(metricFamily, entityRules, entityMap); err != nil {
 				log.Warn("error processing metric:%v", err.Error())
 			}
 		}
@@ -45,7 +47,7 @@ func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFa
 	return nil
 }
 
-func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules, matcher matcher.Matcher, hostname string) (entitiesByName, error) {
+func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules, matcher matcher.Matcher) (entitiesByName, error) {
 	entityMap := make(map[string]*integration.Entity)
 
 	mf, ok := metricFamilyMap[entityRules.EntityName.Metric]
@@ -73,7 +75,8 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 			warnOnErr(err)
 			continue
 		}
-		entityName := hostname + ":" + serviceName
+
+		entityName := fmt.Sprintf("%s:%s:%s", entityNamePrefix, hostName, serviceName)
 
 		entity, err := integrationInstance.NewEntity(entityName, entityRules.EntityType, serviceDisplayName)
 		if err != nil {
@@ -87,7 +90,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 	return entityMap, nil
 }
 
-func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName, hostname string) error {
+func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName) error {
 	metricRules, err := entityRules.getMetricRules(metricFamily.GetName())
 	if err != nil {
 		return fmt.Errorf("metric rule not found")
@@ -112,7 +115,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			continue
 		}
 
-		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, m, e.Name(), hostname)
+		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, m)
 		addMetadata(metadata, e)
 		// _info metrics only contains metadata
 		if metricRules.InfoMetric {
@@ -147,10 +150,9 @@ func addAttributes(attributes attributesMap, metric metric.Metric) {
 	}
 }
 
-func getAttributesAndMetadata(entityRules EntityRules, attributesRules []Attribute, metric *dto.Metric, entityName string, hostname string) (attributesMap, metadataMap) {
+func getAttributesAndMetadata(entityRules EntityRules, attributesRules []Attribute, metric *dto.Metric) (attributesMap, metadataMap) {
 	var metadata = make(map[string]string)
 	var attributes = make(map[string]string)
-	metadata[entityRules.EntityName.HostnameNrdbLabelName] = hostname
 
 	for _, attribute := range attributesRules {
 		value, err := getLabelValue(metric.GetLabel(), attribute.Label)
