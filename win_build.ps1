@@ -99,7 +99,6 @@ if (-Not $skipExporterCompile)
     $env:GO111MODULE = "on"
     go get "github.com/prometheus/promu"
     echo "Getting exporterRepo"
-    $env:GO111MODULE = "auto"
     go get -d "$exporterRepo"
     $ErrorActionPreference = "Stop"
 
