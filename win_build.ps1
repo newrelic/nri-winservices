@@ -95,7 +95,9 @@ if (-Not $skipExporterCompile)
     
     $ErrorActionPreference = "SilentlyContinue"
     # exporter is build using the Prometheus tool
+    echo "Getting Promu"
     go get "github.com/prometheus/promu"
+    echo "Getting exporterRepo"
     go get -d "$exporterRepo"
     $ErrorActionPreference = "Stop"
 
