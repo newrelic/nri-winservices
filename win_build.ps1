@@ -30,7 +30,7 @@ $env:GOPATH = go env GOPATH
 $env:GOBIN = "$env:GOPATH\bin"
 $env:GOOS = "windows"
 $env:GOARCH = $arch
-$env:GO111MODULE = "on"
+$env:GO111MODULE = "auto"
 
 echo "--- Checking dependencies"
 # We are running a job in a windows that calls a .ps1 experiencing this issue. 
@@ -96,8 +96,10 @@ if (-Not $skipExporterCompile)
     $ErrorActionPreference = "SilentlyContinue"
     # exporter is build using the Prometheus tool
     echo "Getting Promu"
+    $env:GO111MODULE = "on"
     go get "github.com/prometheus/promu"
     echo "Getting exporterRepo"
+    $env:GO111MODULE = "auto"
     go get -d "$exporterRepo"
     $ErrorActionPreference = "Stop"
 
