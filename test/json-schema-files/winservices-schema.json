@@ -38,7 +38,7 @@
                 "pattern": "(.*):(.*):(.*)",
                 "type": "string"
               },
-              "displayName": {
+              "display_name": {
                 "minLength": 1,
                 "type": "string"
               },
@@ -72,17 +72,17 @@
                   }
                 },
                 "required": [
-                  "displayName",
+                  "display_name",
                   "name",
-                  "processId",
-                  "runAs",
-                  "startMode"
+                  "process_id",
+                  "run_as",
+                  "start_mode"
                 ]
               }
             },
             "required": [
               "name",
-              "displayName",
+              "display_name",
               "type",
               "metadata"
             ]
