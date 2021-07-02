@@ -114,6 +114,7 @@ if (-Not $skipExporterCompile)
     # remove unused collectors 
     Remove-Item .\collector\* -Exclude $collectors
     $ErrorActionPreference = "SilentlyContinue"
+    echo "--- go mod download"
     go mod download
     $ErrorActionPreference = "Stop"
     promu build --prefix=output\$arch
