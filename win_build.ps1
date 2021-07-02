@@ -94,10 +94,11 @@ if (-Not $skipExporterCompile)
     Push-Location $env:GOPATH
     
     $ErrorActionPreference = "SilentlyContinue"
-    go get -d "$exporterRepo"
     # exporter is build using the Prometheus tool
     $env:GO111MODULE = "on"
     go get "github.com/prometheus/promu"
+    $env:GO111MODULE = "auto"
+    go get "$exporterRepo"
     $ErrorActionPreference = "Stop"
 
     Set-Location "$env:GOPATH\src\$exporterRepo"
@@ -114,7 +115,7 @@ if (-Not $skipExporterCompile)
     # remove unused collectors 
     Remove-Item .\collector\* -Exclude $collectors
     $ErrorActionPreference = "SilentlyContinue"
-    echo "--- go mod download"
+    echo "go mod download"
     go mod download
     $ErrorActionPreference = "Stop"
     promu build --prefix=output\$arch
