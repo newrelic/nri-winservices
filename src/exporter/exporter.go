@@ -65,6 +65,7 @@ func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 		"--collectors.enabled", enabledCollectors,
 		"--log.level", exporterLogLevel,
 		"--log.format", "logger:stderr?json=true",
+		"--collector.service.use-api",                         // enable collection using windows API instead of WMI
 		"--collector.service.services-where", "Name like '%'", //All Added to avoid warn message from Exporter
 		"--telemetry.addr", exporterURL)
 
@@ -168,7 +169,7 @@ func (e *Exporter) redirectLogs() {
 				log.Warn(logFormat, m.Msg, m.Source)
 			case "error":
 				// TODO currently the exporter detects that is being lunched from a non interactive session (by the Agent)
-				// and tries to register as a service but fails. This is not affecting the exporter nither leaving Windows Event logs
+				// and tries to register as a service but fails. This is not affecting the exporter neither leaving Windows Event logs
 				// This should be removed after modify the exporter behavior when is lunched from other process.
 				if strings.Contains(m.Msg, "Failed to start service: The service process could not connect to the service controller") {
 					// we remove this log since it can be misleading.
