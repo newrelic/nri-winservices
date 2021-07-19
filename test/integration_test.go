@@ -42,6 +42,7 @@ func runIntegration() (string, string, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	cmd := exec.CommandContext(
 		ctx,
+
 		integrationPath+"nri-winservices.exe",
 		"-config_path", "./config.yml",
 		"-verbose",
