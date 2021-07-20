@@ -98,7 +98,7 @@
                 },
                 "name": {
                   "minLength": 1,
-                  "pattern": "^windows_service_(start_mode|status|state)$",
+                  "pattern": "^windows_service_(start_mode|state)$",
                   "type": "string"
                 },
                 "type": {
@@ -110,11 +110,7 @@
                   "properties": {
                     "state": {
                       "pattern": "^(stopped|start pending|stop pending|running|continue pending|pause pending|paused|unknown)$",
-                      "type": "string" 
-                    },
-                    "status": {
-                      "pattern": "^(ok|error|degraded|unknown|pred fail|starting|stopping|service|stressed|nonrecover|no contact|lost comm)$",
-                      "type": "string" 
+                      "type": "string"
                     }
                   },
                   "additionalProperties": false
