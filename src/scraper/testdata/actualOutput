@@ -120,260 +120,260 @@ windows_exporter_collector_timeout{collector="service"} 0
 windows_exporter_perflib_snapshot_duration_seconds 0.4359746
 # HELP windows_service_info A metric with a constant '1' value labeled with service information
 # TYPE windows_service_info gauge
-windows_service_info{display_name="AVCTP service",name="bthavctpsvc",process_id="5040",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="ActiveX Installer (AxInstSV)",name="axinstsv",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Agent Activation Runtime_390e7",name="aarsvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="AllJoyn Router Service",name="ajrouter",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="App Readiness",name="appreadiness",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="AppX Deployment Service (AppXSVC)",name="appxsvc",process_id="1092",run_as="LocalSystem"} 1
-windows_service_info{display_name="Application Identity",name="appidsvc",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Application Information",name="appinfo",process_id="2680",run_as="LocalSystem"} 1
-windows_service_info{display_name="Application Layer Gateway Service",name="alg",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Application Management",name="appmgmt",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="AssignedAccessManager Service",name="assignedaccessmanagersvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Auto Time Zone Updater",name="tzautoupdate",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Background Intelligent Transfer Service",name="bits",process_id="6320",run_as="LocalSystem"} 1
-windows_service_info{display_name="Background Tasks Infrastructure Service",name="brokerinfrastructure",process_id="884",run_as="LocalSystem"} 1
-windows_service_info{display_name="Base Filtering Engine",name="bfe",process_id="2668",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="BitLocker Drive Encryption Service",name="bdesvc",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Block Level Backup Engine Service",name="wbengine",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Bluetooth Audio Gateway Service",name="btagservice",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Bluetooth Support Service",name="bthserv",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Bluetooth User Support Service_390e7",name="bluetoothuserservice_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="BranchCache",name="peerdistsvc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="CNG Key Isolation",name="keyiso",process_id="676",run_as="LocalSystem"} 1
-windows_service_info{display_name="COM+ Event System",name="eventsystem",process_id="1932",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="COM+ System Application",name="comsysapp",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Capability Access Manager Service",name="camsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="CaptureService_390e7",name="captureservice_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="Cellular Time",name="autotimesvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Certificate Propagation",name="certpropsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Client License Service (ClipSVC)",name="clipsvc",process_id="1192",run_as="LocalSystem"} 1
-windows_service_info{display_name="Clipboard User Service_390e7",name="cbdhsvc_390e7",process_id="4772",run_as=""} 1
-windows_service_info{display_name="Connected Devices Platform Service",name="cdpsvc",process_id="4472",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Connected Devices Platform User Service_390e7",name="cdpusersvc_390e7",process_id="1260",run_as=""} 1
-windows_service_info{display_name="Connected User Experiences and Telemetry",name="diagtrack",process_id="2848",run_as="LocalSystem"} 1
-windows_service_info{display_name="ConsentUX_390e7",name="consentuxusersvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="Contact Data_390e7",name="pimindexmaintenancesvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="CoreMessaging",name="coremessagingregistrar",process_id="1168",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Credential Manager",name="vaultsvc",process_id="676",run_as="LocalSystem"} 1
-windows_service_info{display_name="CredentialEnrollmentManagerUserSvc_390e7",name="credentialenrollmentmanagerusersvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="Cryptographic Services",name="cryptsvc",process_id="2828",run_as="NT Authority\\NetworkService"} 1
-windows_service_info{display_name="DCOM Server Process Launcher",name="dcomlaunch",process_id="884",run_as="LocalSystem"} 1
-windows_service_info{display_name="DHCP Client",name="dhcp",process_id="1532",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="DNS Client",name="dnscache",process_id="1744",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Data Sharing Service",name="dssvc",process_id="528",run_as="LocalSystem"} 1
-windows_service_info{display_name="Data Usage",name="dusmsvc",process_id="2380",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Delivery Optimization",name="dosvc",process_id="640",run_as="NT Authority\\NetworkService"} 1
-windows_service_info{display_name="DevQuery Background Discovery Broker",name="devquerybroker",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Device Association Service",name="deviceassociationservice",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Device Install Service",name="deviceinstall",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Device Management Enrollment Service",name="dmenrollmentsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Device Management Wireless Application Protocol (WAP) Push message Routing Service",name="dmwappushservice",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Device Setup Manager",name="dsmsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="DeviceAssociationBroker_390e7",name="deviceassociationbrokersvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="DevicePicker_390e7",name="devicepickerusersvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="DevicesFlow_390e7",name="devicesflowusersvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="Diagnostic Execution Service",name="diagsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Diagnostic Policy Service",name="dps",process_id="2840",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Diagnostic Service Host",name="wdiservicehost",process_id="3144",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Diagnostic System Host",name="wdisystemhost",process_id="3188",run_as="LocalSystem"} 1
-windows_service_info{display_name="Display Enhancement Service",name="displayenhancementservice",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Display Policy Service",name="dispbrokerdesktopsvc",process_id="1496",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Distributed Link Tracking Client",name="trkwks",process_id="2940",run_as="LocalSystem"} 1
-windows_service_info{display_name="Distributed Transaction Coordinator",name="msdtc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Downloaded Maps Manager",name="mapsbroker",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Embedded Mode",name="embeddedmode",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Encrypting File System (EFS)",name="efs",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Enterprise App Management Service",name="entappsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Extensible Authentication Protocol",name="eaphost",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Fax",name="fax",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="File History Service",name="fhsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Function Discovery Provider Host",name="fdphost",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Function Discovery Resource Publication",name="fdrespub",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="GameDVR and Broadcast User Service_390e7",name="bcastdvruserservice_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="Geolocation Service",name="lfsvc",process_id="312",run_as="LocalSystem"} 1
-windows_service_info{display_name="GraphicsPerfSvc",name="graphicsperfsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Group Policy Client",name="gpsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="HV Host Service",name="hvhost",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Human Interface Device Service",name="hidserv",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Hyper-V Data Exchange Service",name="vmickvpexchange",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Hyper-V Guest Service Interface",name="vmicguestinterface",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Hyper-V Guest Shutdown Service",name="vmicshutdown",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Hyper-V Heartbeat Service",name="vmicheartbeat",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Hyper-V PowerShell Direct Service",name="vmicvmsession",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Hyper-V Remote Desktop Virtualization Service",name="vmicrdv",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Hyper-V Time Synchronization Service",name="vmictimesync",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Hyper-V Volume Shadow Copy Requestor",name="vmicvss",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="IKE and AuthIP IPsec Keying Modules",name="ikeext",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="IP Helper",name="iphlpsvc",process_id="2340",run_as="LocalSystem"} 1
-windows_service_info{display_name="IP Translation Configuration Service",name="ipxlatcfgsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="IPsec Policy Agent",name="policyagent",process_id="0",run_as="NT Authority\\NetworkService"} 1
-windows_service_info{display_name="Internet Connection Sharing (ICS)",name="sharedaccess",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="KtmRm for Distributed Transaction Coordinator",name="ktmrm",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="LSM",name="lsm",process_id="1000",run_as=""} 1
-windows_service_info{display_name="Language Experience Service",name="lxpsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Link-Layer Topology Discovery Mapper",name="lltdsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Local Profile Assistant Service",name="wlpasvc",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="MessagingService_390e7",name="messagingservice_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="Microsoft (R) Diagnostics Hub Standard Collector Service",name="diagnosticshub.standardcollector.service",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Microsoft Account Sign-in Assistant",name="wlidsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Microsoft App-V Client",name="appvclient",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Microsoft Passport",name="ngcsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Microsoft Passport Container",name="ngcctnrsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Microsoft Software Shadow Copy Provider",name="swprv",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Microsoft Storage Spaces SMP",name="smphost",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Microsoft Store Install Service",name="installservice",process_id="3160",run_as="LocalSystem"} 1
-windows_service_info{display_name="Microsoft Windows SMS Router Service.",name="smsrouter",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Microsoft iSCSI Initiator Service",name="msiscsi",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Mozilla Maintenance Service",name="mozillamaintenance",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Natural Authentication",name="naturalauthentication",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Net.Tcp Port Sharing Service",name="nettcpportsharing",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="NetSetupSvc",name="netsetupsvc",process_id="0",run_as=""} 1
-windows_service_info{display_name="Netlogon",name="netlogon",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Network Connected Devices Auto-Setup",name="ncdautosetup",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Network Connection Broker",name="ncbservice",process_id="1236",run_as="LocalSystem"} 1
-windows_service_info{display_name="Network Connections",name="netman",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Network Connectivity Assistant",name="ncasvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Network List Service",name="netprofm",process_id="1920",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Network Location Awareness",name="nlasvc",process_id="1712",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Network Store Interface Service",name="nsi",process_id="1408",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="New Relic Infrastructure Agent",name="newrelic-infra",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Offline Files",name="cscservice",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="OpenSSH Authentication Agent",name="ssh-agent",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Optimize drives",name="defragsvc",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="PNRP Machine Name Publication Service",name="pnrpautoreg",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Parental Controls",name="wpcmonsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Payments and NFC/SE Manager",name="semgrsvc",process_id="2140",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Peer Name Resolution Protocol",name="pnrpsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Peer Networking Grouping",name="p2psvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Peer Networking Identity Manager",name="p2pimsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Performance Counter DLL Host",name="perfhost",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Performance Logs & Alerts",name="pla",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Phone Service",name="phonesvc",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Plug and Play",name="plugplay",process_id="808",run_as="LocalSystem"} 1
-windows_service_info{display_name="Portable Device Enumerator Service",name="wpdbusenum",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Power",name="power",process_id="884",run_as="LocalSystem"} 1
-windows_service_info{display_name="Print Spooler",name="spooler",process_id="2580",run_as="LocalSystem"} 1
-windows_service_info{display_name="PrintWorkflow_390e7",name="printworkflowusersvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="Printer Extensions and Notifications",name="printnotify",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Problem Reports and Solutions Control Panel Support",name="wercplsupport",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Program Compatibility Assistant Service",name="pcasvc",process_id="4188",run_as="LocalSystem"} 1
-windows_service_info{display_name="Quality Windows Audio Video Experience",name="qwave",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="RPC Endpoint Mapper",name="rpceptmapper",process_id="952",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Radio Management Service",name="rmsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Recommended Troubleshooting Service",name="troubleshootingsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Remote Access Auto Connection Manager",name="rasauto",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Remote Access Connection Manager",name="rasman",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Remote Desktop Configuration",name="sessionenv",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Remote Desktop Services",name="termservice",process_id="0",run_as="NT Authority\\NetworkService"} 1
-windows_service_info{display_name="Remote Desktop Services UserMode Port Redirector",name="umrdpservice",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Remote Procedure Call (RPC)",name="rpcss",process_id="952",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Remote Procedure Call (RPC) Locator",name="rpclocator",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Remote Registry",name="remoteregistry",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Retail Demo Service",name="retaildemo",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Routing and Remote Access",name="remoteaccess",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="SNMP Trap",name="snmptrap",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="SSDP Discovery",name="ssdpsrv",process_id="1048",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Secondary Logon",name="seclogon",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Secure Socket Tunneling Protocol Service",name="sstpsvc",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Security Accounts Manager",name="samss",process_id="676",run_as="LocalSystem"} 1
-windows_service_info{display_name="Security Center",name="wscsvc",process_id="3212",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Sensor Data Service",name="sensordataservice",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Sensor Monitoring Service",name="sensrsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Sensor Service",name="sensorservice",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Server",name="lanmanserver",process_id="2924",run_as="LocalSystem"} 1
-windows_service_info{display_name="Shared PC Account Manager",name="shpamsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Shell Hardware Detection",name="shellhwdetection",process_id="2444",run_as="LocalSystem"} 1
-windows_service_info{display_name="Smart Card",name="scardsvr",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Smart Card Device Enumeration Service",name="scdeviceenum",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Smart Card Removal Policy",name="scpolicysvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Software Protection",name="sppsvc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Spatial Data Service",name="sharedrealitysvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Spot Verifier",name="svsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="State Repository Service",name="staterepository",process_id="2420",run_as="LocalSystem"} 1
-windows_service_info{display_name="Still Image Acquisition Events",name="wiarpc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Storage Service",name="storsvc",process_id="6576",run_as="LocalSystem"} 1
-windows_service_info{display_name="Storage Tiers Management",name="tieringengineservice",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Sync Host_390e7",name="onesyncsvc_390e7",process_id="2268",run_as=""} 1
-windows_service_info{display_name="SysMain",name="sysmain",process_id="1908",run_as="LocalSystem"} 1
-windows_service_info{display_name="System Event Notification Service",name="sens",process_id="1892",run_as="LocalSystem"} 1
-windows_service_info{display_name="System Events Broker",name="systemeventsbroker",process_id="884",run_as="LocalSystem"} 1
-windows_service_info{display_name="System Guard Runtime Monitor Broker",name="sgrmbroker",process_id="5904",run_as="LocalSystem"} 1
-windows_service_info{display_name="TCP/IP NetBIOS Helper",name="lmhosts",process_id="3964",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Task Scheduler",name="schedule",process_id="1148",run_as="LocalSystem"} 1
-windows_service_info{display_name="Te.Service",name="te.service",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Telephony",name="tapisrv",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Themes",name="themes",process_id="1944",run_as="LocalSystem"} 1
-windows_service_info{display_name="Time Broker",name="timebrokersvc",process_id="1244",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Touch Keyboard and Handwriting Panel Service",name="tabletinputservice",process_id="4284",run_as="LocalSystem"} 1
-windows_service_info{display_name="UPnP Device Host",name="upnphost",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Update Orchestrator Service",name="usosvc",process_id="272",run_as="LocalSystem"} 1
-windows_service_info{display_name="User Data Access_390e7",name="userdatasvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="User Data Storage_390e7",name="unistoresvc_390e7",process_id="0",run_as=""} 1
-windows_service_info{display_name="User Experience Virtualization Service",name="uevagentservice",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="User Manager",name="usermanager",process_id="1440",run_as="LocalSystem"} 1
-windows_service_info{display_name="User Profile Service",name="profsvc",process_id="1228",run_as="LocalSystem"} 1
-windows_service_info{display_name="Virtual Disk",name="vds",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="VirtualBox Guest Additions Service",name="vboxservice",process_id="1792",run_as="LocalSystem"} 1
-windows_service_info{display_name="Volume Shadow Copy",name="vss",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Volumetric Audio Compositor Service",name="vacsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="WLAN AutoConfig",name="wlansvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="WMI Performance Adapter",name="wmiapsrv",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="WWAN AutoConfig",name="wwansvc",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="WalletService",name="walletservice",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="WarpJITSvc",name="warpjitsvc",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Web Account Manager",name="tokenbroker",process_id="4204",run_as="LocalSystem"} 1
-windows_service_info{display_name="WebClient",name="webclient",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Wi-Fi Direct Services Connection Manager Service",name="wfdsconmgrsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="WinHTTP Web Proxy Auto-Discovery Service",name="winhttpautoproxysvc",process_id="2176",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Audio",name="audiosrv",process_id="2288",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Audio Endpoint Builder",name="audioendpointbuilder",process_id="2100",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Backup",name="sdrsvc",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Windows Biometric Service",name="wbiosrvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Camera Frame Server",name="frameserver",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Connect Now - Config Registrar",name="wcncsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Connection Manager",name="wcmsvc",process_id="2372",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Windows Defender Advanced Threat Protection Service",name="sense",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Defender Antivirus Network Inspection Service",name="wdnissvc",process_id="2976",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Defender Antivirus Service",name="windefend",process_id="2956",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Defender Firewall",name="mpssvc",process_id="2668",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Windows Encryption Provider Host Service",name="wephostsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Error Reporting Service",name="wersvc",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Windows Event Collector",name="wecsvc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Windows Event Log",name="eventlog",process_id="1196",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Font Cache Service",name="fontcache",process_id="2108",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Image Acquisition (WIA)",name="stisvc",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Windows Insider Service",name="wisvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Installer",name="msiserver",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows License Manager Service",name="licensemanager",process_id="1288",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Windows Licensing Monitoring Service",name="wlms",process_id="2968",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Management Instrumentation",name="winmgmt",process_id="2856",run_as="localSystem"} 1
-windows_service_info{display_name="Windows Management Service",name="wmansvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Media Player Network Sharing Service",name="wmpnetworksvc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Windows Mixed Reality OpenXR Service",name="mixedrealityopenxrsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Mobile Hotspot Service",name="icssvc",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Windows Modules Installer",name="trustedinstaller",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Windows Perception Service",name="spectrum",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Perception Simulation Service",name="perceptionsimulation",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Phone IP over USB Transport (IpOverUsbSvc)",name="ipoverusbsvc",process_id="2864",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Presentation Foundation Font Cache 3.0.0.0",name="fontcache3.0.0.0",process_id="0",run_as="NT Authority\\LocalService"} 1
-windows_service_info{display_name="Windows Push Notifications System Service",name="wpnservice",process_id="2992",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Push Notifications User Service_390e7",name="wpnuserservice_390e7",process_id="3496",run_as=""} 1
-windows_service_info{display_name="Windows PushToInstall Service",name="pushtoinstall",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Remote Management (WS-Management)",name="winrm",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Windows Search",name="wsearch",process_id="5624",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Security Service",name="securityhealthservice",process_id="1280",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Time",name="w32time",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Windows Update",name="wuauserv",process_id="1820",run_as="LocalSystem"} 1
-windows_service_info{display_name="Windows Update Medic Service",name="waasmedicsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Wired AutoConfig",name="dot3svc",process_id="0",run_as="localSystem"} 1
-windows_service_info{display_name="Work Folders",name="workfolderssvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
-windows_service_info{display_name="Workstation",name="lanmanworkstation",process_id="2700",run_as="NT AUTHORITY\\NetworkService"} 1
-windows_service_info{display_name="Xbox Accessory Management Service",name="xboxgipsvc",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Xbox Live Auth Manager",name="xblauthmanager",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Xbox Live Game Save",name="xblgamesave",process_id="0",run_as="LocalSystem"} 1
-windows_service_info{display_name="Xbox Live Networking Service",name="xboxnetapisvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="AVCTP service",service_name="bthavctpsvc",process_id="5040",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="ActiveX Installer (AxInstSV)",service_name="axinstsv",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Agent Activation Runtime_390e7",service_name="aarsvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="AllJoyn Router Service",service_name="ajrouter",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="App Readiness",service_name="appreadiness",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="AppX Deployment Service (AppXSVC)",service_name="appxsvc",process_id="1092",run_as="LocalSystem"} 1
+windows_service_info{display_name="Application Identity",service_name="appidsvc",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Application Information",service_name="appinfo",process_id="2680",run_as="LocalSystem"} 1
+windows_service_info{display_name="Application Layer Gateway Service",service_name="alg",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Application Management",service_name="appmgmt",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="AssignedAccessManager Service",service_name="assignedaccessmanagersvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Auto Time Zone Updater",service_name="tzautoupdate",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Background Intelligent Transfer Service",service_name="bits",process_id="6320",run_as="LocalSystem"} 1
+windows_service_info{display_name="Background Tasks Infrastructure Service",service_name="brokerinfrastructure",process_id="884",run_as="LocalSystem"} 1
+windows_service_info{display_name="Base Filtering Engine",service_name="bfe",process_id="2668",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="BitLocker Drive Encryption Service",service_name="bdesvc",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Block Level Backup Engine Service",service_name="wbengine",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Bluetooth Audio Gateway Service",service_name="btagservice",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Bluetooth Support Service",service_name="bthserv",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Bluetooth User Support Service_390e7",service_name="bluetoothuserservice_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="BranchCache",service_name="peerdistsvc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="CNG Key Isolation",service_name="keyiso",process_id="676",run_as="LocalSystem"} 1
+windows_service_info{display_name="COM+ Event System",service_name="eventsystem",process_id="1932",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="COM+ System Application",service_name="comsysapp",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Capability Access Manager Service",service_name="camsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="CaptureService_390e7",service_name="captureservice_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="Cellular Time",service_name="autotimesvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Certificate Propagation",service_name="certpropsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Client License Service (ClipSVC)",service_name="clipsvc",process_id="1192",run_as="LocalSystem"} 1
+windows_service_info{display_name="Clipboard User Service_390e7",service_name="cbdhsvc_390e7",process_id="4772",run_as=""} 1
+windows_service_info{display_name="Connected Devices Platform Service",service_name="cdpsvc",process_id="4472",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Connected Devices Platform User Service_390e7",service_name="cdpusersvc_390e7",process_id="1260",run_as=""} 1
+windows_service_info{display_name="Connected User Experiences and Telemetry",service_name="diagtrack",process_id="2848",run_as="LocalSystem"} 1
+windows_service_info{display_name="ConsentUX_390e7",service_name="consentuxusersvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="Contact Data_390e7",service_name="pimindexmaintenancesvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="CoreMessaging",service_name="coremessagingregistrar",process_id="1168",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Credential Manager",service_name="vaultsvc",process_id="676",run_as="LocalSystem"} 1
+windows_service_info{display_name="CredentialEnrollmentManagerUserSvc_390e7",service_name="credentialenrollmentmanagerusersvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="Cryptographic Services",service_name="cryptsvc",process_id="2828",run_as="NT Authority\\NetworkService"} 1
+windows_service_info{display_name="DCOM Server Process Launcher",service_name="dcomlaunch",process_id="884",run_as="LocalSystem"} 1
+windows_service_info{display_name="DHCP Client",service_name="dhcp",process_id="1532",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="DNS Client",service_name="dnscache",process_id="1744",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Data Sharing Service",service_name="dssvc",process_id="528",run_as="LocalSystem"} 1
+windows_service_info{display_name="Data Usage",service_name="dusmsvc",process_id="2380",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Delivery Optimization",service_name="dosvc",process_id="640",run_as="NT Authority\\NetworkService"} 1
+windows_service_info{display_name="DevQuery Background Discovery Broker",service_name="devquerybroker",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Device Association Service",service_name="deviceassociationservice",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Device Install Service",service_name="deviceinstall",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Device Management Enrollment Service",service_name="dmenrollmentsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Device Management Wireless Application Protocol (WAP) Push message Routing Service",service_name="dmwappushservice",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Device Setup Manager",service_name="dsmsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="DeviceAssociationBroker_390e7",service_name="deviceassociationbrokersvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="DevicePicker_390e7",service_name="devicepickerusersvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="DevicesFlow_390e7",service_name="devicesflowusersvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="Diagnostic Execution Service",service_name="diagsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Diagnostic Policy Service",service_name="dps",process_id="2840",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Diagnostic Service Host",service_name="wdiservicehost",process_id="3144",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Diagnostic System Host",service_name="wdisystemhost",process_id="3188",run_as="LocalSystem"} 1
+windows_service_info{display_name="Display Enhancement Service",service_name="displayenhancementservice",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Display Policy Service",service_name="dispbrokerdesktopsvc",process_id="1496",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Distributed Link Tracking Client",service_name="trkwks",process_id="2940",run_as="LocalSystem"} 1
+windows_service_info{display_name="Distributed Transaction Coordinator",service_name="msdtc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Downloaded Maps Manager",service_name="mapsbroker",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Embedded Mode",service_name="embeddedmode",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Encrypting File System (EFS)",service_name="efs",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Enterprise App Management Service",service_name="entappsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Extensible Authentication Protocol",service_name="eaphost",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Fax",service_name="fax",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="File History Service",service_name="fhsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Function Discovery Provider Host",service_name="fdphost",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Function Discovery Resource Publication",service_name="fdrespub",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="GameDVR and Broadcast User Service_390e7",service_name="bcastdvruserservice_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="Geolocation Service",service_name="lfsvc",process_id="312",run_as="LocalSystem"} 1
+windows_service_info{display_name="GraphicsPerfSvc",service_name="graphicsperfsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Group Policy Client",service_name="gpsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="HV Host Service",service_name="hvhost",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Human Interface Device Service",service_name="hidserv",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Hyper-V Data Exchange Service",service_name="vmickvpexchange",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Hyper-V Guest Service Interface",service_name="vmicguestinterface",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Hyper-V Guest Shutdown Service",service_name="vmicshutdown",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Hyper-V Heartbeat Service",service_name="vmicheartbeat",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Hyper-V PowerShell Direct Service",service_name="vmicvmsession",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Hyper-V Remote Desktop Virtualization Service",service_name="vmicrdv",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Hyper-V Time Synchronization Service",service_name="vmictimesync",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Hyper-V Volume Shadow Copy Requestor",service_name="vmicvss",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="IKE and AuthIP IPsec Keying Modules",service_name="ikeext",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="IP Helper",service_name="iphlpsvc",process_id="2340",run_as="LocalSystem"} 1
+windows_service_info{display_name="IP Translation Configuration Service",service_name="ipxlatcfgsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="IPsec Policy Agent",service_name="policyagent",process_id="0",run_as="NT Authority\\NetworkService"} 1
+windows_service_info{display_name="Internet Connection Sharing (ICS)",service_name="sharedaccess",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="KtmRm for Distributed Transaction Coordinator",service_name="ktmrm",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="LSM",service_name="lsm",process_id="1000",run_as=""} 1
+windows_service_info{display_name="Language Experience Service",service_name="lxpsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Link-Layer Topology Discovery Mapper",service_name="lltdsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Local Profile Assistant Service",service_name="wlpasvc",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="MessagingService_390e7",service_name="messagingservice_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="Microsoft (R) Diagnostics Hub Standard Collector Service",service_name="diagnosticshub.standardcollector.service",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Microsoft Account Sign-in Assistant",service_name="wlidsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Microsoft App-V Client",service_name="appvclient",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Microsoft Passport",service_name="ngcsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Microsoft Passport Container",service_name="ngcctnrsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Microsoft Software Shadow Copy Provider",service_name="swprv",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Microsoft Storage Spaces SMP",service_name="smphost",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Microsoft Store Install Service",service_name="installservice",process_id="3160",run_as="LocalSystem"} 1
+windows_service_info{display_name="Microsoft Windows SMS Router Service.",service_name="smsrouter",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Microsoft iSCSI Initiator Service",service_name="msiscsi",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Mozilla Maintenance Service",service_name="mozillamaintenance",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Natural Authentication",service_name="naturalauthentication",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Net.Tcp Port Sharing Service",service_name="nettcpportsharing",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="NetSetupSvc",service_name="netsetupsvc",process_id="0",run_as=""} 1
+windows_service_info{display_name="Netlogon",service_name="netlogon",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Network Connected Devices Auto-Setup",service_name="ncdautosetup",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Network Connection Broker",service_name="ncbservice",process_id="1236",run_as="LocalSystem"} 1
+windows_service_info{display_name="Network Connections",service_name="netman",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Network Connectivity Assistant",service_name="ncasvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Network List Service",service_name="netprofm",process_id="1920",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Network Location Awareness",service_name="nlasvc",process_id="1712",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Network Store Interface Service",service_name="nsi",process_id="1408",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="New Relic Infrastructure Agent",service_name="newrelic-infra",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Offline Files",service_name="cscservice",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="OpenSSH Authentication Agent",service_name="ssh-agent",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Optimize drives",service_name="defragsvc",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="PNRP Machine Name Publication Service",service_name="pnrpautoreg",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Parental Controls",service_name="wpcmonsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Payments and NFC/SE Manager",service_name="semgrsvc",process_id="2140",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Peer Name Resolution Protocol",service_name="pnrpsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Peer Networking Grouping",service_name="p2psvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Peer Networking Identity Manager",service_name="p2pimsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Performance Counter DLL Host",service_name="perfhost",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Performance Logs & Alerts",service_name="pla",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Phone Service",service_name="phonesvc",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Plug and Play",service_name="plugplay",process_id="808",run_as="LocalSystem"} 1
+windows_service_info{display_name="Portable Device Enumerator Service",service_name="wpdbusenum",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Power",service_name="power",process_id="884",run_as="LocalSystem"} 1
+windows_service_info{display_name="Print Spooler",service_name="spooler",process_id="2580",run_as="LocalSystem"} 1
+windows_service_info{display_name="PrintWorkflow_390e7",service_name="printworkflowusersvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="Printer Extensions and Notifications",service_name="printnotify",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Problem Reports and Solutions Control Panel Support",service_name="wercplsupport",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Program Compatibility Assistant Service",service_name="pcasvc",process_id="4188",run_as="LocalSystem"} 1
+windows_service_info{display_name="Quality Windows Audio Video Experience",service_name="qwave",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="RPC Endpoint Mapper",service_name="rpceptmapper",process_id="952",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Radio Management Service",service_name="rmsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Recommended Troubleshooting Service",service_name="troubleshootingsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Remote Access Auto Connection Manager",service_name="rasauto",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Remote Access Connection Manager",service_name="rasman",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Remote Desktop Configuration",service_name="sessionenv",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Remote Desktop Services",service_name="termservice",process_id="0",run_as="NT Authority\\NetworkService"} 1
+windows_service_info{display_name="Remote Desktop Services UserMode Port Redirector",service_name="umrdpservice",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Remote Procedure Call (RPC)",service_name="rpcss",process_id="952",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Remote Procedure Call (RPC) Locator",service_name="rpclocator",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Remote Registry",service_name="remoteregistry",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Retail Demo Service",service_name="retaildemo",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Routing and Remote Access",service_name="remoteaccess",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="SNMP Trap",service_name="snmptrap",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="SSDP Discovery",service_name="ssdpsrv",process_id="1048",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Secondary Logon",service_name="seclogon",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Secure Socket Tunneling Protocol Service",service_name="sstpsvc",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Security Accounts Manager",service_name="samss",process_id="676",run_as="LocalSystem"} 1
+windows_service_info{display_name="Security Center",service_name="wscsvc",process_id="3212",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Sensor Data Service",service_name="sensordataservice",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Sensor Monitoring Service",service_name="sensrsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Sensor Service",service_name="sensorservice",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Server",service_name="lanmanserver",process_id="2924",run_as="LocalSystem"} 1
+windows_service_info{display_name="Shared PC Account Manager",service_name="shpamsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Shell Hardware Detection",service_name="shellhwdetection",process_id="2444",run_as="LocalSystem"} 1
+windows_service_info{display_name="Smart Card",service_name="scardsvr",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Smart Card Device Enumeration Service",service_name="scdeviceenum",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Smart Card Removal Policy",service_name="scpolicysvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Software Protection",service_name="sppsvc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Spatial Data Service",service_name="sharedrealitysvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Spot Verifier",service_name="svsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="State Repository Service",service_name="staterepository",process_id="2420",run_as="LocalSystem"} 1
+windows_service_info{display_name="Still Image Acquisition Events",service_name="wiarpc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Storage Service",service_name="storsvc",process_id="6576",run_as="LocalSystem"} 1
+windows_service_info{display_name="Storage Tiers Management",service_name="tieringengineservice",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Sync Host_390e7",service_name="onesyncsvc_390e7",process_id="2268",run_as=""} 1
+windows_service_info{display_name="SysMain",service_name="sysmain",process_id="1908",run_as="LocalSystem"} 1
+windows_service_info{display_name="System Event Notification Service",service_name="sens",process_id="1892",run_as="LocalSystem"} 1
+windows_service_info{display_name="System Events Broker",service_name="systemeventsbroker",process_id="884",run_as="LocalSystem"} 1
+windows_service_info{display_name="System Guard Runtime Monitor Broker",service_name="sgrmbroker",process_id="5904",run_as="LocalSystem"} 1
+windows_service_info{display_name="TCP/IP NetBIOS Helper",service_name="lmhosts",process_id="3964",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Task Scheduler",service_name="schedule",process_id="1148",run_as="LocalSystem"} 1
+windows_service_info{display_name="Te.Service",service_name="te.service",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Telephony",service_name="tapisrv",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Themes",service_name="themes",process_id="1944",run_as="LocalSystem"} 1
+windows_service_info{display_name="Time Broker",service_name="timebrokersvc",process_id="1244",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Touch Keyboard and Handwriting Panel Service",service_name="tabletinputservice",process_id="4284",run_as="LocalSystem"} 1
+windows_service_info{display_name="UPnP Device Host",service_name="upnphost",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Update Orchestrator Service",service_name="usosvc",process_id="272",run_as="LocalSystem"} 1
+windows_service_info{display_name="User Data Access_390e7",service_name="userdatasvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="User Data Storage_390e7",service_name="unistoresvc_390e7",process_id="0",run_as=""} 1
+windows_service_info{display_name="User Experience Virtualization Service",service_name="uevagentservice",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="User Manager",service_name="usermanager",process_id="1440",run_as="LocalSystem"} 1
+windows_service_info{display_name="User Profile Service",service_name="profsvc",process_id="1228",run_as="LocalSystem"} 1
+windows_service_info{display_name="Virtual Disk",service_name="vds",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="VirtualBox Guest Additions Service",service_name="vboxservice",process_id="1792",run_as="LocalSystem"} 1
+windows_service_info{display_name="Volume Shadow Copy",service_name="vss",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Volumetric Audio Compositor Service",service_name="vacsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="WLAN AutoConfig",service_name="wlansvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="WMI Performance Adapter",service_name="wmiapsrv",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="WWAN AutoConfig",service_name="wwansvc",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="WalletService",service_name="walletservice",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="WarpJITSvc",service_name="warpjitsvc",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Web Account Manager",service_name="tokenbroker",process_id="4204",run_as="LocalSystem"} 1
+windows_service_info{display_name="WebClient",service_name="webclient",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Wi-Fi Direct Services Connection Manager Service",service_name="wfdsconmgrsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="WinHTTP Web Proxy Auto-Discovery Service",service_name="winhttpautoproxysvc",process_id="2176",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Audio",service_name="audiosrv",process_id="2288",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Audio Endpoint Builder",service_name="audioendpointbuilder",process_id="2100",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Backup",service_name="sdrsvc",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Windows Biometric Service",service_name="wbiosrvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Camera Frame Server",service_name="frameserver",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Connect Now - Config Registrar",service_name="wcncsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Connection Manager",service_name="wcmsvc",process_id="2372",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Windows Defender Advanced Threat Protection Service",service_name="sense",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Defender Antivirus Network Inspection Service",service_name="wdnissvc",process_id="2976",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Defender Antivirus Service",service_name="windefend",process_id="2956",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Defender Firewall",service_name="mpssvc",process_id="2668",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Windows Encryption Provider Host Service",service_name="wephostsvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Error Reporting Service",service_name="wersvc",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Windows Event Collector",service_name="wecsvc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Windows Event Log",service_name="eventlog",process_id="1196",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Font Cache Service",service_name="fontcache",process_id="2108",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Image Acquisition (WIA)",service_name="stisvc",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Windows Insider Service",service_name="wisvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Installer",service_name="msiserver",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows License Manager Service",service_name="licensemanager",process_id="1288",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Windows Licensing Monitoring Service",service_name="wlms",process_id="2968",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Management Instrumentation",service_name="winmgmt",process_id="2856",run_as="localSystem"} 1
+windows_service_info{display_name="Windows Management Service",service_name="wmansvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Media Player Network Sharing Service",service_name="wmpnetworksvc",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Windows Mixed Reality OpenXR Service",service_name="mixedrealityopenxrsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Mobile Hotspot Service",service_name="icssvc",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Windows Modules Installer",service_name="trustedinstaller",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Windows Perception Service",service_name="spectrum",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Perception Simulation Service",service_name="perceptionsimulation",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Phone IP over USB Transport (IpOverUsbSvc)",service_name="ipoverusbsvc",process_id="2864",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Presentation Foundation Font Cache 3.0.0.0",service_name="fontcache3.0.0.0",process_id="0",run_as="NT Authority\\LocalService"} 1
+windows_service_info{display_name="Windows Push Notifications System Service",service_name="wpnservice",process_id="2992",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Push Notifications User Service_390e7",service_name="wpnuserservice_390e7",process_id="3496",run_as=""} 1
+windows_service_info{display_name="Windows PushToInstall Service",service_name="pushtoinstall",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Remote Management (WS-Management)",service_name="winrm",process_id="0",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Windows Search",service_name="wsearch",process_id="5624",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Security Service",service_name="securityhealthservice",process_id="1280",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Time",service_name="w32time",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Windows Update",service_name="wuauserv",process_id="1820",run_as="LocalSystem"} 1
+windows_service_info{display_name="Windows Update Medic Service",service_name="waasmedicsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Wired AutoConfig",service_name="dot3svc",process_id="0",run_as="localSystem"} 1
+windows_service_info{display_name="Work Folders",service_name="workfolderssvc",process_id="0",run_as="NT AUTHORITY\\LocalService"} 1
+windows_service_info{display_name="Workstation",service_name="lanmanworkstation",process_id="2700",run_as="NT AUTHORITY\\NetworkService"} 1
+windows_service_info{display_name="Xbox Accessory Management Service",service_name="xboxgipsvc",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Xbox Live Auth Manager",service_name="xblauthmanager",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Xbox Live Game Save",service_name="xblgamesave",process_id="0",run_as="LocalSystem"} 1
+windows_service_info{display_name="Xbox Live Networking Service",service_name="xboxnetapisvc",process_id="0",run_as="LocalSystem"} 1
 # HELP windows_service_start_mode The start mode of the service (StartMode)
 # TYPE windows_service_start_mode gauge
 windows_service_start_mode{name="aarsvc_390e7",start_mode="auto"} 0

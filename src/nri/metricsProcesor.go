@@ -29,8 +29,12 @@ type metadataMap map[string]string
 type attributesMap map[string]string
 
 // ProcessMetrics creates entities and add metrics from the MetricFamiliesByName according to rules
-func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, matcher matcher.Matcher) error {
+func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, matcher matcher.Matcher, hostname string) error {
 	entityRules := loadRules()
+
+	if hostname == "" {
+		return fmt.Errorf("hostname cannot be empty")
+	}
 
 	entityMap, err := createEntities(i, metricFamilyMap, entityRules, matcher)
 	if err != nil {
@@ -39,7 +43,7 @@ func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFa
 
 	for _, metricsRules := range entityRules.Metrics {
 		if metricFamily, ok := metricFamilyMap[metricsRules.ProviderName]; ok {
-			if err := processMetricGauge(metricFamily, entityRules, entityMap); err != nil {
+			if err := processMetricGauge(metricFamily, entityRules, entityMap, hostname); err != nil {
 				log.Warn("error processing metric:%v", err.Error())
 			}
 		}
@@ -90,7 +94,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 	return entityMap, nil
 }
 
-func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName) error {
+func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName, hostname string) error {
 	metricRules, err := entityRules.getMetricRules(metricFamily.GetName())
 	if err != nil {
 		return fmt.Errorf("metric rule not found")
@@ -115,7 +119,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 			continue
 		}
 
-		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, m)
+		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, m, hostname)
 		addMetadata(metadata, e)
 		// _info metrics only contains metadata
 		if metricRules.InfoMetric {
@@ -150,9 +154,11 @@ func addAttributes(attributes attributesMap, metric metric.Metric) {
 	}
 }
 
-func getAttributesAndMetadata(entityRules EntityRules, attributesRules []Attribute, metric *dto.Metric) (attributesMap, metadataMap) {
+func getAttributesAndMetadata(entityRules EntityRules, attributesRules []Attribute, metric *dto.Metric, hostname string) (attributesMap, metadataMap) {
 	var metadata = make(map[string]string)
 	var attributes = make(map[string]string)
+
+	metadata[entityRules.EntityName.HostnameNrdbLabelName] = hostname
 
 	for _, attribute := range attributesRules {
 		value, err := getLabelValue(metric.GetLabel(), attribute.Label)

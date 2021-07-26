@@ -54,7 +54,7 @@
                     "minLength": 1,
                     "type": "string"
                   },
-                  "name": {
+                  "service_name": {
                     "minLength": 1,
                     "type": "string"
                   },
@@ -73,7 +73,7 @@
                 },
                 "required": [
                   "display_name",
-                  "name",
+                  "service_name",
                   "process_id",
                   "run_as",
                   "start_mode"

@@ -19,9 +19,10 @@ type EntityRules struct {
 // EntityName indicates which metrics labels use to form the unique entity name and displayName
 // for windows services the entity name is win_service:hostname:serviceName.
 type EntityName struct {
-	Metric           string `yaml:"from_metric"`
-	Label            string `yaml:"name_label"`
-	DisplayNameLabel string `yaml:"display_name_label"`
+	Metric                string `yaml:"from_metric"`
+	Label                 string `yaml:"name_label"`
+	DisplayNameLabel      string `yaml:"display_name_label"`
+	HostnameNrdbLabelName string `yaml:"hostname_nrdb_name"`
 }
 
 // MetricRules describe the metrics that compose the entity.
@@ -55,9 +56,10 @@ func loadRules() EntityRules {
 
 		EntityType: "WIN_SERVICE",
 		EntityName: EntityName{
-			Metric:           "windows_service_info",
-			Label:            "name",
-			DisplayNameLabel: "display_name",
+			Metric:                "windows_service_info",
+			Label:                 "name",
+			DisplayNameLabel:      "display_name",
+			HostnameNrdbLabelName: "hostname",
 		},
 		Metrics: []MetricRules{
 			{
@@ -66,7 +68,7 @@ func loadRules() EntityRules {
 				Attributes: []Attribute{
 					{
 						Label:            "name",
-						NrdbLabelName:    "name",
+						NrdbLabelName:    "service_name",
 						IsEntityMetadata: true,
 					},
 					{
@@ -108,18 +110,6 @@ func loadRules() EntityRules {
 					{
 						Label:         "state",
 						NrdbLabelName: "state",
-					},
-				},
-			},
-			{
-				ProviderName: "windows_service_status",
-				MetricType:   "gauge",
-				NrdbName:     "windows_service_status",
-				EnumMetric:   true,
-				Attributes: []Attribute{
-					{
-						Label:         "status",
-						NrdbLabelName: "status",
 					},
 				},
 			},
