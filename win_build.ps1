@@ -19,10 +19,10 @@ $integrationName = $integration.Replace("nri-", "")
 $executable = "nri-$integrationName.exe"
 $commitHash = (git rev-parse HEAD)
 
-$exporterRepo = "github.com\newrelic-forks\windows_exporter"
+$exporterRepo = "github.com/prometheus-community/windows_exporter"
 $exporterBinaryName = "windows_exporter.exe"
-# Commit used by v0.15.0 of windows_exporter
-$exporterVersion = "680d6073255e3e5391d49a9a957bc07b9843b32c"
+# Commit used by v0.16.0 of windows_exporter
+$exporterVersion = "5931604b5851ea659526303fb5d3a6ce44170538"
 # Collector used by the Windows Service integration
 $collectors = "collector.go","wmi.go","perflib.go","service.go","cs.go"
 
