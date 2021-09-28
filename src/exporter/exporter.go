@@ -38,14 +38,8 @@ type Exporter struct {
 	jobObject  windows.Handle
 }
 
-type process struct {
-	pid    int
-	handle windows.Handle
-}
-
 // New create a configured Exporter struct ready to be run
 func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
-
 	integrationDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create exporter:%v", err)
@@ -66,7 +60,7 @@ func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 		"--log.level", exporterLogLevel,
 		"--log.format", "logger:stderr?json=true",
 		"--collector.service.use-api",                         // enable collection using windows API instead of WMI
-		"--collector.service.services-where", "Name like '%'", //All Added to avoid warn message from Exporter
+		"--collector.service.services-where", "Name like '%'", // All Added to avoid warn message from Exporter
 		"--telemetry.addr", exporterURL)
 
 	return &Exporter{
@@ -82,13 +76,20 @@ func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 // Run executes the exporter binary
 func (e *Exporter) Run() error {
 	e.redirectLogs()
+
 	err := e.cmd.Start()
 	if err != nil {
 		return fmt.Errorf("failed to run exporter:%v", err)
 	}
+
 	if err = e.createJobObject(); err != nil {
 		return fmt.Errorf("failed to create job object:%v", err)
 	}
+
+	if err = e.setProcessPriority(); err != nil {
+		return fmt.Errorf("failed to exporter process priority class: %w", err)
+	}
+
 	go func() {
 		e.cmd.Wait()
 		log.Debug("exporter has stopped")
@@ -119,13 +120,58 @@ func (e *Exporter) createJobObject() error {
 		uint32(unsafe.Sizeof(jobInfo)),
 	)
 	if err != nil {
-		return fmt.Errorf("failed to set job object info:%v", err)
+		return fmt.Errorf("failed to set job object info: %v", err)
 	}
 
-	err = windows.AssignProcessToJobObject(e.jobObject, (*process)(unsafe.Pointer(e.cmd.Process)).handle)
+	if err = e.assingJobObject(); err != nil {
+		return fmt.Errorf("failed to assign process to job object: %w", err)
+	}
+
+	return nil
+}
+
+func (e *Exporter) assingJobObject() error {
+	handle, err := e.handle()
+	if err != nil {
+		return fmt.Errorf("failed to get proc handle: %v", err)
+	}
+
+	err = windows.AssignProcessToJobObject(e.jobObject, handle)
 	if err != nil {
 		return fmt.Errorf("failed to assign process to job object:%v", err)
 	}
+
+	return nil
+}
+
+func (e *Exporter) handle() (windows.Handle, error) {
+	var processHandle windows.Handle
+	if e.cmd.Process == nil {
+		return processHandle, fmt.Errorf("process cannot be nil pointer")
+	}
+
+	// Using unsafe operation we are using the handle inside os.Process.
+	processHandle = (*struct {
+		pid    int
+		handle windows.Handle
+	})(unsafe.Pointer(e.cmd.Process)).handle
+
+	return processHandle, nil
+}
+
+// setProcessPriority sets the exporter process priority class to match the integration one.
+func (e *Exporter) setProcessPriority() error {
+	priorityClass, err := windows.GetPriorityClass(windows.CurrentProcess())
+	if err != nil {
+		return fmt.Errorf("fail to get priorityClass from current process: %w", err)
+	}
+
+	handle, err := e.handle()
+	if err != nil {
+		return fmt.Errorf("failed to get proc handle: %v", err)
+	}
+
+	windows.SetPriorityClass(handle, priorityClass)
 
 	return nil
 }
@@ -134,7 +180,7 @@ func (e *Exporter) createJobObject() error {
 func (e *Exporter) Kill() {
 	windows.CloseHandle(e.jobObject)
 	select {
-	case <-e.Done: //exporter is not running any more
+	case <-e.Done: // exporter is not running any more
 		return
 	default:
 		e.cancel()
