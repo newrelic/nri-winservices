@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 0.4.0 Beta (2021-09-27)
 ### Changed
-- Consistent memory increase in windows exporter
+- Fixed consistent memory increase in windows exporter
 
 ## 0.3.0 Beta (2021-08-26)
 ### Changed
