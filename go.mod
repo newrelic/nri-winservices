@@ -6,11 +6,11 @@ require (
 	github.com/Microsoft/go-winio v0.5.0 // indirect
 	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/newrelic/infra-integrations-sdk/v4 v4.0.0
-	github.com/prometheus-community/windows_exporter v0.16.0
+	github.com/prometheus-community/windows_exporter v0.17.0
 	github.com/prometheus/client_model v0.2.0
-	github.com/prometheus/common v0.20.0
-	github.com/stretchr/testify v1.5.1
+	github.com/prometheus/common v0.32.1
+	github.com/stretchr/testify v1.6.1
 	github.com/xeipuuv/gojsonschema v1.2.0
-	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c
+	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1
 	gopkg.in/yaml.v2 v2.4.0
 )
