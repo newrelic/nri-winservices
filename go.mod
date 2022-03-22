@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/Microsoft/go-winio v0.5.0 // indirect
 	github.com/go-ole/go-ole v1.2.5 // indirect
-	github.com/newrelic/infra-integrations-sdk/v4 v4.1.1
+	github.com/newrelic/infra-integrations-sdk/v4 v4.2.1
 	github.com/prometheus-community/windows_exporter v0.16.0
 	github.com/prometheus/client_model v0.2.0
 	github.com/prometheus/common v0.20.0
