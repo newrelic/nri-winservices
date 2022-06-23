@@ -58,7 +58,6 @@ If the issue has been confirmed as a bug or is a feature request, file a GitHub 
 * [New Relic Community](https://discuss.newrelic.com): The best place to engage in troubleshooting questions
 * [New Relic Developer](https://developer.newrelic.com/): Resources for building a custom observability applications
 * [New Relic University](https://learn.newrelic.com/): A range of online training for New Relic users of every level
-* [New Relic Technical Support](https://support.newrelic.com/) 24/7/365 ticketed support. Read more about our [Technical Support Offerings](https://docs.newrelic.com/docs/licenses/license-information/general-usage-licenses/support-plan).
 
 ## Privacy
 
