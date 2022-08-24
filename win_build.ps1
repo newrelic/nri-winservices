@@ -22,7 +22,7 @@ $commitHash = (git rev-parse HEAD)
 $exporterRepo = "github.com/prometheus-community/windows_exporter"
 $exporterBinaryName = "windows_exporter.exe"
 # Commit used by v0.16.0 of windows_exporter
-$exporterVersion = "3e37b7b6f0422f980da644717419201727c95000"
+$exporterVersion = "1c199e6c0eed881fb09dfcc84eee191262215e5e"
 # Collector used by the Windows Service integration
 $collectors = "collector.go","wmi.go","perflib.go","service.go","cs.go"
 
@@ -97,7 +97,7 @@ if (-Not $skipExporterCompile)
     # exporter is build using the Prometheus tool
     go get -d "$exporterRepo"
     $env:GO111MODULE = "on"
-    go get "github.com/prometheus/promu"
+    go install "github.com/prometheus/promu@latest"
     $ErrorActionPreference = "Stop"
 
     Set-Location "$env:GOPATH\src\$exporterRepo"
