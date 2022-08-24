@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 /*
@@ -79,6 +80,8 @@ func TestIntegration(t *testing.T) {
 	//Notice that stdErr contains as well normal logs of the integration
 	require.NotNil(t, stderr, "unexpected stderr")
 	require.NoError(t, err, "Unexpected error")
+	fmt.Println(stdout)
+	fmt.Println(err)
 	fmt.Println(stderr)
 
 	schemaPath := filepath.Join("json-schema-files", "winservices-schema.json")
