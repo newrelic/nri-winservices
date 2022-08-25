@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 /*
@@ -60,7 +61,7 @@ func runIntegration() (string, string, error) {
 		return "", "", fmt.Errorf("fail to start cmd: %v, currentPath: %s", err, path)
 	}
 
-	time.Sleep(29 * time.Second)
+	time.Sleep(60 * time.Second)
 	stdout := outbuf.String()
 	stderr := errbuf.String()
 
