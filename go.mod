@@ -7,7 +7,7 @@ require (
 	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/newrelic/infra-integrations-sdk/v4 v4.1.1
 	github.com/prometheus-community/windows_exporter v0.16.0
-	github.com/prometheus/client_model v0.2.0
+	github.com/prometheus/client_model v0.3.0
 	github.com/prometheus/common v0.20.0
 	github.com/stretchr/testify v1.8.1
 	github.com/xeipuuv/gojsonschema v1.2.0
