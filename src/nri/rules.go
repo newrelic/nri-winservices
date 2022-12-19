@@ -28,9 +28,11 @@ type EntityName struct {
 // MetricRules describe the metrics that compose the entity.
 //
 // prometheus enums metrics are generally send using following style:
-// 	windows_service_start_mode{name="wersvc",start_mode="auto"} 0
-// 	windows_service_start_mode{name="wersvc",start_mode="disabled"} 0
-// 	windows_service_start_mode{name="wersvc",start_mode="manual"} 1
+//
+//	windows_service_start_mode{name="wersvc",start_mode="auto"} 0
+//	windows_service_start_mode{name="wersvc",start_mode="disabled"} 0
+//	windows_service_start_mode{name="wersvc",start_mode="manual"} 1
+//
 // using EnumMetric=true will only send the metric with value 1 with the corresponding attribute
 //
 // for promethus *_info metrics no metric will be send, just metadata.

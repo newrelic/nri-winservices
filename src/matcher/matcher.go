@@ -11,7 +11,7 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/v4/log"
 )
 
-//Matcher groups the rules to validate the service name
+// Matcher groups the rules to validate the service name
 type Matcher struct {
 	patterns []pattern
 }
@@ -36,6 +36,7 @@ func (m *Matcher) IsEmpty() bool {
 	}
 	return true
 }
+
 func (p pattern) match(s string) bool {
 	return p.regex.MatchString(s)
 }
