@@ -97,7 +97,7 @@ if (-Not $skipExporterCompile)
     # exporter is build using the Prometheus tool
     go get -d "$exporterRepo"
     $env:GO111MODULE = "on"
-    go get "github.com/prometheus/promu"
+    go install "github.com/prometheus/promu@latest"
     $ErrorActionPreference = "Stop"
 
     Set-Location "$env:GOPATH\src\$exporterRepo"
