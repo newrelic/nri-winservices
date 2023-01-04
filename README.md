@@ -3,7 +3,6 @@
 # New Relic Windows Services integration
 ![](https://github.com/newrelic/nri-winservices/workflows/PullRequestAndMergeMaster/badge.svg)
 ![](https://github.com/newrelic/nri-winservices/workflows/Release/badge.svg)
-![Snyk Dependencies](https://github.com/newrelic/nri-winservices/workflows/Snyk%20Dependencies/badge.svg)
 
 New Relic's Windows Services integration collects data from the services running on your Windows hosts into our platform. You can check the state and start mode of each service, find out which hosts are running a service, add services to workloads, set up alerts for services, and more.
  
