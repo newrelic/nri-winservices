@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.0 (2023-03-16)
+### Changed
+- Bump golang.org/x/sys from 0.4.0 to 0.5.0
+- Bump github.com/stretchr/testify from 1.8.1 to 1.8.2
+- Bump github.com/prometheus/common from v0.37.0 to v0.42.0
+
+## 0.6.0 Beta (2022-08-25)
+### Changed
+- Bumped exporter version to commit 1c199e6c0eed881fb09dfcc84eee191262215e5e fixing access to some restricted services on some windows distributions.
+
 ## 0.5.0 Beta (2021-09-28)
 ### Changed
 - Spawned exporter process priority class is now set to the same as the integration
