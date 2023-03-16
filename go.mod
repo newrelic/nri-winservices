@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/newrelic/infra-integrations-sdk/v4 v4.2.1
-	github.com/prometheus-community/windows_exporter v0.20.0
+	github.com/prometheus-community/windows_exporter v0.21.0
 	github.com/prometheus/client_model v0.3.0
 	github.com/prometheus/common v0.42.0
 	github.com/stretchr/testify v1.8.2
@@ -15,7 +15,7 @@ require (
 
 require (
 	github.com/Microsoft/go-winio v0.5.0 // indirect
-	github.com/Microsoft/hcsshim v0.9.4 // indirect
+	github.com/Microsoft/hcsshim v0.9.6 // indirect
 	github.com/StackExchange/wmi v0.0.0-20180725035823-b12b22c5341f // indirect
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
 	github.com/alecthomas/units v0.0.0-20211218093645-b94a6e3cc137 // indirect
@@ -30,7 +30,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/leoluk/perflib_exporter v0.1.1-0.20211204221052-9e3696429c20 // indirect
+	github.com/leoluk/perflib_exporter v0.2.0 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/newrelic/infrastructure-agent v0.0.0-20201127092132-00ac7efc0cc6 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -40,7 +40,7 @@ require (
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
-	go.opencensus.io v0.22.4 // indirect
+	go.opencensus.io v0.23.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
