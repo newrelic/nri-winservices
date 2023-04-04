@@ -44,6 +44,9 @@ type hostnameFn func() (name string, err error)
 func main() {
 	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
 	fatalOnErr(err)
+	// We want the hostEntity to be created because it's needed for the register_batch endpoint
+	i.HostEntity.SetIgnoreEntity(false)
+
 	log.SetupLogging(args.Verbose)
 
 	v := fmt.Sprintf("integration version: %s commit: %s", integrationVersion, commitHash)

@@ -104,6 +104,7 @@ func TestCreateEntities(t *testing.T) {
 	require.True(t, ok)
 	require.Len(t, i.Entities, 1)
 	require.Equal(t, i.Entities[0].Name(), entityNamePrefix+":"+hostName+":"+serviceName)
+	require.False(t, i.Entities[0].IgnoreEntity)
 }
 
 func TestNoServiceNameAllowed(t *testing.T) {

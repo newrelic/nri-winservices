@@ -87,6 +87,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 			warnOnErr(err)
 			continue
 		}
+		entity.SetIgnoreEntity(false)
 		integrationInstance.AddEntity(entity)
 
 		entityMap[serviceName] = entity
