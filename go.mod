@@ -9,7 +9,7 @@ require (
 	github.com/prometheus/common v0.42.0
 	github.com/stretchr/testify v1.8.2
 	github.com/xeipuuv/gojsonschema v1.2.0
-	golang.org/x/sys v0.6.0
+	golang.org/x/sys v0.7.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
