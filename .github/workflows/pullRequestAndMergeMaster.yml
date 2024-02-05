@@ -4,27 +4,24 @@ on:
     branches:
       - master
   pull_request:
-    branches:
+
 jobs:
   CreateAndPushWindowsExecutable:
     name: CreateAndPushWindowsExecutable
+    runs-on: windows-2019
     strategy:
       matrix:
-        go: [ 1.19 ]
         goarch: [ amd64 ]
-    runs-on: windows-2019
     steps:
-    - uses: actions/setup-go@v2
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
       with:
-        go-version: ${{ matrix.go }}
-      id: go
+        go-version-file: "go.mod"
     - name: Setting EnvVariable to checkout newLine char properly
       shell: bash
       run: |
         git config --system core.autocrlf false
         git config --system core.eol lf
-    - name: Checking out the code
-      uses: actions/checkout@v2
     - name: Test and Build
       shell: powershell
       run: |
