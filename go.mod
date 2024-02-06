@@ -4,6 +4,7 @@ go 1.21.6
 
 require (
 	github.com/newrelic/infra-integrations-sdk/v4 v4.2.1
+	// The exporter version packaged with the integration is defined in win_build.ps1
 	github.com/prometheus-community/windows_exporter v0.25.1
 	github.com/prometheus/client_model v0.5.0
 	github.com/prometheus/common v0.46.0
