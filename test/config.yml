@@ -1,5 +1,5 @@
 exporter_bind_address: 127.0.0.1
-exporter_bind_port: 9182
+exporter_bind_port: 5050
 scrape_interval: 15s
 include_matching_entities:
   windowsService.name:

@@ -7,7 +7,7 @@ package nri
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"time"
 
 	"github.com/newrelic/infra-integrations-sdk/v4/log"
@@ -18,6 +18,8 @@ import (
 const (
 	minScrapeInterval = 15 * time.Second
 	heartBeatPeriod   = 5 * time.Second // Period for the hard beat signal should be less than timeout
+
+	filterServiceName = "windowsService.name"
 )
 
 // Config holds the integration configuration
@@ -38,28 +40,29 @@ type configYml struct {
 
 // NewConfig reads the configuration from yml file
 func NewConfig(filename string) (*Config, error) {
-	// Read the file
-	yamlFile, err := ioutil.ReadFile(filename)
+	yamlFile, err := os.ReadFile(filename)
 	if err != nil {
-		return nil, fmt.Errorf("failed to open %s: %s", filename, err)
+		return nil, fmt.Errorf("reading config file %s: %w", filename, err)
 	}
 	// Parse the file
 	c := configYml{FilterEntity: make(map[string][]string)}
 	if err := yaml.Unmarshal(yamlFile, &c); err != nil {
-		return nil, fmt.Errorf("failed to parse config: %s", err)
+		return nil, fmt.Errorf("parsing config: %w", err)
 	}
-	var m matcher.Matcher
-	if val, ok := c.FilterEntity["windowsService.name"]; ok {
-		m = matcher.New(val)
-	} else {
-		return nil, fmt.Errorf("failed to parse config: only filter by windowsService.name is allowed")
+
+	val, exists := c.FilterEntity[filterServiceName]
+	if !exists {
+		return nil, fmt.Errorf("%s filter inside 'include_matching_entities' config is required", filterServiceName)
+
 	}
-	if m.IsEmpty() {
-		return nil, fmt.Errorf("failed to parse config: no valid filter loaded")
+
+	matcher := matcher.New(val)
+	if matcher.IsEmpty() {
+		return nil, fmt.Errorf("include_matching_entities must contain at least one valid filter")
 	}
 
 	if c.ExporterBindAddress == "" || c.ExporterBindPort == "" {
-		return nil, fmt.Errorf("exporter_bind_address and exporter_bind_port need to be configured")
+		return nil, fmt.Errorf("exporter_bind_address and exporter_bind_port config must exist")
 	}
 
 	interval, err := time.ParseDuration(c.ScrapeInterval)
@@ -74,7 +77,7 @@ func NewConfig(filename string) (*Config, error) {
 	log.Debug("running with scrape interval: %s", interval.String())
 
 	config := &Config{
-		Matcher:             m,
+		Matcher:             matcher,
 		ExporterBindAddress: c.ExporterBindAddress,
 		ExporterBindPort:    c.ExporterBindPort,
 		ScrapeInterval:      interval,
