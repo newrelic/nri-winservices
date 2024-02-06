@@ -43,7 +43,9 @@ type hostnameFn func() (name string, err error)
 
 func main() {
 	i, err := integration.New(integrationName, integrationVersion, integration.Args(&args))
-	fatalOnErr(err)
+	if err != nil {
+		log.Fatal(fmt.Errorf("Fail to create the integration: %s", err))
+	}
 	// We want the hostEntity to be created because it's needed for the register_batch endpoint
 	i.HostEntity.SetIgnoreEntity(false)
 
@@ -57,19 +59,25 @@ func main() {
 	log.Debug(v)
 
 	config, err := nri.NewConfig(args.ConfigPath)
-	fatalOnErr(err)
+	if err != nil {
+		log.Fatal(fmt.Errorf("Fail to configure the integration: %s", err))
+	}
 
 	e, err := exporter.New(args.Verbose, config.ExporterBindAddress, config.ExporterBindPort)
-	fatalOnErr(err)
+	if err != nil {
+		log.Fatal(fmt.Errorf("Fail to configure the exporter: %s", err))
+	}
 
 	log.Debug("Running exporter")
-	err = e.Run()
-	fatalOnErr(err)
+	if err = e.Run(); err != nil {
+		log.Fatal(fmt.Errorf("Fail to run the exporter: %s", err))
+	}
 
 	// After fail the integration is being relaunched by the Agent when timeout expires since no heartbeats are send
 	log.Debug("Running Integration")
-	err = run(e, i, config, os.Hostname)
-	log.Fatal(err)
+	if err = run(e, i, config, os.Hostname); err != nil {
+		log.Fatal(fmt.Errorf("Fail to run the integration: %s", err))
+	}
 }
 
 func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config, hostnameFn hostnameFn) error {
@@ -116,11 +124,5 @@ func run(e *exporter.Exporter, i *integration.Integration, config *nri.Config, h
 			// exit when the exporter has stopped running
 			return fmt.Errorf("exporter has stopped")
 		}
-	}
-}
-
-func fatalOnErr(err error) {
-	if err != nil {
-		log.Fatal(err)
 	}
 }

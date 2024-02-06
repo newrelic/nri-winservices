@@ -6,8 +6,9 @@
 package nri
 
 import (
-	"io/ioutil"
+	"io/fs"
 	"os"
+	"path"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -23,12 +24,12 @@ include_matching_entities:
     - regex ".*"
     - "ServiceNameToBeIncluded"`)
 
-	tmpfile, err := ioutil.TempFile("", "config")
-	require.NoError(t, err)
-	defer os.Remove(tmpfile.Name()) // clean up
-	_, err = tmpfile.Write(content)
+	configPath := path.Join(t.TempDir(), "config.yml")
+
+	readOnly := 0o444
+	err := os.WriteFile(configPath, content, fs.FileMode(readOnly))
 	require.NoError(t, err)
 
-	_, err = NewConfig(tmpfile.Name())
+	_, err = NewConfig(configPath)
 	require.NoError(t, err)
 }

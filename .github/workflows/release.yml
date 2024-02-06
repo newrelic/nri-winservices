@@ -11,15 +11,15 @@ jobs:
         goarch: [ amd64 ]
     runs-on: windows-2019
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-go@v5
-      with:
-        go-version-file: "go.mod"
     - name: Setting EnvVariable to checkout newLine char properly
       shell: bash
       run: |
         git config --system core.autocrlf false
         git config --system core.eol lf
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
+      with:
+        go-version-file: "go.mod"
     - name: Test and Build
       shell: powershell
       run: |
