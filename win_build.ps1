@@ -107,7 +107,7 @@ if (-Not $skipExporterCompile)
     $ErrorActionPreference = "Stop"
     $currentCommit = cat .git/HEAD
     if($currentCommit -ne $exporterVersion){
-        echo "Failed checking out exporter version $exporterVersion"
+        echo "Faile d checking out exporter version $exporterVersion"
         exit -1
     }
 
