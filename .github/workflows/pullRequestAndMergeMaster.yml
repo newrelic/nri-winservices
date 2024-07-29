@@ -10,7 +10,7 @@ jobs:
     name: CreateAndPushWindowsExecutable
     strategy:
       matrix:
-        go: [ 1.19 ]
+        go: [ 1.22 ]
         goarch: [ amd64 ]
     runs-on: windows-2019
     steps:
