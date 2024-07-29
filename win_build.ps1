@@ -95,7 +95,7 @@ if (-Not $skipExporterCompile)
     
     $ErrorActionPreference = "SilentlyContinue"
     # exporter is build using the Prometheus tool
-    git clone "$exporterRepo" "$env:GOPATH\src\$exporterRepo"
+    git clone "https://$exporterRepo.git" "$env:GOPATH\src\$exporterRepo"
     $env:GO111MODULE = "on"
     go install "github.com/prometheus/promu@latest"
     $ErrorActionPreference = "Stop"
