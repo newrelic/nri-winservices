@@ -43,7 +43,7 @@ func Get(client HTTPDoer, url string) (MetricFamiliesByName, error) {
 
 	log.Debug("Parsing body of the exporter answer")
 	countedBody := &countReadCloser{innerReadCloser: resp.Body}
-	d := expfmt.NewDecoder(countedBody, expfmt.FmtText)
+	d := expfmt.NewDecoder(countedBody, expfmt.NewFormat(expfmt.TypeTextPlain))
 	for {
 		var mf dto.MetricFamily
 		if err = d.Decode(&mf); err != nil {
