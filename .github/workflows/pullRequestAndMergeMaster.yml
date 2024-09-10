@@ -31,7 +31,7 @@ jobs:
         $ErrorView = 'NormalView'
         [Environment]::SetEnvironmentVariable("path", "$env:path;$env:GOPATH\bin", "Machine")
         .\win_build.ps1 -arch ${{ matrix.goarch }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: binaries
         path: .\target\bin\windows_${{ matrix.goarch }}
