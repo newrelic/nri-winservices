@@ -59,7 +59,7 @@ func main() {
 	config, err := nri.NewConfig(args.ConfigPath)
 	fatalOnErr(err)
 
-	e, err := exporter.New(args.Verbose, config.ExporterBindAddress, config.ExporterBindPort)
+	e, err := exporter.New(args.Verbose, config.ExporterBindAddress, config.ExporterBindPort, config.ExtraCollectors)
 	fatalOnErr(err)
 
 	log.Debug("Running exporter")

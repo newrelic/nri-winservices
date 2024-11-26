@@ -6,6 +6,9 @@ integrations:
       # exporter_bind_address: 127.0.0.1
       # exporter_bind_port: 9182
 
+      # add more collectors 
+      # exporter_extra_collectors: "os"
+
       # To include services, create a list of filters to be applied to the service names.
       # Services that find a match with any of the matching lists are included. By default,
       # no service is included.

@@ -27,6 +27,7 @@ type Config struct {
 	ExporterBindPort    string
 	ScrapeInterval      time.Duration
 	HeartBeatPeriod     time.Duration
+	ExtraCollectors     string
 }
 
 type configYml struct {
@@ -34,6 +35,7 @@ type configYml struct {
 	ExporterBindAddress string              `yaml:"exporter_bind_address"`
 	ExporterBindPort    string              `yaml:"exporter_bind_port"`
 	ScrapeInterval      string              `yaml:"scrape_interval"`
+	ExtraCollectors     string              `yaml:"exporter_extra_collectors"`
 }
 
 // NewConfig reads the configuration from yml file
@@ -79,6 +81,7 @@ func NewConfig(filename string) (*Config, error) {
 		ExporterBindPort:    c.ExporterBindPort,
 		ScrapeInterval:      interval,
 		HeartBeatPeriod:     heartBeatPeriod,
+		ExtraCollectors:     c.ExtraCollectors,
 	}
 	return config, nil
 }

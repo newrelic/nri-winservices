@@ -39,7 +39,7 @@ type Exporter struct {
 }
 
 // New create a configured Exporter struct ready to be run
-func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
+func New(verbose bool, bindAddress string, bindPort string, extraCollectors string) (*Exporter, error) {
 	integrationDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create exporter:%v", err)
@@ -54,6 +54,7 @@ func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 	}
 	exporterURL := bindAddress + ":" + bindPort
 
+	enabledCollectors := enabledCollectors + "," + extraCollectors
 	cmd := exec.CommandContext(ctx,
 		exporterPath,
 		"--collectors.enabled", enabledCollectors,

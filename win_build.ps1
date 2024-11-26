@@ -24,7 +24,7 @@ $exporterBinaryName = "windows_exporter.exe"
 # Commit used by v0.16.0 of windows_exporter
 $exporterVersion = "1c199e6c0eed881fb09dfcc84eee191262215e5e"
 # Collector used by the Windows Service integration
-$collectors = "collector.go","wmi.go","perflib.go","service.go","cs.go"
+$collectors = "collector.go","wmi.go","perflib.go","service.go","cs.go","os.go"
 
 $env:GOPATH = go env GOPATH
 $env:GOBIN = "$env:GOPATH\bin"
