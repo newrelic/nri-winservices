@@ -119,8 +119,8 @@ func TestNoServiceNameAllowed(t *testing.T) {
 	entityMap, err := createEntities(i, mfbn, rules, matcher)
 	require.NoError(t, err, "No error is expected even if no service is allowed")
 	require.Len(t, entityMap, 0, "No entity is expected since no service is allowed")
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap, mfbn, hostname)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap, mfbn, hostname)
 	require.NoError(t, err)
 	require.NoError(t, err, "No error is expected even if entityMap is empty")
 }
@@ -137,13 +137,13 @@ func TestProccessMetricGauge(t *testing.T) {
 	entityMap, err := createEntities(i, mfbn, rules, matcher)
 	require.NoError(t, err)
 	// process info metrics
-	err = processMetricGauge(metricFamlilyServiceInfo, rules, entityMap, hostname)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap, mfbn, hostname)
 	require.NoError(t, err)
 	metadata := entityMap[serviceName].GetMetadata()
 	assert.Equal(t, serviceDisplayName, metadata["display_name"])
 	assert.Equal(t, servicePid, metadata["process_id"])
 	// process startmode metrics
-	err = processMetricGauge(metricFamlilyService, rules, entityMap, hostname)
+	err = processMetricGauge(metricFamlilyService, rules, entityMap, mfbn, hostname)
 	assert.NoError(t, err)
 	assert.Equal(t, serviceStartMode, metadata["start_mode"])
 

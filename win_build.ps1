@@ -21,8 +21,8 @@ $commitHash = (git rev-parse HEAD)
 
 $exporterRepo = "github.com/prometheus-community/windows_exporter"
 $exporterBinaryName = "windows_exporter.exe"
-# Commit used by v0.16.0 of windows_exporter
-$exporterVersion = "1c199e6c0eed881fb09dfcc84eee191262215e5e"
+# Commit used by v0.30.rc-2 of windows_exporter
+$exporterVersion = "f5ff75ebc26c5b4dd3f1d07701e6fca9fd944fe3"
 # Collector used by the Windows Service integration
 $collectors = "collector.go","wmi.go","perflib.go","service.go","cs.go"
 
@@ -112,7 +112,7 @@ if (-Not $skipExporterCompile)
     }
 
     # remove unused collectors 
-    Remove-Item .\collector\* -Exclude $collectors
+    # Remove-Item .\collector\* -Exclude $collectors
     $ErrorActionPreference = "SilentlyContinue"
     go mod download
     $ErrorActionPreference = "Stop"

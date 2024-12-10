@@ -58,10 +58,11 @@ func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 		exporterPath,
 		"--collectors.enabled", enabledCollectors,
 		"--log.level", exporterLogLevel,
-		"--log.format", "logger:stderr?json=true",
-		"--collector.service.use-api",                         // enable collection using windows API instead of WMI
-		"--collector.service.services-where", "Name like '%'", // All Added to avoid warn message from Exporter
-		"--telemetry.addr", exporterURL)
+		"--log.format", "json",
+		// "--collector.service.use-api",                         // enable collection using windows API instead of WMI
+		// "--collector.service.services-where", "Name like '%'", // All Added to avoid warn message from Exporter
+		"--web.listen-address", exporterURL,
+	)
 
 	return &Exporter{
 		URL:        exporterURL,

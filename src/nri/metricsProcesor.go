@@ -43,12 +43,26 @@ func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFa
 
 	for _, metricsRules := range entityRules.Metrics {
 		if metricFamily, ok := metricFamilyMap[metricsRules.ProviderName]; ok {
-			if err := processMetricGauge(metricFamily, entityRules, entityMap, hostname); err != nil {
+			if err := processMetricGauge(metricFamily, entityRules, entityMap, metricFamilyMap, hostname); err != nil {
 				log.Warn("error processing metric:%v", err.Error())
 			}
 		}
 	}
 	return nil
+}
+
+func findProcessId(metricFamily dto.MetricFamily, key string, entityRules EntityRules) (string, error) {
+	for _, m := range metricFamily.GetMetric() {
+		serviceName, _ := getLabelValue(m.GetLabel(), entityRules.EntityName.Label)
+		if serviceName == key {
+			for _, l := range m.GetLabel() {
+				if l.GetName() == "process_id" {
+					return l.GetValue(), nil
+				}
+			}
+		}
+	}
+	return "", fmt.Errorf("label %v not found", key)
 }
 
 func createEntities(integrationInstance *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, entityRules EntityRules, matcher matcher.Matcher) (entitiesByName, error) {
@@ -95,7 +109,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 	return entityMap, nil
 }
 
-func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName, hostname string) error {
+func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, ebn entitiesByName, metricFamilyMap scraper.MetricFamiliesByName, hostname string) error {
 	metricRules, err := entityRules.getMetricRules(metricFamily.GetName())
 	if err != nil {
 		return fmt.Errorf("metric rule not found")
@@ -121,6 +135,18 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		}
 
 		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, m, hostname)
+		if metricFamily.GetName() == "windows_service_info" {
+			winServiceProcess, ok := metricFamilyMap["windows_service_process"]
+			if ok {
+				processId, err := findProcessId(winServiceProcess, serviceName, entityRules)
+				if err != nil {
+					metadata["process_id"] = "0"
+				} else {
+					metadata["process_id"] = processId
+
+				}
+			}
+		}
 		addMetadata(metadata, e)
 		// _info metrics only contains metadata
 		if metricRules.InfoMetric {
