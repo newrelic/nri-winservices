@@ -7,6 +7,7 @@ package nri
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/newrelic/nri-winservices/src/matcher"
@@ -169,6 +170,10 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 func addMetadata(metadata metadataMap, e *integration.Entity) {
 	var err error
 	for k, v := range metadata {
+		// exporter sends service_name in camel case
+		if k == "service_name" {
+			v = strings.ToLower(v)
+		}
 		err = e.AddMetadata(k, v)
 		warnOnErr(err)
 	}
