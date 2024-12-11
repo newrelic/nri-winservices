@@ -136,6 +136,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 		}
 
 		attributes, metadata := getAttributesAndMetadata(entityRules, metricRules.Attributes, m, hostname)
+		// Add process_id to windows_service_info metrics Family
 		if metricFamily.GetName() == "windows_service_info" {
 			winServiceProcess, ok := metricFamilyMap["windows_service_process"]
 			if ok {
@@ -170,7 +171,7 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 func addMetadata(metadata metadataMap, e *integration.Entity) {
 	var err error
 	for k, v := range metadata {
-		// exporter sends service_name in camel case
+		// exporter sends service_name in camel case we need to convert it to lowercase
 		if k == "service_name" {
 			v = strings.ToLower(v)
 		}
