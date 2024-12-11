@@ -21,8 +21,8 @@ $commitHash = (git rev-parse HEAD)
 
 $exporterRepo = "github.com/prometheus-community/windows_exporter"
 $exporterBinaryName = "windows_exporter.exe"
-# Commit used by v0.30.rc-2 of windows_exporter
-$exporterVersion = "f5ff75ebc26c5b4dd3f1d07701e6fca9fd944fe3"
+# Commit used by v0.29.2 of windows_exporter
+$exporterVersion = "622813343f930c121c8b1c061d6dd6f02d96015f"
 # Collector used by the Windows Service integration
 $collectors = "collector.go","wmi.go","perflib.go","service.go","cs.go"
 
