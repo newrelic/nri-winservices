@@ -59,8 +59,8 @@ func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 		"--collectors.enabled", enabledCollectors,
 		"--log.level", exporterLogLevel,
 		"--log.format", "json",
-		// "--collector.service.use-api",                         // enable collection using windows API instead of WMI
-		// "--collector.service.services-where", "Name like '%'", // All Added to avoid warn message from Exporter
+		// "--collector.service.use-api", // The WMI based collector is gone used to enable collection using windows API instead of WMI
+		"--collector.service.include", ".*", // All Added to avoid warn message from Exporter
 		"--web.listen-address", exporterURL,
 	)
 
