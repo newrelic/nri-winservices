@@ -6,6 +6,7 @@
 package nri
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/newrelic/infra-integrations-sdk/v4/integration"
@@ -17,7 +18,7 @@ import (
 )
 
 const (
-	serviceName        = "rpcss"
+	serviceName        = "RpcSs"
 	serviceStartMode   = "auto"
 	serviceDisplayName = "Remote Procedure Call (RPC)"
 	servicePid         = "668"
@@ -125,7 +126,7 @@ func TestCreateEntities(t *testing.T) {
 	_, ok := entityMap[serviceName]
 	require.True(t, ok)
 	require.Len(t, i.Entities, 1)
-	require.Equal(t, i.Entities[0].Name(), entityNamePrefix+":"+hostName+":"+serviceName)
+	require.Equal(t, i.Entities[0].Name(), entityNamePrefix+":"+hostName+":"+strings.ToLower(serviceName))
 	require.False(t, i.Entities[0].IgnoreEntity)
 }
 
@@ -164,6 +165,9 @@ func TestProccessMetricGauge(t *testing.T) {
 	require.NoError(t, err)
 	metadata := entityMap[serviceName].GetMetadata()
 	assert.Equal(t, serviceDisplayName, metadata["display_name"])
+
+	// Service name in lowercase check
+	assert.Equal(t, strings.ToLower(serviceName), metadata["service_name"])
 
 	// process startmode metrics
 	err = processMetricGauge(metricFamlilyService, rules, entityMap, mfbn, hostname)

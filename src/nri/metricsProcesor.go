@@ -95,7 +95,7 @@ func createEntities(integrationInstance *integration.Integration, metricFamilyMa
 			continue
 		}
 
-		entityName := fmt.Sprintf("%s:%s:%s", entityNamePrefix, hostName, serviceName)
+		entityName := fmt.Sprintf("%s:%s:%s", entityNamePrefix, hostName, strings.ToLower(serviceName))
 
 		entity, err := integrationInstance.NewEntity(entityName, entityRules.EntityType, serviceDisplayName)
 		if err != nil {
@@ -171,7 +171,8 @@ func processMetricGauge(metricFamily dto.MetricFamily, entityRules EntityRules, 
 func addMetadata(metadata metadataMap, e *integration.Entity) {
 	var err error
 	for k, v := range metadata {
-		// exporter sends service_name in camel case we need to convert it to lowercase
+		// latest version exporter sends service_name in camel case
+		// for consistency we need to convert it to lowercase
 		if k == "service_name" {
 			v = strings.ToLower(v)
 		}
