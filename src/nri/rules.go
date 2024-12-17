@@ -83,11 +83,6 @@ func loadRules() EntityRules {
 						NrdbLabelName:    "display_name",
 						IsEntityMetadata: true,
 					},
-					{
-						Label:            "process_id",
-						NrdbLabelName:    "process_id",
-						IsEntityMetadata: true,
-					},
 				},
 			},
 			{
@@ -112,6 +107,24 @@ func loadRules() EntityRules {
 					{
 						Label:         "state",
 						NrdbLabelName: "state",
+					},
+				},
+			},
+			{
+				ProviderName: "windows_service_process",
+				MetricType:   "gauge",
+				NrdbName:     "windows_service_process",
+				EnumMetric:   true,
+				Attributes: []Attribute{
+					{
+						Label:            "name",
+						NrdbLabelName:    "service_name",
+						IsEntityMetadata: true,
+					},
+					{
+						Label:            "process_id",
+						NrdbLabelName:    "process_id",
+						IsEntityMetadata: true,
 					},
 				},
 			},
