@@ -14,15 +14,14 @@ param (
 # Print errors in NormalView
 $ErrorView = 'NormalView'
 
-$integration = $(Split-Path -Leaf $PSScriptRoot)
-$integrationName = $integration.Replace("nri-", "")
-$executable = "nri-$integrationName.exe"
+$integrationName = "winservices"
+$executable = "nri-winservices.exe"
 $commitHash = (git rev-parse HEAD)
 
 $exporterRepo = "github.com/prometheus-community/windows_exporter"
 $exporterBinaryName = "windows_exporter.exe"
-# Commit used by v0.29.2 of windows_exporter
-$exporterVersion = "622813343f930c121c8b1c061d6dd6f02d96015f"
+# Commit used by v0.30.6 of windows_exporter
+$exporterVersion = "db60c78f32185083354f16fb9d534a021f0d85f9"
 
 
 $env:GOPATH = go env GOPATH
