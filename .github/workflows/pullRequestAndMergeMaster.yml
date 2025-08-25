@@ -10,9 +10,9 @@ jobs:
     name: CreateAndPushWindowsExecutable
     strategy:
       matrix:
-        go: [ 1.22.7 ]
+        go: [ 1.24.6 ]
         goarch: [ amd64 ]
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
     - uses: actions/setup-go@v2
       with:
