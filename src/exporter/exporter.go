@@ -151,11 +151,12 @@ func (e *Exporter) handle() (windows.Handle, error) {
 		return processHandle, fmt.Errorf("process cannot be nil pointer")
 	}
 
-	// Using unsafe operation we are using the handle inside os.Process.
-	processHandle = (*struct {
-		pid    int
-		handle windows.Handle
-	})(unsafe.Pointer(e.cmd.Process)).handle
+	const access = windows.PROCESS_SET_QUOTA | windows.PROCESS_TERMINATE
+	processHandle, err := windows.OpenProcess(access, false, uint32(e.cmd.Process.Pid)) //nolint:gosec
+
+	if err != nil {
+		return 0, fmt.Errorf("open process failed : %w", err)
+	}
 
 	return processHandle, nil
 }

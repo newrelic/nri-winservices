@@ -1,6 +1,6 @@
 module github.com/newrelic/nri-winservices
 
-go 1.22.7
+go 1.24.6
 
 require (
 	github.com/newrelic/infra-integrations-sdk/v4 v4.2.1
@@ -9,7 +9,7 @@ require (
 	github.com/prometheus/common v0.55.0
 	github.com/stretchr/testify v1.9.0
 	github.com/xeipuuv/gojsonschema v1.2.0
-	golang.org/x/sys v0.22.0
+	golang.org/x/sys v0.33.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
