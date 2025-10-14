@@ -59,12 +59,12 @@ func (p pattern) match(s string) bool {
 
 // New create a new Matcher instance from slices of include and exclude filters
 func New(includeFilters []string) Matcher {
-	return NewWithExcludes(includeFilters, nil)
+	return NewWithIncludesExcludes(includeFilters, nil)
 }
 
 // NewWithExcludes creates a new Matcher instance with both include and exclude filters
 // (regex) "<filter>"
-func NewWithExcludes(includeFilters, excludeFilters []string) Matcher {
+func NewWithIncludesExcludes(includeFilters, excludeFilters []string) Matcher {
 	var m Matcher
 
 	m.includePatterns = buildPatterns(includeFilters)

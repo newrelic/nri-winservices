@@ -30,7 +30,7 @@ type Config struct {
 }
 
 type configYml struct {
-	FilterEntity        map[string][]string `yaml:"include_matching_entities"`
+	IncludeEntity       map[string][]string `yaml:"include_matching_entities"`
 	ExcludeEntity       map[string][]string `yaml:"exclude_matching_entities"`
 	ExporterBindAddress string              `yaml:"exporter_bind_address"`
 	ExporterBindPort    string              `yaml:"exporter_bind_port"`
@@ -46,7 +46,7 @@ func NewConfig(filename string) (*Config, error) {
 	}
 	// Parse the file
 	c := configYml{
-		FilterEntity:  make(map[string][]string),
+		IncludeEntity: make(map[string][]string),
 		ExcludeEntity: make(map[string][]string),
 	}
 	if err := yaml.Unmarshal(yamlFile, &c); err != nil {
@@ -57,7 +57,7 @@ func NewConfig(filename string) (*Config, error) {
 	var includeFilters, excludeFilters []string
 
 	// Get include filters
-	if val, ok := c.FilterEntity["windowsService.name"]; ok {
+	if val, ok := c.IncludeEntity["windowsService.name"]; ok {
 		includeFilters = val
 	}
 
@@ -72,7 +72,7 @@ func NewConfig(filename string) (*Config, error) {
 	}
 
 	// Create matcher with both include and exclude filters
-	m = matcher.NewWithExcludes(includeFilters, excludeFilters)
+	m = matcher.NewWithIncludesExcludes(includeFilters, excludeFilters)
 	if m.IsEmpty() {
 		return nil, fmt.Errorf("failed to parse config: no valid filter loaded")
 	}

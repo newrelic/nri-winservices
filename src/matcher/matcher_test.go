@@ -42,7 +42,7 @@ func TestMatcherWithExcludes(t *testing.T) {
 		`regex "^(Themes|Spooler)$"`,
 	}
 
-	m := NewWithExcludes(includeFilters, excludeFilters)
+	m := NewWithIncludesExcludes(includeFilters, excludeFilters)
 
 	// Should include services that match include but not exclude
 	assert.True(t, m.Match("newrelic-infra"))
@@ -67,7 +67,7 @@ func TestMatcherWithExcludesOnly(t *testing.T) {
 		`"ServiceA"`,
 	}
 
-	m := NewWithExcludes(includeFilters, excludeFilters)
+	m := NewWithIncludesExcludes(includeFilters, excludeFilters)
 
 	// ServiceA should be excluded even though it's in include list
 	assert.False(t, m.Match("ServiceA"))
@@ -90,7 +90,7 @@ func TestMatcherBothIncludeAndExclude(t *testing.T) {
 		`regex ".*Audio.*"`, // Exclude any audio-related services
 	}
 
-	m := NewWithExcludes(includeFilters, excludeFilters)
+	m := NewWithIncludesExcludes(includeFilters, excludeFilters)
 
 	// Should include: matches include pattern and doesn't match exclude
 	assert.True(t, m.Match("Windows Defender"))
@@ -115,7 +115,7 @@ func TestMatcherOnlyIncludeFilters(t *testing.T) {
 		`regex "^CustomService.*$"`,
 	}
 
-	m := NewWithExcludes(includeFilters, nil)
+	m := NewWithIncludesExcludes(includeFilters, nil)
 
 	// Should match services in the include list
 	assert.True(t, m.Match("newrelic-infra"))
