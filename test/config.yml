@@ -6,4 +6,8 @@ include_matching_entities:
     - regex "^*$"
     - "ServiceNameToBeIncluded"
     - not "ServiceNameToBeExcluded"
+exclude_matching_entities:
+   windowsService.name:
+    - "newrelic-infra"
+    - regex "^(Themes)$"
     

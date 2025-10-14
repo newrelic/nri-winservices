@@ -30,7 +30,8 @@ type Config struct {
 }
 
 type configYml struct {
-	FilterEntity        map[string][]string `yaml:"include_matching_entities"`
+	IncludeEntity       map[string][]string `yaml:"include_matching_entities"`
+	ExcludeEntity       map[string][]string `yaml:"exclude_matching_entities"`
 	ExporterBindAddress string              `yaml:"exporter_bind_address"`
 	ExporterBindPort    string              `yaml:"exporter_bind_port"`
 	ScrapeInterval      string              `yaml:"scrape_interval"`
@@ -44,16 +45,34 @@ func NewConfig(filename string) (*Config, error) {
 		return nil, fmt.Errorf("failed to open %s: %s", filename, err)
 	}
 	// Parse the file
-	c := configYml{FilterEntity: make(map[string][]string)}
+	c := configYml{
+		IncludeEntity: make(map[string][]string),
+		ExcludeEntity: make(map[string][]string),
+	}
 	if err := yaml.Unmarshal(yamlFile, &c); err != nil {
 		return nil, fmt.Errorf("failed to parse config: %s", err)
 	}
+
 	var m matcher.Matcher
-	if val, ok := c.FilterEntity["windowsService.name"]; ok {
-		m = matcher.New(val)
-	} else {
-		return nil, fmt.Errorf("failed to parse config: only filter by windowsService.name is allowed")
+	var includeFilters, excludeFilters []string
+
+	// Get include filters
+	if val, ok := c.IncludeEntity["windowsService.name"]; ok {
+		includeFilters = val
 	}
+
+	// Get exclude filters
+	if val, ok := c.ExcludeEntity["windowsService.name"]; ok {
+		excludeFilters = val
+	}
+
+	// Must have at least include filters (exclude-only is not supported)
+	if len(includeFilters) == 0 {
+		return nil, fmt.Errorf("failed to parse config: include_matching_entities is required for windowsService.name (exclude-only filtering is not supported)")
+	}
+
+	// Create matcher with both include and exclude filters
+	m = matcher.NewWithIncludesExcludes(includeFilters, excludeFilters)
 	if m.IsEmpty() {
 		return nil, fmt.Errorf("failed to parse config: no valid filter loaded")
 	}

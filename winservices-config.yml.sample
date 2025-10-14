@@ -18,6 +18,15 @@ integrations:
           # - regex ".*"
           # - "newrelic-infra"
 
+      # To exclude services from the included set, create a list of filters to be applied
+      # to the service names. Services that match any exclude filter will be excluded even
+      # if they match an include filter. This is optional and requires include_matching_entities.
+      #
+      # exclude_matching_entities:
+      #   windowsService.name:
+      #     - "newrelic-infra"
+      #     - regex "^(Themes|Spooler)$"
+
       # Time between consecutive metric collection of the integration.
       # It must be a number followed by a time unit (s, m or h), without spaces.
       #
