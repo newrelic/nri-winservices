@@ -3,8 +3,8 @@
         This script verifies, tests, builds and packages a New Relic Infrastructure Integration
 #>
 param (
-    # Target architecture: amd64 (default) or 386
-    [ValidateSet("amd64", "386")]
+    # Target architecture: amd64 only (32-bit support removed)
+    [ValidateSet("amd64")]
     [string]$arch="amd64",
     [string]$version="v0.0.0",
     # Skip tests
