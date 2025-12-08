@@ -25,7 +25,7 @@ This integration comes bundled with New Relic's Windows infrastructure agent. It
 
 To build the integration, run `win_build.ps1`. This PowerShell script takes care of building the project and the supported version of the integration, placing the binaries in `/target/bin`.
 
-> Note that only Windows is supported.
+> **Note:** Only 64-bit Windows (amd64) is supported. 32-bit Windows support has been removed.
 
 ## Testing
 
