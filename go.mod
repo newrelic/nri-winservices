@@ -1,6 +1,6 @@
 module github.com/newrelic/nri-winservices
 
-go 1.24.12
+go 1.24.13
 
 require (
 	github.com/newrelic/infra-integrations-sdk/v4 v4.2.1
