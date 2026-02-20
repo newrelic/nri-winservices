@@ -20,9 +20,6 @@ import (
 
 	"github.com/newrelic/infra-integrations-sdk/v4/integration"
 	"github.com/newrelic/infra-integrations-sdk/v4/log"
-
-	//This import is useful merely to keep track of dependency and generate license automatically
-	_ "github.com/prometheus-community/windows_exporter/collector"
 )
 
 type argumentList struct {
