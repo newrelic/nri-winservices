@@ -21,11 +21,11 @@ $commitHash = (git rev-parse HEAD)
 $exporterRepo = "github.com/prometheus-community/windows_exporter"
 $exporterBinaryName = "windows_exporter.exe"
 # Commit used by v0.31.3 of windows_exporter
-$exporterVersion = "26893d22df75b2af2d398a2c37ccf73d7f357f25"
+$exporterVersion = "v0.31.3"
 
 
 $env:GOPATH = go env GOPATH
-$env:GOBIN = "$env:GOPATH\bin"
+#$env:GOBIN = "$env:GOPATH\bin"
 $env:GOOS = "windows"
 $env:GOARCH = $arch
 $env:GO111MODULE = "auto"
@@ -103,10 +103,14 @@ if (-Not $skipExporterCompile)
     $ErrorActionPreference = "SilentlyContinue"
     git checkout "$exporterVersion"
     $ErrorActionPreference = "Stop"
-    $currentCommit = cat .git/HEAD
-    if($currentCommit -ne $exporterVersion){
-        echo "Failed checking out exporter version $exporterVersion"
-        exit -1
+    # Validate checkout: allow both tag and commit hash
+    $currentRef = git describe --tags --exact-match 2>$null
+    if ($currentRef -ne $exporterVersion) {
+        $currentCommit = git rev-parse HEAD
+        if (($currentCommit -ne $exporterVersion) -and ($currentRef -ne $exporterVersion)) {
+            echo "Failed checking out exporter version $exporterVersion"
+            exit -1
+        }
     }
 
     $ErrorActionPreference = "SilentlyContinue"
