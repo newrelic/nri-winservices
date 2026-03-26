@@ -20,8 +20,8 @@ $commitHash = (git rev-parse HEAD)
 
 $exporterRepo = "github.com/prometheus-community/windows_exporter"
 $exporterBinaryName = "windows_exporter.exe"
-# Commit used by v0.31.3 of windows_exporter
-$exporterVersion = "fcf21bb6008679edab438661a0e882c0c7f27386"
+# Commit used by v0.31.5 of windows_exporter
+$exporterVersion = "23397701ff1ad787e0a2852720fb5aa38495f50f"
 
 
 $env:GOPATH = go env GOPATH
