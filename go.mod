@@ -4,7 +4,7 @@ go 1.25.7
 
 require (
 	github.com/newrelic/infra-integrations-sdk/v4 v4.2.1
-	github.com/prometheus-community/windows_exporter v0.31.5
+	github.com/prometheus-community/windows_exporter v0.20.0
 	github.com/prometheus/client_model v0.6.1
 	github.com/prometheus/common v0.55.0
 	github.com/stretchr/testify v1.9.0
