@@ -5,6 +5,10 @@ on:
       - master
   pull_request:
     branches:
+
+permissions:
+  contents: read
+
 jobs:
   CreateAndPushWindowsExecutable:
     name: CreateAndPushWindowsExecutable
