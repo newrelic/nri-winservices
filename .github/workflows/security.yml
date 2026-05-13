@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: "0 3 * * *"
 
+
+permissions:
+  contents: read
+
 jobs:
   trivy:
     name: Trivy security scan
