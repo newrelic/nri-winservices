@@ -14,7 +14,7 @@ jobs:
     name: CreateAndPushWindowsExecutable
     strategy:
       matrix:
-        go: [ 1.26.3 ]
+        go: [ 1.26.4 ]
         goarch: [ amd64 ]
     runs-on: windows-2022
     steps:
