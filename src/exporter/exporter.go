@@ -41,7 +41,7 @@ type Exporter struct {
 	jobObject  windows.Handle
 }
 
-// New create a configured Exporter struct ready to be run
+// New creates a configured Exporter struct ready to be run
 func New(verbose bool, bindAddress string, bindPort string) (*Exporter, error) {
 	integrationDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
@@ -91,7 +91,7 @@ func (e *Exporter) Run() error {
 	}
 
 	if err = e.setProcessPriority(); err != nil {
-		return fmt.Errorf("failed to exporter process priority class: %w", err)
+		return fmt.Errorf("failed to set exporter process priority class: %w", err)
 	}
 
 	go func() {
@@ -168,7 +168,7 @@ func (e *Exporter) handle() (windows.Handle, error) {
 func (e *Exporter) setProcessPriority() error {
 	priorityClass, err := windows.GetPriorityClass(windows.CurrentProcess())
 	if err != nil {
-		return fmt.Errorf("fail to get priorityClass from current process: %w", err)
+		return fmt.Errorf("failed to get priorityClass from current process: %w", err)
 	}
 
 	handle, err := e.handle()
