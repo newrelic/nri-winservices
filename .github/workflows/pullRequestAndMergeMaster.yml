@@ -5,12 +5,16 @@ on:
       - master
   pull_request:
     branches:
+
+permissions:
+  contents: read
+
 jobs:
   CreateAndPushWindowsExecutable:
     name: CreateAndPushWindowsExecutable
     strategy:
       matrix:
-        go: [ 1.24.13 ]
+        go: [ 1.26.6 ]
         goarch: [ amd64 ]
     runs-on: windows-2022
     steps:
