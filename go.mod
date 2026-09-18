@@ -5,7 +5,7 @@ go 1.26.6
 require (
 	github.com/newrelic/infra-integrations-sdk/v4 v4.2.1
 	github.com/prometheus-community/windows_exporter v0.20.0
-	github.com/prometheus/client_model v0.6.1
+	github.com/prometheus/client_model v0.6.3
 	github.com/prometheus/common v0.55.0
 	github.com/stretchr/testify v1.11.1
 	github.com/xeipuuv/gojsonschema v1.2.0
@@ -42,7 +42,7 @@ require (
 	go.opencensus.io v0.24.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
 	google.golang.org/grpc v1.83.2 // indirect
-	google.golang.org/protobuf v1.36.11 // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
