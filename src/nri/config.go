@@ -20,7 +20,7 @@ import (
 
 const (
 	minScrapeInterval = 15 * time.Second
-	heartBeatPeriod   = 5 * time.Second // Period for the hard beat signal should be less than timeout
+	heartBeatPeriod   = 5 * time.Second // Period for the heartbeat signal should be less than timeout
 )
 
 // Config holds the integration configuration
@@ -90,7 +90,7 @@ func NewConfig(filename string) (*Config, error) {
 		interval = minScrapeInterval
 	}
 	if interval < minScrapeInterval {
-		log.Warn("scrap interval defined is less than 15s. Interval has set to 15s ")
+		log.Warn("scrape interval defined is less than 15s. Interval was set to 15s ")
 		interval = minScrapeInterval
 	}
 	log.Debug("running with scrape interval: %s", interval.String())

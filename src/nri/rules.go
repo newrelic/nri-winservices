@@ -28,7 +28,7 @@ type EntityName struct {
 	HostnameNrdbLabelName string `yaml:"hostname_nrdb_name"`
 }
 
-// MetricRules describe the metrics that compose the entity.
+// MetricRules describes the metrics that compose the entity.
 //
 // prometheus enums metrics are generally send using following style:
 //
@@ -38,7 +38,7 @@ type EntityName struct {
 //
 // using EnumMetric=true will only send the metric with value 1 with the corresponding attribute
 //
-// for promethus *_info metrics no metric will be send, just metadata.
+// for prometheus *_info metrics no metric will be sent, just metadata.
 type MetricRules struct {
 	ProviderName string      `yaml:"provider_name"`
 	MetricType   string      `yaml:"type"`
@@ -48,7 +48,7 @@ type MetricRules struct {
 	Attributes   []Attribute `yaml:"attributes"`
 }
 
-// Attribute describe metrics attributes to be add.
+// Attribute describes metric attributes to be added.
 type Attribute struct {
 	Label            string `yaml:"provider_name"`
 	NrdbLabelName    string `yaml:"nrdb_name"`
@@ -143,5 +143,5 @@ func (r *EntityRules) getMetricRules(providerName string) (*MetricRules, error) 
 			return &m, nil //todo check if copy
 		}
 	}
-	return nil, fmt.Errorf("no rules find for providerName: %s", providerName)
+	return nil, fmt.Errorf("no rules found for providerName: %s", providerName)
 }
