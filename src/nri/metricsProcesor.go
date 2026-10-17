@@ -32,7 +32,7 @@ type entitiesByName map[string]*integration.Entity
 type metadataMap map[string]string
 type attributesMap map[string]string
 
-// ProcessMetrics creates entities and add metrics from the MetricFamiliesByName according to rules
+// ProcessMetrics creates entities and adds metrics from the MetricFamiliesByName according to rules
 func ProcessMetrics(i *integration.Integration, metricFamilyMap scraper.MetricFamiliesByName, matcher matcher.Matcher, hostname string) error {
 	entityRules := loadRules()
 
