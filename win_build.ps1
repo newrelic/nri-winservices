@@ -111,6 +111,8 @@ if (-Not $skipExporterCompile)
 
     $ErrorActionPreference = "SilentlyContinue"
     go mod download
+    # Raise the exporter's transitive deps that carry known CVEs above what the pinned exporter version ships
+    go get golang.org/x/net@v0.62.0 golang.org/x/crypto@v0.58.0 golang.org/x/text@v0.43.0
     $ErrorActionPreference = "Stop"
     promu build --prefix=output\$arch
 
