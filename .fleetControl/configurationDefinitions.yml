@@ -1,0 +1,12 @@
+configurationDefinitions:
+  - platform: HOST
+    type: AgentConfig
+    version: 1.0.0
+    format: yml
+    operatingSystem: WINDOWS
+    bindings:
+      - type: CONFIGURES
+        targetType: AGENT
+        target: NRIWinServices
+        versions:
+          - ">=1.5.7"
